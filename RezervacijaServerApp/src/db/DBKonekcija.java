@@ -315,7 +315,7 @@ public class DBKonekcija {
             int rezervacijaID = rs.getInt("RezervacijaID");
             Date datumR = rs.getDate("DatumRezervacije");
             int korisnikID = rs.getInt("KorisnikID");
-            Rezervacija r = new Rezervacija(rezervacijaID, datumR, new Korisnik("", "", null, "", "", "", "", null), new ArrayList<>());
+            Rezervacija r = new Rezervacija(rezervacijaID, datumR, new Korisnik(0, "", "", null, "", "", "", "", null), new ArrayList<>());
             listaRezervacija.add(r);
         }
         potvrdiTransakciju();

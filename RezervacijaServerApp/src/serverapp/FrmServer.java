@@ -5,6 +5,7 @@
  */
 package serverapp;
 
+import niti.NitKlijent;
 import com.sun.xml.internal.fastinfoset.DecoderStateTables;
 import java.awt.Color;
 import java.io.IOException;

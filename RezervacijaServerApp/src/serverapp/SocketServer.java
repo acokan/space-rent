@@ -5,6 +5,7 @@
  */
 package serverapp;
 
+import niti.NitKlijent;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;

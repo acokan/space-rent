@@ -74,32 +74,7 @@ public class Kontroler {
         } else {
             throw new Exception(sto.getGreska());
         }
-        
-//        boolean dodat = false;
-//
-//        try {
-//            dbk.uspostaviKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom konekcije na bazu: " + e.getMessage());
-//        }
-//
-//        try {
-//            dbk.sacuvajKorisnika(k);
-//            dbk.potvrdiTransakciju();
-//            dodat = true;
-//        } catch (Exception e) {
-//            dbk.ponistiTransakciju();
-//            dodat = false;
-//            System.out.println("Greska prilikom cuvanja novog korisnika: " + e.getMessage());
-//        }
-//
-//        try {
-//            dbk.raskiniKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom raskidanja konekcije sa bazom: " + e.getMessage());
-//        }
-//
-//        return dodat;
+   
     }
 
     public void updateKorisnika(Korisnik k) throws Exception {
@@ -290,31 +265,7 @@ public class Kontroler {
         } else {
             throw new Exception(sto.getGreska());
         }
-        
-        
-//        List<Mesto> listaMesta = new ArrayList<>();
-//
-//        try {
-//            dbk.uspostaviKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom konekcije na bazu: " + e.getMessage());
-//        }
-//
-//        try {
-//            listaMesta = dbk.vratiListuMesta();
-//            dbk.potvrdiTransakciju();
-//        } catch (Exception e) {
-//            dbk.ponistiTransakciju();
-//            System.out.println("Greska prilikom pretrage mesta: " + e.getMessage());
-//        }
-//
-//        try {
-//            dbk.raskiniKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom raskidanja konekcije sa bazom: " + e.getMessage());
-//        }
-//
-//        return listaMesta;
+
     }
 
     public Mesto vratiMesto(int ptt) throws IOException, ClassNotFoundException, Exception {

@@ -6,13 +6,14 @@
 package domen;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  *
  * @author Aco Kandic
  */
-public class Korisnik implements Serializable {
+public class Korisnik extends OpstiDomenskiObjekat implements Serializable {
     
     private int korisnikID;
     private String ime;
@@ -27,8 +28,8 @@ public class Korisnik implements Serializable {
     public Korisnik() {
     }
 
-    public Korisnik(String ime, String prezime, Date datumRodjenja, String kontakt, String mail, String ulica, String broj, Mesto mesto) {
-//        this.korisnikID = korisnikID;
+    public Korisnik(int korisnikID, String ime, String prezime, Date datumRodjenja, String kontakt, String mail, String ulica, String broj, Mesto mesto) {
+        this.korisnikID = korisnikID;
         this.ime = ime;
         this.prezime = prezime;
         this.datumRodjenja = datumRodjenja;
@@ -139,6 +140,21 @@ public class Korisnik implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String vratiNazivTabele() {
+        return "korisnik";
+    }
+
+    @Override
+    public String vratiVrednostiZaInsert() {
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String datum = sdf.format(datumRodjenja);
+
+        return "(" + "'"+korisnikID+"', '" +ime+ "', '" +prezime+ "', '" +datum+ "', '" +kontakt+ "', '" +mail+ "', '" +ulica+ "', '" +broj+ "', " +mesto.getPtt()+ ")";
+        
     }
     
     

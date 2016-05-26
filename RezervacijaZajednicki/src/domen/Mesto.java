@@ -6,12 +6,18 @@
 package domen;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Aco Kandic
  */
-public class Mesto implements Serializable {
+public class Mesto extends OpstiDomenskiObjekat implements Serializable {
     
     private int ptt;
     private String naziv;
@@ -69,6 +75,39 @@ public class Mesto implements Serializable {
         }
         return true;
     }
+
+    @Override
+    public String vratiNazivTabele() {
+        return "mesto";
+    }
+
+    @Override
+    public String vratiVrednostiZaInsert() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<OpstiDomenskiObjekat> vratiListu(ResultSet rs) {
+        
+        List<OpstiDomenskiObjekat> listaMesta = new ArrayList<>();
+        
+        try {
+            while (rs.next()) {
+                
+                int ptt = rs.getInt("Ptt");
+                String naziv = rs.getString("Naziv");
+                
+                Mesto m = new Mesto(ptt, naziv);
+                listaMesta.add(m);   
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Mesto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return listaMesta;
+    }
+    
+    
     
     
     
