@@ -15,11 +15,28 @@ import java.util.List;
 public abstract class OpstiDomenskiObjekat {
     
     public abstract String vratiNazivTabele();    
-
     public abstract String vratiVrednostiZaInsert();
+    public abstract String vratiVrednostiZaUpdate();
+    public abstract String vratiPK();
+    public abstract int vratiVrednostPK();
+    public abstract String vratiSlozenPK();
+    
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public List<OpstiDomenskiObjekat> vratiListu(ResultSet rs) {
         return null;
     }
+
+    
+
+    
     
 }

@@ -95,25 +95,6 @@ public class Kontroler {
             throw new Exception(sto.getGreska());
         }
         
-//        try {
-//            dbk.uspostaviKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom konekcije na bazu: " + e.getMessage());
-//        }
-//
-//        try {
-//            dbk.updateKorisnika(k);
-//            dbk.potvrdiTransakciju();
-//        } catch (Exception e) {
-//            dbk.ponistiTransakciju();
-//            System.out.println("Greska prilikom azuriranja novog korisnika: " + e.getMessage());
-//        }
-//
-//        try {
-//            dbk.raskiniKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom raskidanja konekcije sa bazom: " + e.getMessage());
-//        }
     }
     
     public boolean sacuvajListuKorisnika(List<Korisnik> lk) throws Exception {
@@ -377,30 +358,7 @@ public class Kontroler {
         } else {
             throw new Exception(sto.getGreska());
         }
-        
-//        List<Prostorija> listaProstorija = new ArrayList<>();
-//
-//        try {
-//            dbk.uspostaviKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom konekcije na bazu: " + e.getMessage());
-//        }
-//
-//        try {
-//            listaProstorija = dbk.vratiListuProstorija();
-//            dbk.potvrdiTransakciju();
-//        } catch (Exception e) {
-//            dbk.ponistiTransakciju();
-//            System.out.println("Greska prilikom pretrage mesta: " + e.getMessage());
-//        }
-//
-//        try {
-//            dbk.raskiniKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom raskidanja konekcije sa bazom: " + e.getMessage());
-//        }
-//
-//        return listaProstorija;
+       
     }
 
     public boolean sacuvajRezervaciju(Rezervacija r) throws Exception {
@@ -463,6 +421,26 @@ public class Kontroler {
         ServerTransferObjekat sto = (ServerTransferObjekat) in.readObject();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return (List<Rezervacija>) sto.getRezultat();
+        } else {
+            throw new Exception(sto.getGreska());
+        }
+    }
+
+    public Administrator ulogujAdministratora(Administrator a) throws Exception {
+        
+        Socket soket = (Socket) getSesija().get(util.Util.MAP_KEY_SOKET);
+        
+        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
+        
+        KlijentTransferObjekat kto = new KlijentTransferObjekat();
+        kto.setOperacija(util.Util.OPERACIJA_ULOGUJ_ADMINISTRATORA);
+        kto.setParametar(a);
+        out.writeObject(kto);
+        
+        ObjectInputStream in = new ObjectInputStream(soket.getInputStream());
+        ServerTransferObjekat sto = (ServerTransferObjekat) in.readObject();
+        if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
+            return (Administrator) sto.getRezultat();
         } else {
             throw new Exception(sto.getGreska());
         }

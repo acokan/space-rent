@@ -10,6 +10,8 @@ import forme.rezervacija.FmPretragaRezervacija;
 import forme.rezervacija.FmUnosRezervacije;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import korisnici.kontroler.Kontroler;
@@ -27,14 +29,14 @@ public class FmGlavna extends javax.swing.JFrame {
     public FmGlavna() {
         initComponents();
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-        
+
         Administrator admin = (Administrator) Kontroler.vratiInstancuKontrolera().getSesija().get("ulogovani_admin");
         if (admin != null) {
             jMenuBar1.setVisible(true);
         } else {
             jMenuBar1.setVisible(false);
         }
-        
+
         //Option dialog za zatvaranje aplikacije
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
@@ -45,11 +47,10 @@ public class FmGlavna extends javax.swing.JFrame {
                 }
             }
         });
-        
+
         //Klikom na "Ne", program se ne minimizira
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        
-        
+
     }
 
     /**
@@ -225,21 +226,28 @@ public class FmGlavna extends javax.swing.JFrame {
     private void jbtnPrijaviSeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPrijaviSeActionPerformed
         String username = jtxtKorisnickoIme.getText().trim();
         String password = jtxtSifra.getText().trim();
-        Administrator a = new Administrator("", "", username, password);
-        if (username.equalsIgnoreCase(Util.ADMIN1_UN) && password.equalsIgnoreCase(Util.ADMIN1_PASS)) {
-            Kontroler.vratiInstancuKontrolera().getSesija().put("ulogovani_admin", a);
-            jtxtKorisnickoIme.setText("");
-            jtxtSifra.setText("");
-            jtxtKorisnickoIme.setVisible(false);
-            jtxtSifra.setVisible(false);
-            jbtnPrijaviSe.setVisible(false);
-            jlblStatus.setText("Dobrodosao/la " + username + ". Uspesno ste prijavljeni na sistem!");
-            jLabel2.setVisible(false);
-            jLabel3.setVisible(false);
-            jbtnPrijaviSe.setVisible(false);
-            jMenuBar1.setVisible(true);
-        } else {
-            jlblStatus.setText("Sistem ne moze da pronadje administratora!");
+        Administrator a = new Administrator(0, "", "", username, password, false);
+
+        try {
+            Administrator ulogovani = Kontroler.vratiInstancuKontrolera().ulogujAdministratora(a);
+            System.out.println(ulogovani);
+            if (ulogovani != null) {
+                Kontroler.vratiInstancuKontrolera().getSesija().put("ulogovani_admin", a);
+                jtxtKorisnickoIme.setText("");
+                jtxtSifra.setText("");
+                jtxtKorisnickoIme.setVisible(false);
+                jtxtSifra.setVisible(false);
+                jbtnPrijaviSe.setVisible(false);
+                jlblStatus.setText("Dobrodosao/la " + username + ". Uspesno ste prijavljeni na sistem!");
+                jLabel2.setVisible(false);
+                jLabel3.setVisible(false);
+                jbtnPrijaviSe.setVisible(false);
+                jMenuBar1.setVisible(true);
+            } else {
+                jlblStatus.setText("Sistem ne moze da pronadje administratora!");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(FmGlavna.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jbtnPrijaviSeActionPerformed
@@ -273,40 +281,40 @@ public class FmGlavna extends javax.swing.JFrame {
         fpr.setVisible(true);
     }//GEN-LAST:event_jmiPretragaRezervacijaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FmGlavna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FmGlavna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FmGlavna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FmGlavna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FmGlavna().setVisible(true);
-            }
-        });
-    }
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(FmGlavna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(FmGlavna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(FmGlavna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(FmGlavna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new FmGlavna().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;

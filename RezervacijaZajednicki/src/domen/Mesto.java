@@ -106,6 +106,26 @@ public class Mesto extends OpstiDomenskiObjekat implements Serializable {
         
         return listaMesta;
     }
+
+    @Override
+    public String vratiVrednostiZaUpdate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String vratiPK() {
+        return "ptt";
+    }
+
+    @Override
+    public int vratiVrednostPK() {
+        return ptt;
+    }
+
+    @Override
+    public String vratiSlozenPK() {
+        return "Nema slozen PK";
+    }
     
     
     

@@ -156,6 +156,30 @@ public class Korisnik extends OpstiDomenskiObjekat implements Serializable {
         return "(" + "'"+korisnikID+"', '" +ime+ "', '" +prezime+ "', '" +datum+ "', '" +kontakt+ "', '" +mail+ "', '" +ulica+ "', '" +broj+ "', " +mesto.getPtt()+ ")";
         
     }
+
+    @Override
+    public String vratiVrednostiZaUpdate() {
+        
+        String datum = new SimpleDateFormat("yyyy-MM-dd").format(datumRodjenja);
+        
+        return "Ime = '"+ime+", Prezime = '"+prezime+"', DatumRodjenja = '"+datum+"', Kontakt = '"+kontakt+"', Mail = '"+mail+"', "
+                + "Ulica = '"+ulica+"', Broj = '"+broj+"', Ptt = "+mesto.getPtt()+" ";
+    }
+
+    @Override
+    public String vratiPK() {
+        return "korisnikID";
+    }
+
+    @Override
+    public int vratiVrednostPK() {
+        return korisnikID;
+    }
+
+    @Override
+    public String vratiSlozenPK() {
+        return "Nema slozen PK";
+    }
     
     
 

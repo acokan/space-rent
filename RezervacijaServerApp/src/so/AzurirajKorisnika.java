@@ -7,26 +7,18 @@ package so;
 
 import db.DBBroker;
 import domen.OpstiDomenskiObjekat;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author Aco Kandic
  */
-public class VratiSvaMesta extends OpstaSO {
-
-    List<OpstiDomenskiObjekat> listaMesta;
-
-    public List<OpstiDomenskiObjekat> getListaMesta() {
-        return listaMesta;
-    }
+public class AzurirajKorisnika extends OpstaSO {
 
     @Override
     protected void izvrsiKonkretnuOperaciju(OpstiDomenskiObjekat odo) throws Exception {
-
-        listaMesta = DBBroker.vratiInstancu().vratiSveObjekte(odo);
+        
+        DBBroker.vratiInstancu().sacuvajIliAzurirajObjekat(odo);
         
     }
-
+    
 }
