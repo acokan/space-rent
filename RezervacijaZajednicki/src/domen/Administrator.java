@@ -24,12 +24,12 @@ public class Administrator extends OpstiDomenskiObjekat implements Serializable 
     private String prezime;
     private String korisnickoIme;
     private String sifra;
-    private boolean ulogovan;
+    private String ulogovan;
 
     public Administrator() {
     }
 
-    public Administrator(int administratorID, String ime, String prezime, String korisnickoIme, String sifra, boolean ulogovan) {
+    public Administrator(int administratorID, String ime, String prezime, String korisnickoIme, String sifra, String ulogovan) {
         this.administratorID = administratorID;
         this.ime = ime;
         this.prezime = prezime;
@@ -78,11 +78,11 @@ public class Administrator extends OpstiDomenskiObjekat implements Serializable 
         this.administratorID = administratorID;
     }
 
-    public boolean isUlogovan() {
+    public String getUlogovan() {
         return ulogovan;
     }
 
-    public void setUlogovan(boolean ulogovan) {
+    public void setUlogovan(String ulogovan) {
         this.ulogovan = ulogovan;
     }
     
@@ -115,7 +115,7 @@ public class Administrator extends OpstiDomenskiObjekat implements Serializable 
 
     @Override
     public String toString() {
-        return "AdminID: "+administratorID+", Korisnicko ime: "+korisnickoIme+", Sifra: "+sifra+", Status: "+ulogovan;
+        return "AdminID: "+administratorID+", Ime: "+ime+", Prezime: "+prezime+", Korisnicko ime: "+korisnickoIme+", Sifra: "+sifra+", Status: "+ulogovan;
     }
 
     @Override
@@ -130,12 +130,15 @@ public class Administrator extends OpstiDomenskiObjekat implements Serializable 
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        return "AdministratorID = "+administratorID+", Ime = '"+ime+"', Prezime = '"+prezime+"', KorisnickoIme = '"+korisnickoIme+"', Sifra = '"+sifra+"', "
+                + "Ulogovan = '"+ulogovan+"' ";
+        
     }
 
     @Override
     public String vratiPK() {
-        return "administratorID";
+        return "AdministratorID";
     }
 
     @Override
@@ -161,7 +164,7 @@ public class Administrator extends OpstiDomenskiObjekat implements Serializable 
                 String prezime = rs.getString("Prezime");
                 String korisnickoIme = rs.getString("KorisnickoIme");
                 String sifra = rs.getString("Sifra");
-                boolean ulogovan = rs.getBoolean("Ulogovan");
+                String ulogovan = rs.getString("Ulogovan");
                 
                 Administrator a = new Administrator(adminID, ime, prezime, korisnickoIme, sifra, ulogovan);
                 

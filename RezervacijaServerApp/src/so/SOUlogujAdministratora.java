@@ -18,31 +18,43 @@ public class SOUlogujAdministratora extends OpstaSO {
 
     OpstiDomenskiObjekat admin;
     OpstiDomenskiObjekat ulogovani;
+    List<OpstiDomenskiObjekat> listaAdmina;
 
-    public SOUlogujAdministratora (OpstiDomenskiObjekat admin) {
+    public SOUlogujAdministratora() {
+    }
+
+    public SOUlogujAdministratora(OpstiDomenskiObjekat admin) {
         this.admin = admin;
         ulogovani = null;
     }
-    
+
     @Override
     protected void izvrsiKonkretnuOperaciju(OpstiDomenskiObjekat odo) throws Exception {
-        
-        List<OpstiDomenskiObjekat> listaAdmina = DBBroker.vratiInstancu().vratiSveObjekte(odo);
-        
+
+        listaAdmina = DBBroker.vratiInstancu().vratiSveObjekte(odo);
+
         Administrator unijeti = (Administrator) admin;
-        
+
         for (OpstiDomenskiObjekat ad : listaAdmina) {
-            
+
             Administrator a = (Administrator) ad;
             if (unijeti.getKorisnickoIme().equals(a.getKorisnickoIme()) && unijeti.getSifra().equals(a.getSifra())) {
                 ulogovani = a;
+                a.setUlogovan("Online");
+                System.out.println("Prije update " + a);
+                DBBroker.vratiInstancu().sacuvajIliAzurirajObjekat(a);
                 return;
-            }   
+            }
         }
     }
-    
+
     public OpstiDomenskiObjekat vratiAdmina() {
         return ulogovani;
     }
-    
+
+    public List<OpstiDomenskiObjekat> vratiSveAdmine() {
+        System.out.println("lista " + listaAdmina);
+        return listaAdmina;
+    }
+
 }

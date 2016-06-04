@@ -5,6 +5,7 @@
  */
 package serverapp;
 
+import domen.OpstiDomenskiObjekat;
 import niti.NitKlijent;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -15,6 +16,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import kontroler.Kontroler;
+import model.TblAdministratori;
 
 /**
  *
@@ -25,15 +29,18 @@ public class SocketServer extends Thread {
     private ServerSocket ss;
     private int brojPorta;
     public static List<NitKlijent> listaKlijenata = new ArrayList<>();
+    private List<OpstiDomenskiObjekat> listaAktivnihAdministratora = new ArrayList<>();
     public static boolean izvrsavaSe = false;
+    private JTable jtblAdministratori;
 
-    public SocketServer(int brPorta) {
-        
+    public SocketServer(int brPorta, JTable jtblAdministratori) {
+
         brojPorta = brPorta;
+        this.jtblAdministratori = jtblAdministratori;
 
         try {
             ss = new ServerSocket(brojPorta);
-            System.out.println("Server soket je kreiran na portu: "+brojPorta);
+            System.out.println("Server soket je kreiran na portu: " + brojPorta);
 
         } catch (Exception e) {
             System.out.println("Neuspesno kreiranje serveskog soketa");
@@ -41,7 +48,7 @@ public class SocketServer extends Thread {
         }
 
     }
-    
+
     public ServerSocket getServerSocket() {
         return ss;
     }
@@ -53,7 +60,6 @@ public class SocketServer extends Thread {
     public static void setIzvrsavaSe(boolean izvrsavaSe) {
         SocketServer.izvrsavaSe = izvrsavaSe;
     }
-    
 
     @Override
     public void run() {
@@ -70,7 +76,7 @@ public class SocketServer extends Thread {
     public void zaustaviNiti() {
         try {
             ss.close();
-            
+
             for (NitKlijent nitKlijent : listaKlijenata) {
                 nitKlijent.getSoket().close();
             }
@@ -81,18 +87,19 @@ public class SocketServer extends Thread {
     }
 
     private void upravljajKlijentima() throws SocketException {
-        
+
         while (!isInterrupted()) {
             try {
                 Socket soket = ss.accept();
 
-                NitKlijent nitKlijent = new NitKlijent(soket, listaKlijenata);
+                NitKlijent nitKlijent = new NitKlijent(soket, listaKlijenata, listaAktivnihAdministratora, jtblAdministratori);
                 nitKlijent.start();
-                
+
                 listaKlijenata.add(nitKlijent);
                 int i = listaKlijenata.size() + 1;
                 System.out.println("Klijent broj " + i + " se povezao!");
 
+               
                 System.out.println("Lista niti " + listaKlijenata);
 
             } catch (SocketException e) {
@@ -102,9 +109,7 @@ public class SocketServer extends Thread {
                 System.out.println("Klijent ne moze da se poveze...");
             }
         }
-        
-       
+
     }
-    
-    
+
 }

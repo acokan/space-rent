@@ -112,11 +112,12 @@ public class DBBroker {
         
     }
 
-    public void sacuvajIliAzurirajObjekat(OpstiDomenskiObjekat odo) throws SQLException {
+    public OpstiDomenskiObjekat sacuvajIliAzurirajObjekat(OpstiDomenskiObjekat odo) throws SQLException {
 
         String upit = "";
         List<OpstiDomenskiObjekat> listaObjekata = vratiSveObjekte(odo);
         System.out.println("Lista obj "+listaObjekata);
+        
         if (!listaObjekata.contains(odo)) {
             upit = "INSERT INTO " + odo.vratiNazivTabele() + " VALUES " + odo.vratiVrednostiZaInsert();
             System.out.println("Insert upit je izvrsen: "+upit);
@@ -135,6 +136,10 @@ public class DBBroker {
             }
         }
         
+        Statement s = connection.createStatement();
+        s.executeUpdate(upit);
+        s.close();
+        return odo;
     }
 
     public void obrisi(OpstiDomenskiObjekat odo) throws SQLException {

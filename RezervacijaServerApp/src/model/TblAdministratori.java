@@ -18,8 +18,8 @@ public class TblAdministratori extends AbstractTableModel {
 
     private List<OpstiDomenskiObjekat> listaAdministratora;
 
-    public TblAdministratori(List<OpstiDomenskiObjekat> listaKorisnika) {
-        this.listaAdministratora = listaKorisnika;
+    public TblAdministratori(List<OpstiDomenskiObjekat> listaAdministratora) {
+        this.listaAdministratora = listaAdministratora;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class TblAdministratori extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 2;
+        return 4;
     }
 
     @Override
@@ -42,15 +42,14 @@ public class TblAdministratori extends AbstractTableModel {
         
         switch (columnIndex) {
             case 0:
-                return a.getKorisnickoIme();
+                return a.getIme();
             case 1:
-                return a.getSifra();
-//            case 2:
-//                return a.getStatus();
-//            case 3:
-//                return k.getPassword();
-//            case 4:
-//                return k.getStatusText();
+                return a.getPrezime();
+            case 2:
+                return a.getKorisnickoIme();
+            case 3:
+                return a.getUlogovan();
+
             default:
                 return "n/a";
         }
@@ -60,23 +59,24 @@ public class TblAdministratori extends AbstractTableModel {
     public String getColumnName(int column) {
         switch (column) {
             case 0:
-                return "Korisnicko ime";
+                return "Ime";
             case 1:
-                return "Sifra";
-//            case 2:
-//                return "Status";
-//            case 3:
-//                return "Password";
-//            case 4:
-//                return "Status";
+                return "Prezime";
+            case 2:
+                return "Korisnicko ime";
+            case 3:
+                return "Status";
+
             default:
                 return "n/a";
         }
     }
 
-    public List<OpstiDomenskiObjekat> getListaKorisnika() {
+    public List<OpstiDomenskiObjekat> getListaAdministratora() {
         return listaAdministratora;
     }
+    
+    
 
     
 }

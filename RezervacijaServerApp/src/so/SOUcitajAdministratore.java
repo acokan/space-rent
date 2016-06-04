@@ -8,9 +8,7 @@ package so;
 import db.DBBroker;
 import domen.Administrator;
 import domen.OpstiDomenskiObjekat;
-import java.util.ArrayList;
 import java.util.List;
-import kontroler.Kontroler;
 
 /**
  *
@@ -19,16 +17,20 @@ import kontroler.Kontroler;
 public class SOUcitajAdministratore extends OpstaSO {
 
     List<OpstiDomenskiObjekat> listaAdmina;
-    
-    public List<OpstiDomenskiObjekat> getListaAdmina() {
-        return listaAdmina;
+
+    public SOUcitajAdministratore() {
     }
 
     @Override
     protected void izvrsiKonkretnuOperaciju(OpstiDomenskiObjekat odo) throws Exception {
+
         listaAdmina = DBBroker.vratiInstancu().vratiSveObjekte(odo);
+       
     }
-    
-    
-    
+
+    public List<OpstiDomenskiObjekat> vratiSveAdmine() {
+        System.out.println("lista " + listaAdmina);
+        return listaAdmina;
+    }
+
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package serverapp;
+package forme;
 
 import niti.NitKlijent;
 import domen.OpstiDomenskiObjekat;
@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import kontroler.Kontroler;
 import model.TblAdministratori;
+import serverapp.SocketServer;
 
 /**
  *
@@ -25,14 +26,14 @@ import model.TblAdministratori;
 public class FrmServer extends javax.swing.JFrame {
 
     SocketServer ss;
-
+    
     /**
      * Creates new form FrmServer
      */
     public FrmServer() {
         initComponents();
         srediStatusPanel();
-        popuniTabelu();
+        srediTabelu();
     }
 
     /**
@@ -52,7 +53,6 @@ public class FrmServer extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblAdministratori = new javax.swing.JTable();
-        btnOsvezi = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmPodesavanja = new javax.swing.JMenu();
         jmiPodesavanjePorta = new javax.swing.JMenuItem();
@@ -155,13 +155,6 @@ public class FrmServer extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnOsvezi.setText("Osvezi listu korisnika");
-        btnOsvezi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOsveziActionPerformed(evt);
-            }
-        });
-
         jmPodesavanja.setText("Podesavanja");
 
         jmiPodesavanjePorta.setText("Podesavanje porta");
@@ -175,6 +168,11 @@ public class FrmServer extends javax.swing.JFrame {
         jmAdministracija.setText("Administracija");
 
         jmiUpravljanjeKorisnicima.setText("Upravljanje korisnicima");
+        jmiUpravljanjeKorisnicima.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiUpravljanjeKorisnicimaActionPerformed(evt);
+            }
+        });
         jmAdministracija.add(jmiUpravljanjeKorisnicima);
 
         jMenuBar1.add(jmAdministracija);
@@ -189,10 +187,7 @@ public class FrmServer extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnOsvezi)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -202,9 +197,7 @@ public class FrmServer extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnOsvezi)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -220,7 +213,7 @@ public class FrmServer extends javax.swing.JFrame {
                 jpnlStatusnaBoja.setBackground(Color.RED);
                 jlblStatusServera.setText("Server nije pokrenut!");
                 SocketServer.setIzvrsavaSe(false);
-                izbrisiTabelu();
+                srediTabelu();
             } catch (Exception ex) {
                 Logger.getLogger(FrmServer.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -239,9 +232,10 @@ public class FrmServer extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jbtnPokreniServerActionPerformed
 
-    private void btnOsveziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOsveziActionPerformed
-        popuniTabelu();
-    }//GEN-LAST:event_btnOsveziActionPerformed
+    private void jmiUpravljanjeKorisnicimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiUpravljanjeKorisnicimaActionPerformed
+        FrmUpravljanjeAdministratorima fua = new FrmUpravljanjeAdministratorima(this, true);
+        fua.setVisible(true);
+    }//GEN-LAST:event_jmiUpravljanjeKorisnicimaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -279,7 +273,6 @@ public class FrmServer extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnOsvezi;
     private javax.swing.JButton jButton1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel2;
@@ -307,7 +300,7 @@ public class FrmServer extends javax.swing.JFrame {
 //    boolean izvrsavaSe = true;
     private void pokreniServer() throws IOException {
 
-        ss = new SocketServer(9010);
+        ss = new SocketServer(9010, jtblAdministratori);
         ss.start();
 
     }
@@ -317,24 +310,8 @@ public class FrmServer extends javax.swing.JFrame {
         System.out.println("Server je zaustavljen");
     }
 
-    private void popuniTabelu() {
 
-        List<OpstiDomenskiObjekat> listaAktivnihAdministratora = new ArrayList<>();
-
-        try {
-            listaAktivnihAdministratora = Kontroler.vratiInstancuKontrolera().getListaAktivnihAdmina();
-
-        } catch (Exception ex) {
-            Logger.getLogger(FrmServer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        jtblAdministratori.setModel(new TblAdministratori(listaAktivnihAdministratora));
-
-    }
-
-    private void izbrisiTabelu() {
-        List<OpstiDomenskiObjekat> listaAktivnihAdministratora = new ArrayList<>();
-        Kontroler.vratiInstancuKontrolera().setListaAktivnihAdmina(listaAktivnihAdministratora);
-        jtblAdministratori.setModel(new TblAdministratori(listaAktivnihAdministratora));
+    private void srediTabelu() {
+        jtblAdministratori.setModel(new TblAdministratori(new ArrayList<>()));
     }
 }

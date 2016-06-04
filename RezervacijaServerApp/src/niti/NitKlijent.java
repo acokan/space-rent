@@ -21,12 +21,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
 import kontroler.Kontroler;
+import model.TblAdministratori;
 import serverapp.RezervacijaServerApp;
 import so.AzurirajKorisnika;
 import so.KreirajNovogKorisnika;
 import so.OpstaSO;
-import so.SOUcitajAdministratore;
 import so.SOUlogujAdministratora;
 import so.VratiSvaMesta;
 import so.ZapamtiKorisnika;
@@ -41,10 +42,14 @@ public class NitKlijent extends Thread {
     
     Socket soket;
     List<NitKlijent> listaKlijenata;
+    List<OpstiDomenskiObjekat> listaAktivnihAdministratora;
+    JTable jtblAdministratori;
     
-    public NitKlijent(Socket soket, List<NitKlijent> listaKlijenata) {
+    public NitKlijent(Socket soket, List<NitKlijent> listaKlijenata, List<OpstiDomenskiObjekat> listaAktivnihAdministratora, JTable jtblAdministratori) {
         this.soket = soket;
         this.listaKlijenata = listaKlijenata;
+        this.listaAktivnihAdministratora = listaAktivnihAdministratora;
+        this.jtblAdministratori = jtblAdministratori;
     }
     
     public Socket getSoket() {
@@ -271,10 +276,12 @@ public class NitKlijent extends Thread {
                             ServerTransferObjekat sto = new ServerTransferObjekat();
                             try {
                                 OpstiDomenskiObjekat admin = Kontroler.vratiInstancuKontrolera().ulogujAdministratora(a);
-//                                OpstaSO oso = new SOUlogujAdministratora(a);
-//                                oso.izvrsiOpstuSO(a);
-//                                OpstiDomenskiObjekat od = ((SOUlogujAdministratora) oso).vratiAdmina();
-//                                Administrator ad = (Administrator) admin;
+
+                                System.out.println(admin);
+                                
+                                listaAktivnihAdministratora.add(admin);
+                                jtblAdministratori.setModel(new TblAdministratori(listaAktivnihAdministratora));
+
                                 sto.setRezultat((Administrator) admin);
                                 sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
                             } catch (Exception ex) {

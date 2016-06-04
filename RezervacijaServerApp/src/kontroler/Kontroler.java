@@ -23,18 +23,8 @@ import so.SOUlogujAdministratora;
 public class Kontroler {
 
     private static Kontroler instanca;
-    private List<OpstiDomenskiObjekat> listaAktivnihAdmina;
-
-    public List<OpstiDomenskiObjekat> getListaAktivnihAdmina() {
-        return listaAktivnihAdmina;
-    }
-
-    public void setListaAktivnihAdmina(List<OpstiDomenskiObjekat> listaAktivnihAdmina) {
-        this.listaAktivnihAdmina = listaAktivnihAdmina;
-    }
 
     private Kontroler() {
-         listaAktivnihAdmina = new ArrayList<>();
     }
 
     public static Kontroler vratiInstancuKontrolera() {
@@ -48,13 +38,12 @@ public class Kontroler {
         List<OpstiDomenskiObjekat> lista = new ArrayList<>();
         SOUcitajAdministratore soua = new SOUcitajAdministratore();
         soua.izvrsiOpstuSO(new Administrator());
-        return soua.getListaAdmina();
+        return soua.vratiSveAdmine();
     }
 
     public OpstiDomenskiObjekat ulogujAdministratora(Administrator a) throws Exception {
         SOUlogujAdministratora soul = new SOUlogujAdministratora(a);
         soul.izvrsiOpstuSO(a);
-        listaAktivnihAdmina.add(a);
         return soul.vratiAdmina();
     }
 

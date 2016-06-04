@@ -226,7 +226,7 @@ public class FmGlavna extends javax.swing.JFrame {
     private void jbtnPrijaviSeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPrijaviSeActionPerformed
         String username = jtxtKorisnickoIme.getText().trim();
         String password = jtxtSifra.getText().trim();
-        Administrator a = new Administrator(0, "", "", username, password, false);
+        Administrator a = new Administrator(0, "", "", username, password, "");
 
         try {
             Administrator ulogovani = Kontroler.vratiInstancuKontrolera().ulogujAdministratora(a);
