@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import korisnici.kontroler.Kontroler;
+import start.Start;
 import util.Util;
 
 /**
@@ -29,6 +30,8 @@ public class FmGlavna extends javax.swing.JFrame {
     public FmGlavna() {
         initComponents();
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+        
+        new Start().start();
 
         Administrator admin = (Administrator) Kontroler.vratiInstancuKontrolera().getSesija().get("ulogovani_admin");
         if (admin != null) {

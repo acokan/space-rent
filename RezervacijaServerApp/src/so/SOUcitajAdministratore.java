@@ -18,13 +18,10 @@ public class SOUcitajAdministratore extends OpstaSO {
 
     List<OpstiDomenskiObjekat> listaAdmina;
 
-    public SOUcitajAdministratore() {
-    }
-
     @Override
-    protected void izvrsiKonkretnuOperaciju(OpstiDomenskiObjekat odo) throws Exception {
+    protected void izvrsiKonkretnuOperaciju() throws Exception {
 
-        listaAdmina = DBBroker.vratiInstancu().vratiSveObjekte(odo);
+        listaAdmina = DBBroker.vratiInstancu().vratiSveObjekte(new Administrator());
        
     }
 

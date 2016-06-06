@@ -12,12 +12,19 @@ import domen.OpstiDomenskiObjekat;
  *
  * @author Aco Kandic
  */
-public class ZapamtiKorisnika extends OpstaSO {
+public class SOZapamtiKorisnika extends OpstaSO {
 
+    OpstiDomenskiObjekat k;
+
+    public SOZapamtiKorisnika(OpstiDomenskiObjekat k) {
+        this.k = k;
+    }
+    
+    
     @Override
-    protected void izvrsiKonkretnuOperaciju(OpstiDomenskiObjekat odo) throws Exception {
+    protected void izvrsiKonkretnuOperaciju() throws Exception {
         
-        DBBroker.vratiInstancu().sacuvaj(odo);
+        DBBroker.vratiInstancu().sacuvaj(k);
         
     }
     

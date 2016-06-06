@@ -14,10 +14,16 @@ import domen.OpstiDomenskiObjekat;
  */
 public class AzurirajKorisnika extends OpstaSO {
 
+    OpstiDomenskiObjekat k;
+
+    public AzurirajKorisnika(OpstiDomenskiObjekat k) {
+        this.k = k;
+    }
+    
     @Override
-    protected void izvrsiKonkretnuOperaciju(OpstiDomenskiObjekat odo) throws Exception {
+    protected void izvrsiKonkretnuOperaciju() throws Exception {
         
-        DBBroker.vratiInstancu().sacuvajIliAzurirajObjekat(odo);
+        DBBroker.vratiInstancu().sacuvajIliAzurirajObjekat(k);
         
     }
     

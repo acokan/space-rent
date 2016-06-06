@@ -14,11 +14,16 @@ import domen.OpstiDomenskiObjekat;
  */
 public class SOIzlogujAdministratora extends OpstaSO {
 
-    
+    OpstiDomenskiObjekat admin;
+
+    public SOIzlogujAdministratora(OpstiDomenskiObjekat admin) {
+        this.admin = admin;
+    }
+     
     @Override
-    protected void izvrsiKonkretnuOperaciju(OpstiDomenskiObjekat odo) throws Exception {
+    protected void izvrsiKonkretnuOperaciju() throws Exception {
         
-        DBBroker.vratiInstancu().sacuvajIliAzurirajObjekat(odo);
+        DBBroker.vratiInstancu().sacuvajIliAzurirajObjekat(admin);
         
     }
     

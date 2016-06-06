@@ -280,6 +280,10 @@ public class FrmServer extends javax.swing.JFrame {
         List<NitKlijent> listaNiti = SocketServer.getListaKlijentNiti();
 
         int brojReda = jtblAdministratori.getSelectedRow();
+        if (brojReda == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Selektujte administratora kojeg zelite otkaciti sa servera!");
+            return;
+        }
         String ime = (String) jtblAdministratori.getValueAt(brojReda, 0);
         String prezime = (String) jtblAdministratori.getValueAt(brojReda, 1);
         String korisnickoIme = (String) jtblAdministratori.getValueAt(brojReda, 2);
@@ -296,6 +300,7 @@ public class FrmServer extends javax.swing.JFrame {
 
                     administrator.setUlogovan("Offline");
                     listaNiti.get(brojReda).getSoket().close();
+                    ss.getListaAktivnihAdministratora().remove(administrator);
                     Kontroler.vratiInstancuKontrolera().izlogujAdministratora(administrator);
 
                     osveziTabelu(administrator);

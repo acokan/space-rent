@@ -29,9 +29,9 @@ public class SOUlogujAdministratora extends OpstaSO {
     }
 
     @Override
-    protected void izvrsiKonkretnuOperaciju(OpstiDomenskiObjekat odo) throws Exception {
+    protected void izvrsiKonkretnuOperaciju() throws Exception {
 
-        listaAdmina = DBBroker.vratiInstancu().vratiSveObjekte(odo);
+        listaAdmina = DBBroker.vratiInstancu().vratiSveObjekte(admin);
 
         Administrator unijeti = (Administrator) admin;
 

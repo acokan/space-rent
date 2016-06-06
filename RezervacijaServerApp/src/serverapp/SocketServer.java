@@ -50,6 +50,10 @@ public class SocketServer extends Thread {
         }
 
     }
+
+    public List<OpstiDomenskiObjekat> getListaAktivnihAdministratora() {
+        return listaAktivnihAdministratora;
+    }
     
     public static List<NitKlijent> getListaKlijentNiti() {
         return listaKlijentNiti;
@@ -92,6 +96,7 @@ public class SocketServer extends Thread {
 
             for (NitKlijent nitKlijent : listaKlijentNiti) {
                 nitKlijent.getSoket().close();
+                Kontroler.vratiInstancuKontrolera().ugasiKorisnike();
             }
             
             

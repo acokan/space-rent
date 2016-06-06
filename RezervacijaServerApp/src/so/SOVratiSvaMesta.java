@@ -6,6 +6,7 @@
 package so;
 
 import db.DBBroker;
+import domen.Mesto;
 import domen.OpstiDomenskiObjekat;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,18 +15,19 @@ import java.util.List;
  *
  * @author Aco Kandic
  */
-public class VratiSvaMesta extends OpstaSO {
+public class SOVratiSvaMesta extends OpstaSO {
 
     List<OpstiDomenskiObjekat> listaMesta;
 
+    
     public List<OpstiDomenskiObjekat> getListaMesta() {
         return listaMesta;
     }
 
     @Override
-    protected void izvrsiKonkretnuOperaciju(OpstiDomenskiObjekat odo) throws Exception {
+    protected void izvrsiKonkretnuOperaciju() throws Exception {
 
-        listaMesta = DBBroker.vratiInstancu().vratiSveObjekte(odo);
+        listaMesta = DBBroker.vratiInstancu().vratiSveObjekte(new Mesto());
         
     }
 

@@ -29,8 +29,8 @@ import so.AzurirajKorisnika;
 import so.KreirajNovogKorisnika;
 import so.OpstaSO;
 import so.SOUlogujAdministratora;
-import so.VratiSvaMesta;
-import so.ZapamtiKorisnika;
+import so.SOVratiSvaMesta;
+import so.SOZapamtiKorisnika;
 import transferobjekti.KlijentTransferObjekat;
 import transferobjekti.ServerTransferObjekat;
 
@@ -44,6 +44,8 @@ public class NitKlijent extends Thread {
     List<NitKlijent> listaKlijenata;
     List<OpstiDomenskiObjekat> listaAktivnihAdministratora;
     JTable jtblAdministratori;
+    ObjectInputStream in;
+    ObjectOutputStream out;
 
     public NitKlijent(Socket soket, List<NitKlijent> listaKlijenata, List<OpstiDomenskiObjekat> listaAktivnihAdministratora, JTable jtblAdministratori) {
         this.soket = soket;
@@ -62,49 +64,45 @@ public class NitKlijent extends Thread {
 
     @Override
     public void run() {
+        System.out.println("Kijent thread pokrenut!");
 
         try {
 
             db.DBKonekcija dbKonekcija = new DBKonekcija();
 
+            in = new ObjectInputStream(soket.getInputStream());
+            out = new ObjectOutputStream(soket.getOutputStream());
+
             while (true) {
 
-                ObjectInputStream in = new ObjectInputStream(soket.getInputStream());
+                ServerTransferObjekat sto = new ServerTransferObjekat();
                 KlijentTransferObjekat kto = (KlijentTransferObjekat) in.readObject();
-
                 int operacija = kto.getOperacija();
 
                 switch (operacija) {
-                    case util.Util.OPERACIJA_SACUVAJ_KORISNIKA:
-                        Korisnik k = (Korisnik) kto.getParametar();
-                         {
-                            ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-                            ServerTransferObjekat sto = new ServerTransferObjekat();
-                            try {
-//                                dbKonekcija.sacuvajKorisnika(k);
-                                OpstaSO oso = new ZapamtiKorisnika();
-                                oso.izvrsiOpstuSO(k);
-                                sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
-                            } catch (Exception ex) {
-                                sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
-                                sto.setGreska(ex.getMessage());
-                                Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            out.writeObject(sto);
+                    case util.Util.OPERACIJA_SACUVAJ_KORISNIKA: {
+                        try {
+                            OpstiDomenskiObjekat k = (OpstiDomenskiObjekat) kto.getParametar();
+                            Kontroler.vratiInstancuKontrolera().zapamtiKorisnika(k);
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
+                        } catch (Exception ex) {
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
+                            sto.setGreska(ex.getMessage());
+                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        break;
+                        out.writeObject(sto);
+                    }
+                    break;
 
                     case util.Util.OPERACIJA_AZURIRAJ_KORISNIKA:
                         Korisnik korisnik = (Korisnik) kto.getParametar();
                          {
-                            ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-                            ServerTransferObjekat sto = new ServerTransferObjekat();
                             try {
 //                                dbKonekcija.updateKorisnika(korisnik);
 
                                 //NIJE ZAVRSENO
-                                OpstaSO oso = new AzurirajKorisnika();
-                                oso.izvrsiOpstuSO(korisnik);
+//                                OpstaSO oso = new AzurirajKorisnika();
+//                                oso.izvrsiOpstuSO(korisnik);
                                 sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
 
                             } catch (Exception ex) {
@@ -119,8 +117,6 @@ public class NitKlijent extends Thread {
                     case util.Util.OPERACIJA_SACUVAJ_SVE_KORISNIKE:
                         List<Korisnik> lk = (List<Korisnik>) kto.getParametar();
                          {
-                            ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-                            ServerTransferObjekat sto = new ServerTransferObjekat();
                             try {
                                 for (Korisnik kor : lk) {
                                     dbKonekcija.sacuvajKorisnika(kor);
@@ -136,8 +132,6 @@ public class NitKlijent extends Thread {
                         break;
 
                     case util.Util.OPERACIJA_VRATI_SVE_KORISNIKE: {
-                        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-                        ServerTransferObjekat sto = new ServerTransferObjekat();
                         try {
                             List<Korisnik> listaKorisnika = dbKonekcija.vratiListuKorisnika();
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
@@ -152,8 +146,7 @@ public class NitKlijent extends Thread {
                     break;
 
                     case util.Util.OPERACIJA_VRATI_SVE_KORISNIKE_PO_MESTU: {
-                        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-                        ServerTransferObjekat sto = new ServerTransferObjekat();
+
                         try {
                             List<Korisnik> listaKorisnika = dbKonekcija.vratiListuKorisnikaPoMestu((Mesto) kto.getParametar());
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
@@ -168,13 +161,9 @@ public class NitKlijent extends Thread {
                     break;
 
                     case util.Util.OPERACIJA_VRATI_SVA_MESTA: {
-                        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-                        ServerTransferObjekat sto = new ServerTransferObjekat();
+
                         try {
-//                            List<Mesto> listaMesta = dbKonekcija.vratiListuMesta();
-                            OpstaSO oso = new VratiSvaMesta();
-                            oso.izvrsiOpstuSO(new Mesto());
-                            List<OpstiDomenskiObjekat> listaMesta = ((VratiSvaMesta) oso).getListaMesta();
+                            List<OpstiDomenskiObjekat> listaMesta = Kontroler.vratiInstancuKontrolera().vratiSvaMesta();
                             System.out.println("Lista " + listaMesta);
                             sto.setRezultat(listaMesta);
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
@@ -188,8 +177,7 @@ public class NitKlijent extends Thread {
                     break;
 
                     case util.Util.OPERACIJA_VRATI_MESTO_PO_PTT: {
-                        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-                        ServerTransferObjekat sto = new ServerTransferObjekat();
+
                         try {
                             Mesto mesto = dbKonekcija.vratiMesto((int) kto.getParametar());
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
@@ -206,8 +194,7 @@ public class NitKlijent extends Thread {
                     case util.Util.OPERACIJA_SACUVAJ_MESTO:
                         Mesto m = (Mesto) kto.getParametar();
                          {
-                            ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-                            ServerTransferObjekat sto = new ServerTransferObjekat();
+
                             try {
                                 dbKonekcija.dodajMesto(m);
                                 sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
@@ -221,8 +208,7 @@ public class NitKlijent extends Thread {
                         break;
 
                     case util.Util.OPERACIJA_VRATI_SVE_PROSTORIJE: {
-                        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-                        ServerTransferObjekat sto = new ServerTransferObjekat();
+
                         try {
                             List<Prostorija> listaProstorija = dbKonekcija.vratiListuProstorija();
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
@@ -237,8 +223,7 @@ public class NitKlijent extends Thread {
                     break;
 
                     case util.Util.OPERACIJA_VRATI_SVE_REZERVACIJE: {
-                        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-                        ServerTransferObjekat sto = new ServerTransferObjekat();
+
                         try {
                             List<Rezervacija> listaRezervacija = dbKonekcija.vratiListuRezervacija();
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
@@ -255,8 +240,7 @@ public class NitKlijent extends Thread {
                     case util.Util.OPERACIJA_SACUVAJ_REZERVACIJU:
                         Rezervacija r = (Rezervacija) kto.getParametar();
                          {
-                            ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-                            ServerTransferObjekat sto = new ServerTransferObjekat();
+
                             try {
                                 dbKonekcija.sacuvajRezervaciju(r);
                                 sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
@@ -269,27 +253,25 @@ public class NitKlijent extends Thread {
                         }
                         break;
 
-                    case util.Util.OPERACIJA_ULOGUJ_ADMINISTRATORA:
-                        Administrator a = (Administrator) kto.getParametar();
-                         {
-                            ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-                            ServerTransferObjekat sto = new ServerTransferObjekat();
-                            try {
-                                OpstiDomenskiObjekat admin = Kontroler.vratiInstancuKontrolera().ulogujAdministratora(a);
+                    case util.Util.OPERACIJA_ULOGUJ_ADMINISTRATORA: {
 
-                                listaAktivnihAdministratora.add(admin);
-                                jtblAdministratori.setModel(new TblAdministratori(listaAktivnihAdministratora));
+                        try {
+                            OpstiDomenskiObjekat admin = Kontroler.vratiInstancuKontrolera().ulogujAdministratora((OpstiDomenskiObjekat) kto.getParametar());
 
-                                sto.setRezultat((Administrator) admin);
-                                sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
-                            } catch (Exception ex) {
-                                sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
-                                sto.setGreska(ex.getMessage());
-                                Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            out.writeObject(sto);
+                            listaAktivnihAdministratora.add(admin);
+                            jtblAdministratori.setModel(new TblAdministratori(listaAktivnihAdministratora));
+
+                            sto.setRezultat((Administrator) admin);
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
+                        } catch (Exception ex) {
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
+                            sto.setGreska(ex.getMessage());
+                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        break;
+                        System.out.println(sto.getRezultat());
+                        out.writeObject(sto);
+                    }
+                    break;
 
 //                    case util.Util.OPERACIJA_IZLOGUJ_ADMINISTRATORA:
 //                        
@@ -316,7 +298,6 @@ public class NitKlijent extends Thread {
 //                            out.writeObject(sto);
 //                        }
 //                        break;
-
                 }
 
             }

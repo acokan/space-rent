@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import komunikacija.Komunikacija;
 import transferobjekti.KlijentTransferObjekat;
 import transferobjekti.ServerTransferObjekat;
 
@@ -57,18 +58,13 @@ public class Kontroler {
     }
 
     public boolean dodajKorisnika(Korisnik k) throws Exception {
-
-        Socket soket = (Socket) getSesija().get(util.Util.MAP_KEY_SOKET);
-        
-        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
         
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_SACUVAJ_KORISNIKA);
         kto.setParametar(k);
-        out.writeObject(kto);
+        Komunikacija.vratiInstancu().posaljiZahtev(kto);
         
-        ObjectInputStream in = new ObjectInputStream(soket.getInputStream());
-        ServerTransferObjekat sto = (ServerTransferObjekat) in.readObject();
+        ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return true;
         } else {
@@ -79,17 +75,12 @@ public class Kontroler {
 
     public void updateKorisnika(Korisnik k) throws Exception {
         
-        Socket soket = (Socket) getSesija().get(util.Util.MAP_KEY_SOKET);
-        
-        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-        
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_AZURIRAJ_KORISNIKA);
         kto.setParametar(k);
-        out.writeObject(kto);
+        Komunikacija.vratiInstancu().posaljiZahtev(kto);
         
-        ObjectInputStream in = new ObjectInputStream(soket.getInputStream());
-        ServerTransferObjekat sto = (ServerTransferObjekat) in.readObject();
+        ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
         } else {
             throw new Exception(sto.getGreska());
@@ -99,148 +90,58 @@ public class Kontroler {
     
     public boolean sacuvajListuKorisnika(List<Korisnik> lk) throws Exception {
         
-        Socket soket = (Socket) getSesija().get(util.Util.MAP_KEY_SOKET);
-        
-        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-        
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_SACUVAJ_SVE_KORISNIKE);
         kto.setParametar(lk);
-        out.writeObject(kto);
+        Komunikacija.vratiInstancu().posaljiZahtev(kto);
         
-        ObjectInputStream in = new ObjectInputStream(soket.getInputStream());
-        ServerTransferObjekat sto = (ServerTransferObjekat) in.readObject();
+        ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return true;
         } else {
             throw new Exception(sto.getGreska());
         }
-        
-//        boolean sacuvana = false;
-//        try {
-//            dbk.uspostaviKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom konekcije na bazu: " + e.getMessage());
-//        }
-//        try {
-//            for (Korisnik korisnik : lk) {
-//                dbk.sacuvajKorisnika(korisnik);
-//            }
-//            dbk.potvrdiTransakciju();
-//            sacuvana = true;
-//        } catch (SQLException e) {
-//            dbk.ponistiTransakciju();
-//            sacuvana = false;
-//            System.out.println("Greska prilikom cuvanja liste korisnika: " + e.getMessage());
-//        }
-//        try {
-//            dbk.raskiniKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom raskidanja konekcije sa bazom: " + e.getMessage());
-//
-//        }
-//        return sacuvana;
+
     }
 
     public List<Korisnik> vratiListuKorisnika() throws IOException, ClassNotFoundException, Exception {
 
-        Socket soket = (Socket) getSesija().get(util.Util.MAP_KEY_SOKET);
-
-        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-        
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_VRATI_SVE_KORISNIKE);
-        out.writeObject(kto);
+        Komunikacija.vratiInstancu().posaljiZahtev(kto);
         
-        ObjectInputStream in = new ObjectInputStream(soket.getInputStream());
-        ServerTransferObjekat sto = (ServerTransferObjekat) in.readObject();
+        ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return (List<Korisnik>) sto.getRezultat();
         } else {
             throw new Exception(sto.getGreska());
         }
         
-//        List<Korisnik> listaKorisnika = new ArrayList<>();
-//
-//        try {
-//            dbk.uspostaviKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom konekcije na bazu: " + e.getMessage());
-//        }
-//
-//        try {
-//            listaKorisnika = dbk.vratiListuKorisnika();
-//            dbk.potvrdiTransakciju();
-//        } catch (Exception e) {
-//            dbk.ponistiTransakciju();
-//            System.out.println("Greska prilikom pretrage korisnika: " + e.getMessage());
-//        }
-//
-//        try {
-//            dbk.raskiniKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom raskidanja konekcije sa bazom: " + e.getMessage());
-//        }
-//
-//        return listaKorisnika;
     }
 
     
     public List<Korisnik> vratiListuKorisnikaPoMestu(Mesto mesto) throws IOException, ClassNotFoundException, Exception {
         
-        Socket soket = (Socket) getSesija().get(util.Util.MAP_KEY_SOKET);
-
-        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-        
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_VRATI_SVE_KORISNIKE_PO_MESTU);
-        out.writeObject(kto);
+        Komunikacija.vratiInstancu().posaljiZahtev(kto);
         
-        ObjectInputStream in = new ObjectInputStream(soket.getInputStream());
-        ServerTransferObjekat sto = (ServerTransferObjekat) in.readObject();
+        ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return (List<Korisnik>) sto.getRezultat();
         } else {
             throw new Exception(sto.getGreska());
         }
         
-//        List<Korisnik> listaKorisnika = new ArrayList<>();
-//
-//        try {
-//            dbk.uspostaviKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom konekcije na bazu: " + e.getMessage());
-//        }
-//
-//        try {
-//            listaKorisnika = dbk.vratiListuKorisnikaPoMestu(mesto);
-//            dbk.potvrdiTransakciju();
-//        } catch (Exception e) {
-//            dbk.ponistiTransakciju();
-//            System.out.println("Greska prilikom pretrage korisnika: " + e.getMessage());
-//        }
-//
-//        try {
-//            dbk.raskiniKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom raskidanja konekcije sa bazom: " + e.getMessage());
-//        }
-//
-//        return listaKorisnika;
     }
 
     public List<Mesto> vratiListuMesta() throws IOException, ClassNotFoundException, Exception {
-
-        Socket soket = (Socket) getSesija().get(util.Util.MAP_KEY_SOKET);
-
-        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
         
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_VRATI_SVA_MESTA);
-        out.writeObject(kto);
+        Komunikacija.vratiInstancu().posaljiZahtev(kto);
         
-        ObjectInputStream in = new ObjectInputStream(soket.getInputStream());
-        ServerTransferObjekat sto = (ServerTransferObjekat) in.readObject();
+        ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return (List<Mesto>) sto.getRezultat();
         } else {
@@ -251,108 +152,45 @@ public class Kontroler {
 
     public Mesto vratiMesto(int ptt) throws IOException, ClassNotFoundException, Exception {
         
-        Socket soket = (Socket) getSesija().get(util.Util.MAP_KEY_SOKET);
-
-        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-        
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_VRATI_MESTO_PO_PTT);
         kto.setParametar(ptt);
-        out.writeObject(kto);
+        Komunikacija.vratiInstancu().posaljiZahtev(kto);
         
-        ObjectInputStream in = new ObjectInputStream(soket.getInputStream());
-        ServerTransferObjekat sto = (ServerTransferObjekat) in.readObject();
+        ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return (Mesto) sto.getRezultat();
         } else {
             throw new Exception(sto.getGreska());
         }
         
-//        Mesto m = null;
-//
-//        try {
-//            dbk.uspostaviKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom konekcije na bazu: " + e.getMessage());
-//        }
-//
-//        try {
-//            m = dbk.vratiMesto(ptt);
-//            dbk.potvrdiTransakciju();
-//        } catch (Exception e) {
-//            dbk.ponistiTransakciju();
-//            System.out.println("Greska prilikom pretrage mesta: " + e.getMessage());
-//        }
-//
-//        try {
-//            dbk.raskiniKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom raskidanja konekcije sa bazom: " + e.getMessage());
-//        }
-//
-//        return m;
     }
 
     
 
     public boolean dodajMesto(Mesto m) throws Exception {
-        
-        Socket soket = (Socket) getSesija().get(util.Util.MAP_KEY_SOKET);
-        
-        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-        
+
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_SACUVAJ_MESTO);
         kto.setParametar(m);
-        out.writeObject(kto);
+        Komunikacija.vratiInstancu().posaljiZahtev(kto);
         
-        ObjectInputStream in = new ObjectInputStream(soket.getInputStream());
-        ServerTransferObjekat sto = (ServerTransferObjekat) in.readObject();
+        ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return true;
         } else {
             throw new Exception(sto.getGreska());
         }
-        
-//        boolean dodat = false;
-//
-//        try {
-//            dbk.uspostaviKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom konekcije na bazu: " + e.getMessage());
-//        }
-//
-//        try {
-//            dbk.dodajMesto(m);
-//            dbk.potvrdiTransakciju();
-//            dodat = true;
-//        } catch (Exception e) {
-//            dbk.ponistiTransakciju();
-//            dodat = false;
-//            System.out.println("Greska prilikom cuvanja novog korisnika: " + e.getMessage());
-//        }
-//
-//        try {
-//            dbk.raskiniKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom raskidanja konekcije sa bazom: " + e.getMessage());
-//        }
-//
-//        return dodat;
+
     }
 
     public List<Prostorija> vratiListuProstorija() throws Exception {
         
-        Socket soket = (Socket) getSesija().get(util.Util.MAP_KEY_SOKET);
-
-        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-        
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_VRATI_SVE_PROSTORIJE);
-        out.writeObject(kto);
+        Komunikacija.vratiInstancu().posaljiZahtev(kto);
         
-        ObjectInputStream in = new ObjectInputStream(soket.getInputStream());
-        ServerTransferObjekat sto = (ServerTransferObjekat) in.readObject();
+        ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return (List<Prostorija>) sto.getRezultat();
         } else {
@@ -363,62 +201,27 @@ public class Kontroler {
 
     public boolean sacuvajRezervaciju(Rezervacija r) throws Exception {
 
-        Socket soket = (Socket) getSesija().get(util.Util.MAP_KEY_SOKET);
-        
-        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-        
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_SACUVAJ_REZERVACIJU);
         kto.setParametar(r);
-        out.writeObject(kto);
+        Komunikacija.vratiInstancu().posaljiZahtev(kto);
         
-        ObjectInputStream in = new ObjectInputStream(soket.getInputStream());
-        ServerTransferObjekat sto = (ServerTransferObjekat) in.readObject();
+        ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return true;
         } else {
             throw new Exception(sto.getGreska());
         }
 
-//        boolean sacuvana = false;
-//        try {
-//            dbk.uspostaviKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom konekcije na bazu: " + e.getMessage());
-//        }
-//        try {
-//            dbk.sacuvajRezervaciju(r);
-//            for (StavkaRezervacije sr : r.getListaStavki()) {
-//                dbk.sacuvajStavkeRezervacije(sr);
-//            }
-//            dbk.potvrdiTransakciju();
-//            sacuvana = true;
-//        } catch (SQLException e) {
-//            dbk.ponistiTransakciju();
-//            sacuvana = false;
-//            System.out.println("Greska prilikom cuvanja rezervacije: " + e.getMessage());
-//        }
-//        try {
-//            dbk.raskiniKonekciju();
-//        } catch (Exception e) {
-//            System.out.println("Greska prilikom raskidanja konekcije sa bazom: " + e.getMessage());
-//
-//        }
-//        return sacuvana;
     }
 
     public List<Rezervacija> vratiListuRezervacija() throws Exception {
-        
-        Socket soket = (Socket) getSesija().get(util.Util.MAP_KEY_SOKET);
 
-        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-        
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_VRATI_SVE_REZERVACIJE);
-        out.writeObject(kto);
+        Komunikacija.vratiInstancu().posaljiZahtev(kto);
         
-        ObjectInputStream in = new ObjectInputStream(soket.getInputStream());
-        ServerTransferObjekat sto = (ServerTransferObjekat) in.readObject();
+        ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return (List<Rezervacija>) sto.getRezultat();
         } else {
@@ -428,17 +231,12 @@ public class Kontroler {
 
     public Administrator ulogujAdministratora(Administrator a) throws Exception {
         
-        Socket soket = (Socket) getSesija().get(util.Util.MAP_KEY_SOKET);
-        
-        ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-        
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_ULOGUJ_ADMINISTRATORA);
         kto.setParametar(a);
-        out.writeObject(kto);
+        Komunikacija.vratiInstancu().posaljiZahtev(kto);
         
-        ObjectInputStream in = new ObjectInputStream(soket.getInputStream());
-        ServerTransferObjekat sto = (ServerTransferObjekat) in.readObject();
+        ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return (Administrator) sto.getRezultat();
         } else {

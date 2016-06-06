@@ -6,16 +6,25 @@
 package kontroler;
 
 import domen.Administrator;
+import domen.Mesto;
 import domen.OpstiDomenskiObjekat;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import so.OpstaSO;
 import so.SOIzlogujAdministratora;
 import so.SOUcitajAdministratore;
 import so.SOUlogujAdministratora;
+import so.SOZapamtiKorisnika;
+import so.SOVratiSvaMesta;
+import transferobjekti.KlijentTransferObjekat;
+import transferobjekti.ServerTransferObjekat;
 
 /**
  *
@@ -24,10 +33,14 @@ import so.SOUlogujAdministratora;
 public class Kontroler {
 
     private static Kontroler instanca;
+//    private Map<String, Object> sesija;
 
     private Kontroler() {
     }
 
+//    public Map<String, Object> getSesija() {
+//        return sesija;
+//    }
     public static Kontroler vratiInstancuKontrolera() {
         if (instanca == null) {
             instanca = new Kontroler();
@@ -38,19 +51,48 @@ public class Kontroler {
     public List<OpstiDomenskiObjekat> vratiListuAdministratora() throws Exception {
         List<OpstiDomenskiObjekat> lista = new ArrayList<>();
         SOUcitajAdministratore soua = new SOUcitajAdministratore();
-        soua.izvrsiOpstuSO(new Administrator());
+        soua.izvrsiOpstuSO();
         return soua.vratiSveAdmine();
     }
 
-    public OpstiDomenskiObjekat ulogujAdministratora(Administrator a) throws Exception {
+    public OpstiDomenskiObjekat ulogujAdministratora(OpstiDomenskiObjekat a) throws Exception {
         SOUlogujAdministratora soul = new SOUlogujAdministratora(a);
-        soul.izvrsiOpstuSO(a);
+        soul.izvrsiOpstuSO();
         return soul.vratiAdmina();
     }
 
     public void izlogujAdministratora(Administrator admin) throws Exception {
-        SOIzlogujAdministratora soia = new SOIzlogujAdministratora();
-        soia.izvrsiOpstuSO(admin);
+        SOIzlogujAdministratora soia = new SOIzlogujAdministratora(admin);
+        soia.izvrsiOpstuSO();
+    }
+
+    public void ugasiKorisnike() {
+
+//        try {
+//            
+//            Socket soket = (Socket) getSesija().get("soket");
+//
+//            ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
+//            
+//            ServerTransferObjekat sto = new ServerTransferObjekat();
+//            sto.setRezultat("Otkacen");
+//            out.writeObject(sto);
+//            System.out.println("Objekat je poslat: "+sto.getRezultat());
+//                
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    public void zapamtiKorisnika(OpstiDomenskiObjekat k) throws Exception {
+        SOZapamtiKorisnika oso = new SOZapamtiKorisnika(k);
+        oso.izvrsiOpstuSO();
+    }
+
+    public List<OpstiDomenskiObjekat> vratiSvaMesta() throws Exception {
+        SOVratiSvaMesta oso = new SOVratiSvaMesta();
+        oso.izvrsiOpstuSO();
+        return oso.getListaMesta();
     }
 
 }

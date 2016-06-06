@@ -6,7 +6,6 @@
 package so;
 
 import db.DBBroker;
-import domen.OpstiDomenskiObjekat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,11 +15,11 @@ import java.util.logging.Logger;
  */
 public abstract class OpstaSO {
  
-    public void izvrsiOpstuSO(OpstiDomenskiObjekat odo) throws Exception {
+    public void izvrsiOpstuSO() throws Exception {
     
         try {
-            proveriPreduslov(odo);
-            izvrsiKonkretnuOperaciju(odo);
+            proveriPreduslov();
+            izvrsiKonkretnuOperaciju();
             potvrdi();
         } catch (Exception ex) {
             ponisti();
@@ -30,9 +29,9 @@ public abstract class OpstaSO {
         
     }
 
-    protected void proveriPreduslov(OpstiDomenskiObjekat odo) throws Exception {};
+    protected void proveriPreduslov() throws Exception {};
 
-    protected abstract void izvrsiKonkretnuOperaciju(OpstiDomenskiObjekat odo) throws Exception;
+    protected abstract void izvrsiKonkretnuOperaciju() throws Exception;
 
     private void potvrdi() throws Exception {
         DBBroker.vratiInstancu().potvrdiTransakciju();

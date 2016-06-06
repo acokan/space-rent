@@ -26,7 +26,7 @@ public class Korisnik extends OpstiDomenskiObjekat implements Serializable {
     private Mesto mesto;
 
     public Korisnik() {
-    }
+}
 
     public Korisnik(int korisnikID, String ime, String prezime, Date datumRodjenja, String kontakt, String mail, String ulica, String broj, Mesto mesto) {
         this.korisnikID = korisnikID;
