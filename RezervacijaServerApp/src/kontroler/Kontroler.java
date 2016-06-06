@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import so.SOIzlogujAdministratora;
 import so.SOUcitajAdministratore;
 import so.SOUlogujAdministratora;
 
@@ -45,6 +46,11 @@ public class Kontroler {
         SOUlogujAdministratora soul = new SOUlogujAdministratora(a);
         soul.izvrsiOpstuSO(a);
         return soul.vratiAdmina();
+    }
+
+    public void izlogujAdministratora(Administrator admin) throws Exception {
+        SOIzlogujAdministratora soia = new SOIzlogujAdministratora();
+        soia.izvrsiOpstuSO(admin);
     }
 
 }

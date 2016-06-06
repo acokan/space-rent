@@ -5,6 +5,8 @@
  */
 package serverapp;
 
+import db.DBBroker;
+import domen.Administrator;
 import domen.OpstiDomenskiObjekat;
 import niti.NitKlijent;
 import java.io.IOException;
@@ -28,7 +30,7 @@ public class SocketServer extends Thread {
 
     private ServerSocket ss;
     private int brojPorta;
-    public static List<NitKlijent> listaKlijenata = new ArrayList<>();
+    public static List<NitKlijent> listaKlijentNiti = new ArrayList<>();
     private List<OpstiDomenskiObjekat> listaAktivnihAdministratora = new ArrayList<>();
     public static boolean izvrsavaSe = false;
     private JTable jtblAdministratori;
@@ -48,7 +50,11 @@ public class SocketServer extends Thread {
         }
 
     }
-
+    
+    public static List<NitKlijent> getListaKlijentNiti() {
+        return listaKlijentNiti;
+    }
+    
     public ServerSocket getServerSocket() {
         return ss;
     }
@@ -75,11 +81,20 @@ public class SocketServer extends Thread {
 
     public void zaustaviNiti() {
         try {
+            for (OpstiDomenskiObjekat onlineAdmin : listaAktivnihAdministratora) {
+                Administrator admin = (Administrator) onlineAdmin;
+                admin.setUlogovan("Offline");
+                OpstiDomenskiObjekat ad = (OpstiDomenskiObjekat) admin;
+                DBBroker.vratiInstancu().sacuvajIliAzurirajObjekat(ad);
+            }
+            
             ss.close();
 
-            for (NitKlijent nitKlijent : listaKlijenata) {
+            for (NitKlijent nitKlijent : listaKlijentNiti) {
                 nitKlijent.getSoket().close();
             }
+            
+            
         } catch (Exception ex) {
             Logger.getLogger(SocketServer.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -92,15 +107,15 @@ public class SocketServer extends Thread {
             try {
                 Socket soket = ss.accept();
 
-                NitKlijent nitKlijent = new NitKlijent(soket, listaKlijenata, listaAktivnihAdministratora, jtblAdministratori);
+                NitKlijent nitKlijent = new NitKlijent(soket, listaKlijentNiti, listaAktivnihAdministratora, jtblAdministratori);
                 nitKlijent.start();
 
-                listaKlijenata.add(nitKlijent);
-                int i = listaKlijenata.size() + 1;
+                listaKlijentNiti.add(nitKlijent);
+                int i = listaKlijentNiti.size() + 1;
                 System.out.println("Klijent broj " + i + " se povezao!");
 
                
-                System.out.println("Lista niti " + listaKlijenata);
+                System.out.println("Lista niti " + listaKlijentNiti);
 
             } catch (SocketException e) {
                 System.out.println("Server se gasi...");

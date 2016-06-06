@@ -28,8 +28,7 @@
               <Component id="jScrollPane1" min="-2" pref="440" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btnOtkaci" pref="100" max="32767" attributes="0"/>
-                  <Component id="btnDodaj" max="32767" attributes="0"/>
+                  <Component id="btnDodaj" pref="100" max="32767" attributes="0"/>
                   <Component id="btnIzbrisi" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -42,8 +41,6 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="btnOtkaci" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                       <Component id="btnDodaj" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnIzbrisi" min="-2" max="-2" attributes="0"/>
@@ -77,11 +74,6 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnOtkaci">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Otkaci"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JButton" name="btnDodaj">
       <Properties>
         <Property name="text" type="java.lang.String" value="Dodaj"/>
