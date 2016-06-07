@@ -12,17 +12,17 @@ import domen.OpstiDomenskiObjekat;
  *
  * @author Aco Kandic
  */
-public class AzurirajKorisnika extends OpstaSO {
+public class SOAzurirajKorisnika extends OpstaSO {
 
     OpstiDomenskiObjekat k;
 
-    public AzurirajKorisnika(OpstiDomenskiObjekat k) {
+    public SOAzurirajKorisnika(OpstiDomenskiObjekat k) {
         this.k = k;
     }
     
     @Override
     protected void izvrsiKonkretnuOperaciju() throws Exception {
-        
+        System.out.println("Korisnik: "+k);
         DBBroker.vratiInstancu().sacuvajIliAzurirajObjekat(k);
         
     }

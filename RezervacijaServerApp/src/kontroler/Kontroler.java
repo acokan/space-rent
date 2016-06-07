@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import so.SOAzurirajKorisnika;
 import so.OpstaSO;
 import so.SOIzlogujAdministratora;
 import so.SOUcitajAdministratore;
@@ -93,6 +94,11 @@ public class Kontroler {
         SOVratiSvaMesta oso = new SOVratiSvaMesta();
         oso.izvrsiOpstuSO();
         return oso.getListaMesta();
+    }
+
+    public void azurirajKorisnika(OpstiDomenskiObjekat korisnik) throws Exception {
+        SOAzurirajKorisnika soak = new SOAzurirajKorisnika(korisnik);
+        soak.izvrsiOpstuSO();
     }
 
 }

@@ -25,7 +25,7 @@ import javax.swing.JTable;
 import kontroler.Kontroler;
 import model.TblAdministratori;
 import serverapp.RezervacijaServerApp;
-import so.AzurirajKorisnika;
+import so.SOAzurirajKorisnika;
 import so.KreirajNovogKorisnika;
 import so.OpstaSO;
 import so.SOUlogujAdministratora;
@@ -94,25 +94,19 @@ public class NitKlijent extends Thread {
                     }
                     break;
 
-                    case util.Util.OPERACIJA_AZURIRAJ_KORISNIKA:
-                        Korisnik korisnik = (Korisnik) kto.getParametar();
-                         {
-                            try {
-//                                dbKonekcija.updateKorisnika(korisnik);
-
-                                //NIJE ZAVRSENO
-//                                OpstaSO oso = new AzurirajKorisnika();
-//                                oso.izvrsiOpstuSO(korisnik);
-                                sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
-
-                            } catch (Exception ex) {
-                                sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
-                                sto.setGreska(ex.getMessage());
-                                Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            out.writeObject(sto);
+                    case util.Util.OPERACIJA_AZURIRAJ_KORISNIKA: {
+                        try {
+                            OpstiDomenskiObjekat korisnik = (OpstiDomenskiObjekat) kto.getParametar();
+                            Kontroler.vratiInstancuKontrolera().azurirajKorisnika(korisnik);
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
+                        } catch (Exception ex) {
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
+                            sto.setGreska(ex.getMessage());
+                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        break;
+                        out.writeObject(sto);
+                    }
+                    break;
 
                     case util.Util.OPERACIJA_SACUVAJ_SVE_KORISNIKE:
                         List<Korisnik> lk = (List<Korisnik>) kto.getParametar();
@@ -238,6 +232,7 @@ public class NitKlijent extends Thread {
                     break;
 
                     case util.Util.OPERACIJA_SACUVAJ_REZERVACIJU:
+
                         Rezervacija r = (Rezervacija) kto.getParametar();
                          {
 

@@ -6,15 +6,22 @@
 package domen;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Aco Kandic
  */
 public class Korisnik extends OpstiDomenskiObjekat implements Serializable {
-    
+
     private int korisnikID;
     private String ime;
     private String prezime;
@@ -26,7 +33,7 @@ public class Korisnik extends OpstiDomenskiObjekat implements Serializable {
     private Mesto mesto;
 
     public Korisnik() {
-}
+    }
 
     public Korisnik(int korisnikID, String ime, String prezime, Date datumRodjenja, String kontakt, String mail, String ulica, String broj, Mesto mesto) {
         this.korisnikID = korisnikID;
@@ -103,7 +110,7 @@ public class Korisnik extends OpstiDomenskiObjekat implements Serializable {
     public void setBroj(String broj) {
         this.broj = broj;
     }
-    
+
     public Mesto getMesto() {
         return mesto;
     }
@@ -149,26 +156,26 @@ public class Korisnik extends OpstiDomenskiObjekat implements Serializable {
 
     @Override
     public String vratiVrednostiZaInsert() {
-        
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String datum = sdf.format(datumRodjenja);
 
-        return "(" + "'"+korisnikID+"', '" +ime+ "', '" +prezime+ "', '" +datum+ "', '" +kontakt+ "', '" +mail+ "', '" +ulica+ "', '" +broj+ "', " +mesto.getPtt()+ ")";
-        
+        return "(" + "'" + korisnikID + "', '" + ime + "', '" + prezime + "', '" + datum + "', '" + kontakt + "', '" + mail + "', '" + ulica + "', '" + broj + "', " + mesto.getPtt() + ")";
+
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        
+
         String datum = new SimpleDateFormat("yyyy-MM-dd").format(datumRodjenja);
-        
-        return "Ime = '"+ime+", Prezime = '"+prezime+"', DatumRodjenja = '"+datum+"', Kontakt = '"+kontakt+"', Mail = '"+mail+"', "
-                + "Ulica = '"+ulica+"', Broj = '"+broj+"', Ptt = "+mesto.getPtt()+" ";
+
+        return "Ime = '" + ime + "', Prezime = '" + prezime + "', DatumRodjenja = '" + datum + "', Kontakt = '" + kontakt + "', Mail = '" + mail + "', "
+                + "Ulica = '" + ulica + "', Broj = '" + broj + "', Ptt = " + mesto.getPtt() + " ";
     }
 
     @Override
     public String vratiPK() {
-        return "korisnikID";
+        return "KorisnikID";
     }
 
     @Override
@@ -180,8 +187,45 @@ public class Korisnik extends OpstiDomenskiObjekat implements Serializable {
     public String vratiSlozenPK() {
         return "Nema slozen PK";
     }
-    
-    
 
-    
+    @Override
+    public List<OpstiDomenskiObjekat> vratiListu(ResultSet rs) {
+
+        List<OpstiDomenskiObjekat> listaKorisnika = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+
+                int korisnikID = rs.getInt("KorisnikID");
+                String ime = rs.getString("Ime");
+                String prezime = rs.getString("Prezime");
+                String datumRodjenja = rs.getString("DatumRodjenja");
+                String kontakt = rs.getString("Kontakt");
+                String mail = rs.getString("Mail");
+                String ulica = rs.getString("Ulica");
+                String broj = rs.getString("Broj");
+                int ptt = rs.getInt("Ptt");
+                Mesto m = new Mesto(ptt, "");
+                
+                String[] datumi = datumRodjenja.split("-");
+                String datum = datumi[2] + "." + datumi[1] + "." + datumi[0] + ".";
+                
+                Korisnik k = null;
+                try {
+                    k = new Korisnik(korisnikID, ime, prezime, new SimpleDateFormat("dd.MM.yyyy.").parse(datum), kontakt, mail, ulica, broj, m);
+                } catch (ParseException ex) {
+                    Logger.getLogger(Korisnik.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                listaKorisnika.add(k);
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Mesto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return listaKorisnika;
+
+    }
+
 }

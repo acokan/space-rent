@@ -587,7 +587,7 @@ public class FmKorisnik extends javax.swing.JDialog {
     private Korisnik kreirajObjekatKorisnik(String ime, String prezime, String datumR, String kontakt, String mail, String ulica, String broj, Mesto mesto) throws Exception {
 
         Korisnik k = new Korisnik();
-
+        
         if (ime == null || ime.isEmpty()) {
             jtxt_ime.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
             throw new Exception("Unesite ime korisnika!");
@@ -633,7 +633,17 @@ public class FmKorisnik extends javax.swing.JDialog {
         k.setBroj(broj);
 
         k.setMesto(mesto);
-
+        
+        int rezim = Kontroler.vratiInstancuKontrolera().getAktivanSK();
+        if (rezim == Util.SK_IZMENA_KORISNIKA) {
+            List<Korisnik> listaKorisnika = Kontroler.vratiInstancuKontrolera().vratiListuKorisnika();
+            for (Korisnik korisnik : listaKorisnika) {
+                if (korisnik.getIme().equalsIgnoreCase(k.getIme()) && korisnik.getPrezime().equalsIgnoreCase(k.getPrezime())) {
+                    k.setKorisnikID(korisnik.getKorisnikID());
+                }
+            }
+        }
+        System.out.println(k);
         return k;
     }
 
