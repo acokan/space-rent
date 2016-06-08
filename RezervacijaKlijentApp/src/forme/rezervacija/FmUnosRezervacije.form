@@ -44,8 +44,7 @@
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jLabel4" alignment="1" min="-2" pref="74" max="-2" attributes="0"/>
-                          <Component id="jbtnIzaberiKorisnika" alignment="0" pref="91" max="32767" attributes="0"/>
-                          <Component id="jbtnDodaj" max="32767" attributes="0"/>
+                          <Component id="jbtnDodaj" pref="91" max="32767" attributes="0"/>
                           <Component id="jbtnObrisi" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -85,7 +84,6 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jcbKorisnici" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jbtnIzaberiKorisnika" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
@@ -105,7 +103,7 @@
                   <Component id="jbtnOdustani" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jbtnPogledajRezervacije" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="21" max="32767" attributes="0"/>
+              <EmptySpace pref="24" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -147,14 +145,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="dd.MM.yyyy"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="jbtnIzaberiKorisnika">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Izaberi"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnIzaberiKorisnikaActionPerformed"/>
-      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>

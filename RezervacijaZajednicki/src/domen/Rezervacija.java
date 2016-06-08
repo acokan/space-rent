@@ -6,16 +6,22 @@
 package domen;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Aco Kandic
  */
 public class Rezervacija extends OpstiDomenskiObjekat implements Serializable {
-    
+
     private int rezervacijaID;
     private Date datumRezervacije;
     private Korisnik korisnik;
@@ -66,7 +72,7 @@ public class Rezervacija extends OpstiDomenskiObjekat implements Serializable {
 
     @Override
     public String toString() {
-        return rezervacijaID + " - " +datumRezervacije + ", " + korisnik + " - " + listaStavki;
+        return rezervacijaID + " - " + datumRezervacije + ", " + korisnik + " - " + listaStavki;
     }
 
     @Override
@@ -96,38 +102,71 @@ public class Rezervacija extends OpstiDomenskiObjekat implements Serializable {
 
     @Override
     public String vratiNazivTabele() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "rezervacija";
     }
 
     @Override
     public String vratiVrednostiZaInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        String datum = new SimpleDateFormat("yyyy-MM-dd").format(datumRezervacije);
+        return "(" + "" + rezervacijaID + ", '" + datum + "', " + korisnik.getKorisnikID() + "" + ")";
+        
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        String datum = new SimpleDateFormat("yyyy-MM-dd").format(datumRezervacije);
+        return "RezervacijaID = " + rezervacijaID + ", DatumRezervacije = '" + datum + "', KorisnikID = " + korisnik.getKorisnikID() + "";
+        
     }
 
     @Override
     public String vratiPK() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "RezervacijaID";
     }
 
     @Override
     public int vratiVrednostPK() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return rezervacijaID;
     }
 
     @Override
     public String vratiSlozenPK() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "Nema slozen kljuc";
+    }
+
+    @Override
+    public List<OpstiDomenskiObjekat> vratiListu(ResultSet rs) {
+        
+        List<OpstiDomenskiObjekat> listaRezervacija = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+
+                int rezID = rs.getInt("RezervacijaID");
+                Date datum = new Date(rs.getDate("DatumRezervacije").getTime());
+                int korisnikID = rs.getInt("KorisnikID");
+                
+                Korisnik k = new Korisnik();
+                k.setKorisnikID(korisnikID);
+                
+                Rezervacija r = new Rezervacija();
+                r.setRezervacijaID(rezID);
+                r.setDatumRezervacije(datum);
+                r.setKorisnik(k);
+                
+                listaRezervacija.add(r);
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Mesto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return listaRezervacija;
+        
     }
     
     
-    
-    
-    
-    
-    
+
 }

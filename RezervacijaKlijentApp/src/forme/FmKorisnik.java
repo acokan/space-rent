@@ -354,7 +354,7 @@ public class FmKorisnik extends javax.swing.JDialog {
     }//GEN-LAST:event_jbtn_dodajMestoActionPerformed
 
     private void jbtn_sacuvajKorisnikaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_sacuvajKorisnikaActionPerformed
-
+        
         int rezim = Kontroler.vratiInstancuKontrolera().getAktivanSK();
         if (rezim == Util.SK_UNOS_KORISNIKA) {
             try {

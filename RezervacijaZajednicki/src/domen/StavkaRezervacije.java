@@ -6,7 +6,16 @@
 package domen;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -113,22 +122,28 @@ public class StavkaRezervacije extends OpstiDomenskiObjekat implements Serializa
 
     @Override
     public String vratiNazivTabele() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "stavkarezervacije";
     }
 
     @Override
     public String vratiVrednostiZaInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        return "(" + "" + rezervacija.getRezervacijaID() + ", " + redniBrojStavke + ", '" + vremeOd + "', '" + vremeDo + "', " 
+                + iznos + ", " + prostorija.getProstorijaID() + "" + ")";
+        
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        return "RezervacijaID = " + getRezervacija().getRezervacijaID() + ", RedniBrojStavke = " + getRedniBrojStavke() + ", VremeOd = '" + getVremeOd() + "', "
+                + "VremeDo = '" + getVremeDo() + "', Iznos = " + getIznos() + ", " + "ProstorijaID = " + getProstorija().getProstorijaID() + "";
+    
     }
 
     @Override
     public String vratiPK() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 
     @Override
@@ -138,8 +153,55 @@ public class StavkaRezervacije extends OpstiDomenskiObjekat implements Serializa
 
     @Override
     public String vratiSlozenPK() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return " WHERE RezervacijaID=" + getRezervacija().getRezervacijaID() + " AND RedniBrojStavke=" + getRedniBrojStavke();
     }
+
+    @Override
+    public List<OpstiDomenskiObjekat> vratiListu(ResultSet rs) {
+        
+        List<OpstiDomenskiObjekat> listaStavkiRezervacije = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+
+                int rezID = rs.getInt("RezervacijaID");                
+                int rbrStavke = rs.getInt("RedniBrojStavke");
+                String vrOd = rs.getString("VremeOd");
+                String vrDo = rs.getString("VremeDo");
+                double iz = rs.getDouble("Iznos");
+                int prostorID = rs.getInt("ProstorijaID");
+                
+                Rezervacija rez = new Rezervacija();
+                rez.setRezervacijaID(rezID);
+                Prostorija p = new Prostorija();
+                p.setProstorijaID(prostorID);
+                
+                String[] vreme1 = vrOd.split(":");
+                String[] vreme2 = vrDo.split(":");
+                LocalTime lt1 = LocalTime.of(Integer.parseInt(vreme1[0]), Integer.parseInt(vreme1[1]));
+                LocalTime lt2 = LocalTime.of(Integer.parseInt(vreme2[0]), Integer.parseInt(vreme2[1]));
+                System.out.println(lt1);
+                System.out.println(lt2);
+                
+                StavkaRezervacije sr = new StavkaRezervacije();
+                sr.setRezervacija(rez);
+                sr.setRedniBrojStavke(rbrStavke);
+                sr.setVremeOd(lt1);
+                sr.setVremeDo(lt2);
+                sr.setIznos(iz);
+                sr.setProstorija(p);
+                
+                listaStavkiRezervacije.add(sr);
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Mesto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return listaStavkiRezervacije;
+        
+    }
+    
     
     
     

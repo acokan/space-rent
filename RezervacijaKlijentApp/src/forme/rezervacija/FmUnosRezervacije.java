@@ -10,7 +10,9 @@ import domen.Prostorija;
 import domen.Rezervacija;
 import domen.StavkaRezervacije;
 import gui.komponente.TblModelKorisnik;
+import gui.komponente.TblModelRezervacija;
 import gui.komponente.TblModelStavkaRezervacije;
+import java.awt.Color;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,10 +21,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
@@ -37,6 +41,8 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
     /**
      * Creates new form FmUnosRezervacije
      */
+    Border border;
+    
     public FmUnosRezervacije() {
         initComponents();
         srediFormu();
@@ -58,7 +64,6 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jcbKorisnici = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
-        jbtnIzaberiKorisnika = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblStavkaRezervacije = new javax.swing.JTable();
@@ -83,13 +88,6 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
         jLabel3.setText("Korisnik: ");
 
         jLabel4.setText("dd.MM.yyyy");
-
-        jbtnIzaberiKorisnika.setText("Izaberi");
-        jbtnIzaberiKorisnika.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnIzaberiKorisnikaActionPerformed(evt);
-            }
-        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Stavka rezervacije"));
 
@@ -184,8 +182,7 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbtnIzaberiKorisnika, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                            .addComponent(jbtnDodaj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbtnDodaj, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
                             .addComponent(jbtnObrisi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jbtnSacuvajRezervaciju)
@@ -215,8 +212,7 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jcbKorisnici, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbtnIzaberiKorisnika))
+                    .addComponent(jcbKorisnici, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -231,16 +227,12 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
                     .addComponent(jbtnSacuvajRezervaciju)
                     .addComponent(jbtnOdustani)
                     .addComponent(jbtnPogledajRezervacije))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jbtnIzaberiKorisnikaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIzaberiKorisnikaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnIzaberiKorisnikaActionPerformed
 
     private void jbtnOdustaniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOdustaniActionPerformed
         setVisible(false);
@@ -253,7 +245,7 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
 
     private void jbtnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnObrisiActionPerformed
         int selektovaniRed = jtblStavkaRezervacije.getSelectedRow();
-        
+
         if (selektovaniRed == -1) {
             JOptionPane.showMessageDialog(this, "Selektujte stavku rezervacije koju zelite da obrisete!", "Brisanje rezervacije", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -264,37 +256,26 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnObrisiActionPerformed
 
     private void jbtnSacuvajRezervacijuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSacuvajRezervacijuActionPerformed
-        
-        int brojRezervacije = Integer.parseInt(jtxtBrojRezervacije.getText().trim());
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        Date datumRezervacije = new Date();
-        try {
-            datumRezervacije = sdf.parse(jtxtDatumRezervacije.getText().trim());
-        } catch (ParseException ex) {
-            System.out.println("Unesite datum u formatu: 'dd.MM.yyyy'");
-        }
-        
-        Korisnik k = (Korisnik) jcbKorisnici.getSelectedItem();
-        
-        TblModelStavkaRezervacije tmsr = (TblModelStavkaRezervacije) jtblStavkaRezervacije.getModel();
-        Rezervacija r = tmsr.vratiRezervaciju();
-        
-        r.setRezervacijaID(brojRezervacije);
-        r.setDatumRezervacije(datumRezervacije);
-        r.setKorisnik(k);
 
         try {
-            boolean sacuvana = Kontroler.vratiInstancuKontrolera().sacuvajRezervaciju(r);
-            if (sacuvana) {
-                JOptionPane.showMessageDialog(this, "Rezervacija je uspesno sacuvana!", "Cuvanje rezervacije", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Rezervacija nije sacuvana!", "Cuvanje rezervacije", JOptionPane.ERROR_MESSAGE);
+            Object[] opcije = {"Da", "Ne"};
+            int izbor = JOptionPane.showOptionDialog(this, "Da li zelite sacuvati rezervaciju?", "Cuvanje rezervacije", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcije, "Da");
+            if (izbor == 0) {
+                Rezervacija rezervacija = kreirajRezervacijuSaForme();
+                boolean sacuvana = Kontroler.vratiInstancuKontrolera().sacuvajRezervaciju(rezervacija);
+                if (sacuvana == true) {
+                    JOptionPane.showMessageDialog(this, "Rezervacija je uspesno sacuvana!", "Cuvanje rezervacije", JOptionPane.INFORMATION_MESSAGE);
+                    vratiDefaultBorder();
+                    srediFormu();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Rezervacija nije sacuvana!", "Cuvanje rezervacije", JOptionPane.ERROR_MESSAGE);
+                    vratiDefaultBorder();
+                }
             }
         } catch (Exception ex) {
-            System.out.println("Rezervacija nije sacuvana!"+ex.getMessage());
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
-        
+
     }//GEN-LAST:event_jbtnSacuvajRezervacijuActionPerformed
 
     private void jbtnPogledajRezervacijeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPogledajRezervacijeActionPerformed
@@ -348,7 +329,6 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbtnDodaj;
-    private javax.swing.JButton jbtnIzaberiKorisnika;
     private javax.swing.JButton jbtnObrisi;
     private javax.swing.JButton jbtnOdustani;
     private javax.swing.JButton jbtnPogledajRezervacije;
@@ -371,9 +351,11 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
     }
 
     private void srediFormu() {
+        jtxtBrojRezervacije.setText("");
+        jtxtDatumRezervacije.setText("");
         popuniComboKorisnici();
         jtblStavkaRezervacije.setModel(new TblModelStavkaRezervacije(new Rezervacija()));
-        
+
         List<Prostorija> listaProstorija = new ArrayList<>();
         try {
             listaProstorija = Kontroler.vratiInstancuKontrolera().vratiListuProstorija();
@@ -383,12 +365,72 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
         JComboBox jcb = new JComboBox(listaProstorija.toArray());
         TableColumn tc = jtblStavkaRezervacije.getColumnModel().getColumn(3);
         tc.setCellEditor(new DefaultCellEditor(jcb));
-        
+
         DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
         dtcr.setHorizontalAlignment(SwingConstants.CENTER);
         for (int i = 0; i < 5; i++) {
             jtblStavkaRezervacije.getColumnModel().getColumn(i).setCellRenderer(dtcr);
         }
         jbtnDodaj.setEnabled(false);
+        border = jtxtBrojRezervacije.getBorder();
     }
+
+    private Rezervacija kreirajRezervacijuSaForme() throws Exception {
+
+        Rezervacija rezervacija = null;
+        try {
+            String rezervacijaID = jtxtBrojRezervacije.getText().trim();
+            String datumRezervacije = jtxtDatumRezervacije.getText().trim();
+            Korisnik korisnik = (Korisnik) jcbKorisnici.getSelectedItem();
+
+            rezervacija = kreirajObjekatRezervacija(rezervacijaID, datumRezervacije, korisnik);
+
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage());
+        }
+        return rezervacija;
+
+    }
+
+    private Rezervacija kreirajObjekatRezervacija(String rezervacijaID, String datumRezervacije, Korisnik korisnik) throws Exception {
+
+        TblModelStavkaRezervacije tmsr = (TblModelStavkaRezervacije) jtblStavkaRezervacije.getModel();
+        Rezervacija r = tmsr.vratiRezervaciju();
+
+        if (rezervacijaID == null || rezervacijaID.isEmpty()) {
+            jtxtBrojRezervacije.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+            throw new Exception("Unesite broj rezervacije!");
+        }
+        for (Character cifra : rezervacijaID.toCharArray()) {
+            if (!Character.isDigit(cifra)) {
+                jtxtBrojRezervacije.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+                throw new Exception("Broj rezervacije mora biti broj!");
+            }
+        }
+        r.setRezervacijaID(Integer.parseInt(rezervacijaID));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        try {
+            Date datumRez = sdf.parse(datumRezervacije);
+            r.setDatumRezervacije(datumRez);
+        } catch (ParseException parseException) {
+            jtxtDatumRezervacije.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+            throw new Exception("Unesite datum u formatu: 'dd.MM.yyyy'");
+        }
+
+        r.setKorisnik(korisnik);
+
+        if (r.getListaStavki().isEmpty()) {
+            throw new Exception("Unesite bar jednu stavku rezervacije!");
+        }
+        
+        return r;
+
+    }
+
+    private void vratiDefaultBorder() {
+        jtxtBrojRezervacije.setBorder(border);
+        jtxtDatumRezervacije.setBorder(border);
+    }
+
 }

@@ -65,12 +65,14 @@ public class DBBroker {
         connection.rollback();
     }
 
-    public void sacuvaj(OpstiDomenskiObjekat odo) throws SQLException {
+    public OpstiDomenskiObjekat sacuvaj(OpstiDomenskiObjekat odo) throws SQLException {
 
         String upit = "INSERT INTO " + odo.vratiNazivTabele() + " VALUES " + odo.vratiVrednostiZaInsert();
         System.out.println(upit);
         Statement st = connection.createStatement();
         st.executeUpdate(upit);
+        st.close();
+        return odo;
 
     }
 
@@ -83,7 +85,7 @@ public class DBBroker {
             ResultSet rs = st.executeQuery(upit);
             lista = odo.vratiListu(rs);
             st.close();
-            System.out.println("Vrati sve upit izvrsen! "+upit);
+            System.out.println("Vrati sve upit izvrsen! " + upit);
             return lista;
         } catch (SQLException ex) {
             System.out.println("Vrati sve upit nije izvrsen!");
@@ -109,33 +111,29 @@ public class DBBroker {
         st.close();
         System.out.println("Vrati objekat po kljucu upit izvrsen!");
         return lista.get(0);
-        
+
     }
 
     public OpstiDomenskiObjekat sacuvajIliAzurirajObjekat(OpstiDomenskiObjekat odo) throws SQLException {
 
         String upit = "";
         List<OpstiDomenskiObjekat> listaObjekata = vratiSveObjekte(odo);
-        System.out.println("Lista obj "+listaObjekata);
-        
+        System.out.println("Lista obj " + listaObjekata);
+
         if (!listaObjekata.contains(odo)) {
             upit = "INSERT INTO " + odo.vratiNazivTabele() + " VALUES " + odo.vratiVrednostiZaInsert();
-            System.out.println("Insert upit je izvrsen: "+upit);
+            System.out.println("Insert upit je izvrsen: " + upit);
+        } else if (odo.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_NOT_OK) {
+            upit = "DELETE FROM " + odo.vratiNazivTabele() + odo.vratiSlozenPK();
+            System.out.println("Delete upit: " + upit);
+        } else if (odo.vratiPK() != null) {
+            upit = "UPDATE " + odo.vratiNazivTabele() + " SET " + odo.vratiVrednostiZaUpdate() + " WHERE " + odo.vratiPK() + " = " + odo.vratiVrednostPK();
+            System.out.println("Update upit sa primarnim kljucem: " + upit);
         } else {
-            if (odo.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_NOT_OK) {
-                upit = "DELETE FROM " + odo.vratiNazivTabele() + odo.vratiSlozenPK();
-                System.out.println("Delete upit: "+upit);
-            } else {
-                if (odo.vratiPK() != null) {
-                    upit = "UPDATE " + odo.vratiNazivTabele() + " SET " + odo.vratiVrednostiZaUpdate() + " WHERE " + odo.vratiPK() + " = " + odo.vratiVrednostPK();
-                    System.out.println("Update upit sa primarnim kljucem: "+upit);
-                } else {
-                    upit = "UPDATE " + odo.vratiNazivTabele() + " SET " + odo.vratiVrednostiZaUpdate() + odo.vratiSlozenPK();
-                    System.out.println("Update upit sa slozenim primarnim kljucem: "+upit);    
-                }
-            }
+            upit = "UPDATE " + odo.vratiNazivTabele() + " SET " + odo.vratiVrednostiZaUpdate() + odo.vratiSlozenPK();
+            System.out.println("Update upit sa slozenim primarnim kljucem: " + upit);
         }
-        
+
         Statement s = connection.createStatement();
         s.executeUpdate(upit);
         s.close();
@@ -143,10 +141,6 @@ public class DBBroker {
     }
 
     public void obrisi(OpstiDomenskiObjekat odo) throws SQLException {
-
-    }
-
-    public void vrati(OpstiDomenskiObjekat odo) throws SQLException {
 
     }
 

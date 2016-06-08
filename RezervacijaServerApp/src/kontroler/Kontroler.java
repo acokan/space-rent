@@ -24,6 +24,7 @@ import so.SOUcitajAdministratore;
 import so.SOUlogujAdministratora;
 import so.SOZapamtiKorisnika;
 import so.SOVratiSvaMesta;
+import so.SOZapamtiRezervaciju;
 import transferobjekti.KlijentTransferObjekat;
 import transferobjekti.ServerTransferObjekat;
 
@@ -99,6 +100,11 @@ public class Kontroler {
     public void azurirajKorisnika(OpstiDomenskiObjekat korisnik) throws Exception {
         SOAzurirajKorisnika soak = new SOAzurirajKorisnika(korisnik);
         soak.izvrsiOpstuSO();
+    }
+
+    public void sacuvajRezervaciju(OpstiDomenskiObjekat rezervacija) throws Exception {
+        SOZapamtiRezervaciju soza = new SOZapamtiRezervaciju(rezervacija);
+        soza.izvrsiOpstuSO();
     }
 
 }
