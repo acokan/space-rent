@@ -147,14 +147,11 @@ public class Rezervacija extends OpstiDomenskiObjekat implements Serializable {
                 int rezID = rs.getInt("RezervacijaID");
                 Date datum = new Date(rs.getDate("DatumRezervacije").getTime());
                 int korisnikID = rs.getInt("KorisnikID");
-                
-                Korisnik k = new Korisnik();
-                k.setKorisnikID(korisnikID);
-                
+                           
                 Rezervacija r = new Rezervacija();
                 r.setRezervacijaID(rezID);
                 r.setDatumRezervacije(datum);
-                r.setKorisnik(k);
+                r.setKorisnik(new Korisnik(korisnikID, null, null, null, null, null, null, null, null));
                 
                 listaRezervacija.add(r);
                 

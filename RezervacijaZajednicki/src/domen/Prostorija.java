@@ -6,6 +6,14 @@
 package domen;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -92,32 +100,58 @@ public class Prostorija extends OpstiDomenskiObjekat implements Serializable {
 
     @Override
     public String vratiNazivTabele() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "prostorija";
     }
 
     @Override
     public String vratiVrednostiZaInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "("+ "'"+prostorijaID+"', '"+nazivProstorije+"', '"+kapacitet+"', '"+cena+"'" +")"; 
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "ProstorijaID = "+prostorijaID+", NazivProstorije= '"+nazivProstorije+"', Kapacitet = "+kapacitet+", Cena = "+cena+"";
     }
 
     @Override
     public String vratiPK() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "ProstorijaID";
     }
 
     @Override
     public int vratiVrednostPK() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return prostorijaID;
     }
 
     @Override
     public String vratiSlozenPK() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "Nema slozen kljuc";
+    }
+
+    @Override
+    public List<OpstiDomenskiObjekat> vratiListu(ResultSet rs) {
+        
+        List<OpstiDomenskiObjekat> listaProstorija = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+
+                int proID = rs.getInt("ProstorijaID");
+                String naziv = rs.getString("NazivProstorije");
+                int kap = rs.getInt("Kapacitet");
+                double c =  rs.getDouble("Cena");
+                
+                Prostorija p = new Prostorija(proID, naziv, kap, c);
+                
+                listaProstorija.add(p);
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Mesto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return listaProstorija;
+        
     }
     
     

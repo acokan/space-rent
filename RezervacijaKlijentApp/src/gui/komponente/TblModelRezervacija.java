@@ -33,7 +33,7 @@ public class TblModelRezervacija extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 7;
+        return 5;
     }
 
     @Override
@@ -41,14 +41,15 @@ public class TblModelRezervacija extends AbstractTableModel {
         
         Rezervacija r = listaRezervacija.get(rowIndex);
         
+        String[] listaDatum = r.getDatumRezervacije().toString().split(" ");
+        String datum = listaDatum[2] + " " + listaDatum[1] + " " + listaDatum[5];
+        
         switch(columnIndex) {
             case 0: return r.getRezervacijaID();
-            case 1: return r.getKorisnik().getIme() +" "+ r.getKorisnik().getPrezime();
-            case 2: return r.getListaStavki().get(rowIndex).getProstorija().getNazivProstorije();
-            case 3: return r.getDatumRezervacije();
-            case 4: return r.getListaStavki().get(rowIndex).getVremeOd();
-            case 5: return r.getListaStavki().get(rowIndex).getVremeDo();
-            case 6: return r.getListaStavki().get(rowIndex).getIznos();
+            case 1: return datum;
+            case 2: return r.getKorisnik().getIme() +" "+ r.getKorisnik().getPrezime();
+            case 3: return r.getKorisnik().getKontakt();
+            case 4: return r.getKorisnik().getMail();
             default: return "n/a";
         }
         
@@ -59,12 +60,10 @@ public class TblModelRezervacija extends AbstractTableModel {
         
         switch(column) {
             case 0: return "Broj rezervacije";
-            case 1: return "Korisnik";
-            case 2: return "Prostorija";
-            case 3: return "Datum rezervacije";
-            case 4: return "Vreme od";
-            case 5: return "Vreme do";
-            case 6: return "Iznos";
+            case 1: return "Datum rezervacije";
+            case 2: return "Ime i prezime";
+            case 3: return "Kontakt";
+            case 4: return "Mail";
             default: return "n/a";
         }
         

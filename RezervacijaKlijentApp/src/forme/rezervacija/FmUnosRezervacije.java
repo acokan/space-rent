@@ -279,7 +279,8 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnSacuvajRezervacijuActionPerformed
 
     private void jbtnPogledajRezervacijeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPogledajRezervacijeActionPerformed
-        // TODO add your handling code here:
+        FmPretragaRezervacija fpr = new FmPretragaRezervacija(this, true);
+        fpr.setVisible(true);
     }//GEN-LAST:event_jbtnPogledajRezervacijeActionPerformed
 
     private void jtxtDatumRezervacijeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtDatumRezervacijeKeyPressed

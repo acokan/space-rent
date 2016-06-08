@@ -24,21 +24,19 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-          </Group>
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" pref="788" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="710" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="jbtn_detalji" min="-2" pref="100" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jbtnResetujRezultate" min="-2" pref="150" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnOdustani" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -55,6 +53,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jbtn_detalji" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jbtnResetujRezultate" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnOdustani" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -80,28 +79,16 @@
         <Component class="javax.swing.JTable" name="jtblRezervacije">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="7" rowCount="4">
+              <Table columnCount="5" rowCount="4">
                 <Column editable="true" title="Broj rezervacije" type="java.lang.Object"/>
-                <Column editable="true" title="Korisnik" type="java.lang.Object"/>
-                <Column editable="true" title="Prostorija" type="java.lang.Object"/>
                 <Column editable="true" title="Datum rezervacije" type="java.lang.Object"/>
-                <Column editable="true" title="Vreme od" type="java.lang.Object"/>
-                <Column editable="true" title="Vreme do" type="java.lang.Object"/>
-                <Column editable="true" title="Iznos" type="java.lang.Object"/>
+                <Column editable="true" title="Ime i prezime" type="java.lang.Object"/>
+                <Column editable="true" title="Kontakt" type="java.lang.Object"/>
+                <Column editable="true" title="Mail" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
@@ -162,35 +149,28 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jradioBrojRezervacije" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                          <Component id="jtxtPretraga" min="-2" pref="281" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jtxtPretraga" max="32767" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="jbtnTrazi" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jradioKorisnik" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jradioProstorija" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="jradioBrojRezervacije" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jradioDatumRezervacije" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="jbtnTrazi" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                          <Component id="jradioVremeOd" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jradioVremeDo" min="-2" max="-2" attributes="0"/>
+                          <Component id="jradioImePrezime" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="jradioTelefon" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="jradioMail" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -200,16 +180,15 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jradioBrojRezervacije" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jradioKorisnik" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jradioProstorija" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jradioTelefon" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jradioImePrezime" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jradioMail" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jradioDatumRezervacije" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jradioVremeOd" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jradioVremeDo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jbtnTrazi" max="32767" attributes="0"/>
-                      <Component id="jtxtPretraga" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jtxtPretraga" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                      <Component id="jbtnTrazi" alignment="3" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -225,44 +204,28 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jradioBrojRezervacijeActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="jradioKorisnik">
+        <Component class="javax.swing.JRadioButton" name="jradioTelefon">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Korisnik"/>
+            <Property name="text" type="java.lang.String" value="Kontakt telefon"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jradioKorisnikActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jradioTelefonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="jradioProstorija">
+        <Component class="javax.swing.JRadioButton" name="jradioImePrezime">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Prostorija"/>
+            <Property name="text" type="java.lang.String" value="Ime i prezime"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jradioProstorijaActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jradioImePrezimeActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="jradioDatumRezervacije">
+        <Component class="javax.swing.JRadioButton" name="jradioMail">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Datum rezervacije"/>
+            <Property name="text" type="java.lang.String" value="Mail"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jradioDatumRezervacijeActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JRadioButton" name="jradioVremeOd">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Vreme od"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jradioVremeOdActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JRadioButton" name="jradioVremeDo">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Vreme do"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jradioVremeDoActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jradioMailActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbtnTrazi">
@@ -275,7 +238,23 @@
         </Component>
         <Component class="javax.swing.JTextField" name="jtxtPretraga">
         </Component>
+        <Component class="javax.swing.JRadioButton" name="jradioDatumRezervacije">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Datum rezervacije"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jradioDatumRezervacijeActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="btnOdustani">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Odustani"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOdustaniActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

@@ -23,6 +23,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
@@ -38,22 +40,20 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
     /**
      * Creates new form FmPretragaKorisnika
      */
-    
     public static List<Korisnik> listaKorisnikaFilter = new ArrayList<>();
-    
+
     public FmPretragaRezervacija(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         ButtonGroup bg = new ButtonGroup();
         bg.add(jradioBrojRezervacije);
-        bg.add(jradioKorisnik);
-        bg.add(jradioProstorija);
         bg.add(jradioDatumRezervacije);
-        bg.add(jradioVremeOd);
-        bg.add(jradioVremeDo);
+        bg.add(jradioTelefon);
+        bg.add(jradioImePrezime);
+        bg.add(jradioMail);
         jradioBrojRezervacije.setSelected(true);
-        
+
         srediTabelu();
 
     }
@@ -73,13 +73,13 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
         jbtnResetujRezultate = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jradioBrojRezervacije = new javax.swing.JRadioButton();
-        jradioKorisnik = new javax.swing.JRadioButton();
-        jradioProstorija = new javax.swing.JRadioButton();
-        jradioDatumRezervacije = new javax.swing.JRadioButton();
-        jradioVremeOd = new javax.swing.JRadioButton();
-        jradioVremeDo = new javax.swing.JRadioButton();
+        jradioTelefon = new javax.swing.JRadioButton();
+        jradioImePrezime = new javax.swing.JRadioButton();
+        jradioMail = new javax.swing.JRadioButton();
         jbtnTrazi = new javax.swing.JButton();
         jtxtPretraga = new javax.swing.JTextField();
+        jradioDatumRezervacije = new javax.swing.JRadioButton();
+        btnOdustani = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -99,13 +99,13 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
 
         jtblRezervacije.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Broj rezervacije", "Korisnik", "Prostorija", "Datum rezervacije", "Vreme od", "Vreme do", "Iznos"
+                "Broj rezervacije", "Datum rezervacije", "Ime i prezime", "Kontakt", "Mail"
             }
         ));
         jtblRezervacije.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -139,38 +139,24 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
             }
         });
 
-        jradioKorisnik.setText("Korisnik");
-        jradioKorisnik.addActionListener(new java.awt.event.ActionListener() {
+        jradioTelefon.setText("Kontakt telefon");
+        jradioTelefon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jradioKorisnikActionPerformed(evt);
+                jradioTelefonActionPerformed(evt);
             }
         });
 
-        jradioProstorija.setText("Prostorija");
-        jradioProstorija.addActionListener(new java.awt.event.ActionListener() {
+        jradioImePrezime.setText("Ime i prezime");
+        jradioImePrezime.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jradioProstorijaActionPerformed(evt);
+                jradioImePrezimeActionPerformed(evt);
             }
         });
 
-        jradioDatumRezervacije.setText("Datum rezervacije");
-        jradioDatumRezervacije.addActionListener(new java.awt.event.ActionListener() {
+        jradioMail.setText("Mail");
+        jradioMail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jradioDatumRezervacijeActionPerformed(evt);
-            }
-        });
-
-        jradioVremeOd.setText("Vreme od");
-        jradioVremeOd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jradioVremeOdActionPerformed(evt);
-            }
-        });
-
-        jradioVremeDo.setText("Vreme do");
-        jradioVremeDo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jradioVremeDoActionPerformed(evt);
+                jradioMailActionPerformed(evt);
             }
         });
 
@@ -181,34 +167,37 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
             }
         });
 
+        jradioDatumRezervacije.setText("Datum rezervacije");
+        jradioDatumRezervacije.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jradioDatumRezervacijeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jradioBrojRezervacije)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jtxtPretraga, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jradioKorisnik)
-                        .addGap(18, 18, 18)
-                        .addComponent(jradioProstorija)
-                        .addGap(18, 18, 18)
-                        .addComponent(jradioDatumRezervacije)))
+                .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jbtnTrazi))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jradioVremeOd)
+                        .addComponent(jtxtPretraga)
                         .addGap(18, 18, 18)
-                        .addComponent(jradioVremeDo)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jbtnTrazi)
+                        .addGap(71, 71, 71))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jradioBrojRezervacije)
+                        .addGap(18, 18, 18)
+                        .addComponent(jradioDatumRezervacije)
+                        .addGap(18, 18, 18)
+                        .addComponent(jradioImePrezime)
+                        .addGap(18, 18, 18)
+                        .addComponent(jradioTelefon)
+                        .addGap(18, 18, 18)
+                        .addComponent(jradioMail)
+                        .addGap(106, 106, 106))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,35 +205,40 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jradioBrojRezervacije)
-                    .addComponent(jradioKorisnik)
-                    .addComponent(jradioProstorija)
-                    .addComponent(jradioDatumRezervacije)
-                    .addComponent(jradioVremeOd)
-                    .addComponent(jradioVremeDo))
+                    .addComponent(jradioTelefon)
+                    .addComponent(jradioImePrezime)
+                    .addComponent(jradioMail)
+                    .addComponent(jradioDatumRezervacije))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jbtnTrazi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jtxtPretraga))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtxtPretraga, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnTrazi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        btnOdustani.setText("Odustani");
+        btnOdustani.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOdustaniActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jbtn_detalji, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
-                        .addComponent(jbtnResetujRezultate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbtnResetujRezultate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnOdustani))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -257,7 +251,8 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtn_detalji)
-                    .addComponent(jbtnResetujRezultate))
+                    .addComponent(jbtnResetujRezultate)
+                    .addComponent(btnOdustani))
                 .addContainerGap())
         );
 
@@ -278,10 +273,11 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
     }//GEN-LAST:event_jtblRezervacijeFocusGained
 
     private void jtblRezervacijeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtblRezervacijeFocusLost
- 
+
     }//GEN-LAST:event_jtblRezervacijeFocusLost
 
     private void jbtnResetujRezultateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnResetujRezultateActionPerformed
+        srediTabelu();
 //        popuniTabeluKorisnici();
 //        popuniComboKorisnici();
 //        dodajComboMestaUTabelu();
@@ -299,35 +295,98 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
     private void jradioBrojRezervacijeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradioBrojRezervacijeActionPerformed
     }//GEN-LAST:event_jradioBrojRezervacijeActionPerformed
 
-    private void jradioKorisnikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradioKorisnikActionPerformed
-    }//GEN-LAST:event_jradioKorisnikActionPerformed
+    private void jradioTelefonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradioTelefonActionPerformed
+    }//GEN-LAST:event_jradioTelefonActionPerformed
 
-    private void jradioProstorijaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradioProstorijaActionPerformed
-    }//GEN-LAST:event_jradioProstorijaActionPerformed
+    private void jradioImePrezimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradioImePrezimeActionPerformed
+    }//GEN-LAST:event_jradioImePrezimeActionPerformed
 
     private void jradioDatumRezervacijeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradioDatumRezervacijeActionPerformed
     }//GEN-LAST:event_jradioDatumRezervacijeActionPerformed
 
-    private void jradioVremeOdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradioVremeOdActionPerformed
-    }//GEN-LAST:event_jradioVremeOdActionPerformed
-
-    private void jradioVremeDoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradioVremeDoActionPerformed
-    }//GEN-LAST:event_jradioVremeDoActionPerformed
+    private void jradioMailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradioMailActionPerformed
+    }//GEN-LAST:event_jradioMailActionPerformed
 
     private void jbtnTraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnTraziActionPerformed
-        if (jradioBrojRezervacije.isSelected()) {
-            JOptionPane.showMessageDialog(this, "Broj rezervacije je pretrazen!");
+
+        try {
+            
+            List<Rezervacija> listaRezervacija = Kontroler.vratiInstancuKontrolera().vratiListuRezervacija();
+            List<Rezervacija> listaRezultata = new ArrayList<>();
+            
+            if (jradioBrojRezervacije.isSelected()) {
+                int trazenaRijec = Integer.parseInt(jtxtPretraga.getText().trim());
+                for (Rezervacija rezervacija : listaRezervacija) {
+                    if (rezervacija.getRezervacijaID() == trazenaRijec) {
+                       listaRezultata.add(rezervacija);
+                    }
+                }
+                jtblRezervacije.setModel(new TblModelRezervacija(listaRezultata));
+                centrirajSadrzajTabele();
+                return;
+            }
+            if (jradioTelefon.isSelected()) {
+                String trazenaRijec = jtxtPretraga.getText().trim();
+                for (Rezervacija rezervacija : listaRezervacija) {
+                    if (rezervacija.getKorisnik().getKontakt().startsWith(trazenaRijec)) {
+                       listaRezultata.add(rezervacija);
+                    }
+                }
+                jtblRezervacije.setModel(new TblModelRezervacija(listaRezultata));
+                centrirajSadrzajTabele();
+                return;
+            }
+            if (jradioImePrezime.isSelected()) {
+                String trazenaRijec = jtxtPretraga.getText().trim();
+                for (Rezervacija rezervacija : listaRezervacija) {
+                    String imePrezime = rezervacija.getKorisnik().getIme() + " " + rezervacija.getKorisnik().getPrezime();
+                    if (imePrezime.startsWith(trazenaRijec)) {
+                       listaRezultata.add(rezervacija);
+                    }
+                }
+                jtblRezervacije.setModel(new TblModelRezervacija(listaRezultata));
+                centrirajSadrzajTabele();
+                return;
+            }
+            if (jradioMail.isSelected()) {
+                String trazenaRijec = jtxtPretraga.getText().trim();
+                for (Rezervacija rezervacija : listaRezervacija) {
+                    if (rezervacija.getKorisnik().getMail().startsWith(trazenaRijec)) {
+                       listaRezultata.add(rezervacija);
+                    }
+                }
+                jtblRezervacije.setModel(new TblModelRezervacija(listaRezultata));
+                centrirajSadrzajTabele();
+                return;
+            }
+            if (jradioDatumRezervacije.isSelected()) {
+                String trazenaRijec = jtxtPretraga.getText().trim();
+                for (Rezervacija rezervacija : listaRezervacija) {
+                    String[] listaDatum = rezervacija.getDatumRezervacije().toString().split(" ");
+                    String datum = listaDatum[2] + " " + listaDatum[1] + " " + listaDatum[5];
+                    if (datum.startsWith(trazenaRijec)) {
+                       listaRezultata.add(rezervacija);
+                    }
+                }
+                jtblRezervacije.setModel(new TblModelRezervacija(listaRezultata));
+                centrirajSadrzajTabele();
+                return;
+            }
+            
+        } catch (Exception ex) {
+            Logger.getLogger(FmPretragaRezervacija.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (jradioKorisnik.isSelected()) {
-            JOptionPane.showMessageDialog(this, "Korisnici su pretrazeni!");
-        }
-        if (jradioProstorija.isSelected()) {
-            JOptionPane.showMessageDialog(this, "Prostorije su pretrazeni!");
-        }
+
+
     }//GEN-LAST:event_jbtnTraziActionPerformed
+
+    private void btnOdustaniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOdustaniActionPerformed
+        setVisible(false);
+    }//GEN-LAST:event_btnOdustaniActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnOdustani;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbtnResetujRezultate;
@@ -335,10 +394,9 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
     private javax.swing.JButton jbtn_detalji;
     private javax.swing.JRadioButton jradioBrojRezervacije;
     private javax.swing.JRadioButton jradioDatumRezervacije;
-    private javax.swing.JRadioButton jradioKorisnik;
-    private javax.swing.JRadioButton jradioProstorija;
-    private javax.swing.JRadioButton jradioVremeDo;
-    private javax.swing.JRadioButton jradioVremeOd;
+    private javax.swing.JRadioButton jradioImePrezime;
+    private javax.swing.JRadioButton jradioMail;
+    private javax.swing.JRadioButton jradioTelefon;
     private javax.swing.JTable jtblRezervacije;
     private javax.swing.JTextField jtxtPretraga;
     // End of variables declaration//GEN-END:variables
@@ -383,7 +441,7 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
     }
 
     private void srediTabelu() {
-        
+
         List<Rezervacija> lr = new ArrayList<>();
         try {
             lr = Kontroler.vratiInstancuKontrolera().vratiListuRezervacija();
@@ -391,7 +449,16 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
             System.out.println("Korisnici nisu pronadjeni!");
         }
         jtblRezervacije.setModel(new TblModelRezervacija(lr));
-        
+
+        centrirajSadrzajTabele();
+    }
+
+    private void centrirajSadrzajTabele() {
+        DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+        dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < 5; i++) {
+            jtblRezervacije.getColumnModel().getColumn(i).setCellRenderer(dtcr);
+        }
     }
 
 }

@@ -100,6 +100,7 @@ public class DBBroker {
 
         if (odo.vratiPK() != null) {
             upit = "SELECT * FROM " + odo.vratiNazivTabele() + " WHERE " + odo.vratiPK() + " = " + id;
+            System.out.println(upit);
         } else {
             upit = "SELECT * FROM " + odo.vratiNazivTabele() + odo.vratiSlozenPK();
         }

@@ -219,7 +219,7 @@ public class NitKlijent extends Thread {
                     case util.Util.OPERACIJA_VRATI_SVE_REZERVACIJE: {
 
                         try {
-                            List<Rezervacija> listaRezervacija = dbKonekcija.vratiListuRezervacija();
+                            List<OpstiDomenskiObjekat> listaRezervacija = Kontroler.vratiInstancuKontrolera().vratiSveRezervacije();
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
                             sto.setRezultat(listaRezervacija);
                         } catch (Exception ex) {

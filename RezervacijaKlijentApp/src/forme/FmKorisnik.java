@@ -7,7 +7,9 @@ package forme;
 
 import domen.Korisnik;
 import domen.Mesto;
+import domen.Rezervacija;
 import gui.komponente.TblModelKorisnik;
+import gui.komponente.TblModelRezervacija;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.security.interfaces.ECKey;
@@ -17,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import javafx.stage.Stage;
 import javax.swing.BorderFactory;
@@ -24,7 +28,9 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import korisnici.kontroler.Kontroler;
 import util.Util;
@@ -354,7 +360,7 @@ public class FmKorisnik extends javax.swing.JDialog {
     }//GEN-LAST:event_jbtn_dodajMestoActionPerformed
 
     private void jbtn_sacuvajKorisnikaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_sacuvajKorisnikaActionPerformed
-        
+
         int rezim = Kontroler.vratiInstancuKontrolera().getAktivanSK();
         if (rezim == Util.SK_UNOS_KORISNIKA) {
             try {
@@ -534,6 +540,7 @@ public class FmKorisnik extends javax.swing.JDialog {
         if (rezim == Util.SK_IZMENA_KORISNIKA) {
             srediFormuURezimuIzmena();
             Korisnik k = (Korisnik) Kontroler.vratiInstancuKontrolera().getSesija().get("izabrani_korisnik");
+            prikaziRezervacijeKorisnika(k);
             popuniComboMestoZaTrenutnogKorisnika(k);
             prikaziKorisnika(k);
         }
@@ -543,10 +550,32 @@ public class FmKorisnik extends javax.swing.JDialog {
         jbtn_dodajKorisnika.setVisible(false);
         jbtn_sacuvajSve.setVisible(false);
         jbtnObrisi.setVisible(false);
-        jScrollPane1.setVisible(false);
-        jtblKorisnici.setVisible(false);
-        setPreferredSize(new Dimension(783, 400));
-        pack();
+        jScrollPane1.setVisible(true);
+        jtblKorisnici.setVisible(true);
+
+//        setPreferredSize(new Dimension(783, 400));
+//        pack();
+    }
+    
+    private void prikaziRezervacijeKorisnika(Korisnik k) {
+        try {
+            List<Rezervacija> listaRezervacije = Kontroler.vratiInstancuKontrolera().vratiListuRezervacija();
+            List<Rezervacija> lista = new ArrayList<>();
+            for (Rezervacija rezervacija : listaRezervacije) {
+                if (rezervacija.getKorisnik().equals(k)) {
+                    lista.add(rezervacija);
+                }
+            }
+            jtblKorisnici.setModel(new TblModelRezervacija(lista));
+
+            DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+            dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+            for (int i = 0; i < 4; i++) {
+                jtblKorisnici.getColumnModel().getColumn(i).setCellRenderer(dtcr);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(FmKorisnik.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void postaviModelTabele() {
@@ -587,7 +616,7 @@ public class FmKorisnik extends javax.swing.JDialog {
     private Korisnik kreirajObjekatKorisnik(String ime, String prezime, String datumR, String kontakt, String mail, String ulica, String broj, Mesto mesto) throws Exception {
 
         Korisnik k = new Korisnik();
-        
+
         if (ime == null || ime.isEmpty()) {
             jtxt_ime.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
             throw new Exception("Unesite ime korisnika!");
@@ -633,7 +662,7 @@ public class FmKorisnik extends javax.swing.JDialog {
         k.setBroj(broj);
 
         k.setMesto(mesto);
-        
+
         int rezim = Kontroler.vratiInstancuKontrolera().getAktivanSK();
         if (rezim == Util.SK_IZMENA_KORISNIKA) {
             List<Korisnik> listaKorisnika = Kontroler.vratiInstancuKontrolera().vratiListuKorisnika();
@@ -672,5 +701,7 @@ public class FmKorisnik extends javax.swing.JDialog {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.find();
     }
+
+    
 
 }
