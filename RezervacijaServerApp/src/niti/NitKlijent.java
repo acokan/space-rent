@@ -245,6 +245,23 @@ public class NitKlijent extends Thread {
                         out.writeObject(sto);
                     }
                     break;
+                    
+                    case util.Util.OPERACIJA_AZURIRAJ_REZERVACIJU: {
+
+                        try {
+                            OpstiDomenskiObjekat rezervacija = (OpstiDomenskiObjekat) kto.getParametar();
+                            Kontroler.vratiInstancuKontrolera().azurirajRezervaciju(rezervacija);
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
+                            sto.setSacuvan(true);
+                        } catch (Exception ex) {
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
+                            sto.setGreska(ex.getMessage());
+                            sto.setSacuvan(false);
+                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        out.writeObject(sto);
+                    }
+                    break;
 
                     case util.Util.OPERACIJA_ULOGUJ_ADMINISTRATORA: {
 

@@ -299,6 +299,8 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
             FmUnosRezervacije fur = new FmUnosRezervacije(null, true);
             fur.setVisible(true);
 
+            srediTabelu();
+            
             Kontroler.vratiInstancuKontrolera().getSesija().remove("izabrana_rezervacija", r);
         }
     }//GEN-LAST:event_jbtn_detaljiActionPerformed

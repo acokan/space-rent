@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import so.SOAzurirajKorisnika;
 import so.OpstaSO;
+import so.SOAzurirajRezervaciju;
 import so.SOIzlogujAdministratora;
 import so.SOUcitajAdministratore;
 import so.SOUlogujAdministratora;
@@ -112,6 +113,11 @@ public class Kontroler {
       SOUcitajRezervacije soua = new SOUcitajRezervacije();
       soua.izvrsiOpstuSO();
       return soua.vratiSveRezervacije();
+    }
+
+    public void azurirajRezervaciju(OpstiDomenskiObjekat rezervacija) throws Exception {
+        SOAzurirajRezervaciju soar = new SOAzurirajRezervaciju(rezervacija);
+        soar.izvrsiOpstuSO();
     }
 
 }

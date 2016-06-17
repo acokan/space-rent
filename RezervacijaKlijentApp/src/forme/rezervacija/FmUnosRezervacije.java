@@ -43,7 +43,7 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
      * Creates new form FmUnosRezervacije
      */
     Border border;
-    
+
     public FmUnosRezervacije(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -225,10 +225,11 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbtnObrisi)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbtnSacuvajRezervaciju)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jbtnOdustani)
-                    .addComponent(jbtnPogledajRezervacije))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbtnSacuvajRezervaciju)
+                        .addComponent(jbtnPogledajRezervacije)))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -259,24 +260,46 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
 
     private void jbtnSacuvajRezervacijuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSacuvajRezervacijuActionPerformed
 
-        try {
-            Object[] opcije = {"Da", "Ne"};
-            int izbor = JOptionPane.showOptionDialog(this, "Da li zelite sacuvati rezervaciju?", "Cuvanje rezervacije", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcije, "Da");
-            if (izbor == 0) {
-                Rezervacija rezervacija = kreirajRezervacijuSaForme();
-                boolean sacuvana = Kontroler.vratiInstancuKontrolera().sacuvajRezervaciju(rezervacija);
-                if (sacuvana == true) {
-                    JOptionPane.showMessageDialog(this, "Rezervacija je uspesno sacuvana!", "Cuvanje rezervacije", JOptionPane.INFORMATION_MESSAGE);
-                    vratiDefaultBorder();
-                    srediFormu();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Rezervacija nije sacuvana!", "Cuvanje rezervacije", JOptionPane.ERROR_MESSAGE);
-                    vratiDefaultBorder();
+        int rezim = Kontroler.vratiInstancuKontrolera().getAktivanSK();
+        if (rezim == Util.SK_UNOS_REZERVACIJE) {
+            try {
+                Object[] opcije = {"Da", "Ne"};
+                int izbor = JOptionPane.showOptionDialog(this, "Da li zelite sacuvati rezervaciju?", "Cuvanje rezervacije", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcije, "Da");
+                if (izbor == 0) {
+                    Rezervacija rezervacija = kreirajRezervacijuSaForme();
+                    boolean sacuvana = Kontroler.vratiInstancuKontrolera().sacuvajRezervaciju(rezervacija);
+                    if (sacuvana == true) {
+                        JOptionPane.showMessageDialog(this, "Rezervacija je uspesno sacuvana!", "Cuvanje rezervacije", JOptionPane.INFORMATION_MESSAGE);
+                        vratiDefaultBorder();
+                        srediFormu();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Rezervacija nije sacuvana!", "Cuvanje rezervacije", JOptionPane.ERROR_MESSAGE);
+                        vratiDefaultBorder();
+                    }
                 }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
             }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
+        if (rezim == Util.SK_IZMENA_REZERVACIJE) {
+            try {
+                Object[] opcije = {"Da", "Ne"};
+                int izbor = JOptionPane.showOptionDialog(this, "Da li zelite izmeniti rezervaciju?", "Izmena rezervacije", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcije, "Da");
+                if (izbor == 0) {
+                    Rezervacija r = kreirajRezervacijuSaForme();
+
+                    boolean azuriran = Kontroler.vratiInstancuKontrolera().updateRezervacije(r);
+                    if (azuriran) {
+                        JOptionPane.showMessageDialog(this, "Rezervacija je azurirana!");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Rezervacija nije azurirana!");
+                    }
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+        }
+
 
     }//GEN-LAST:event_jbtnSacuvajRezervacijuActionPerformed
 
@@ -320,11 +343,11 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
     }
 
     private void srediFormu() {
-        
+
         int rezim = Kontroler.vratiInstancuKontrolera().getAktivanSK();
-        
+
         if (rezim == Util.SK_UNOS_REZERVACIJE) {
-            
+
             jtxtBrojRezervacije.setText("");
             jtxtDatumRezervacije.setText("");
             popuniComboKorisnici();
@@ -341,26 +364,26 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
             tc.setCellEditor(new DefaultCellEditor(jcb));
 
             centrirajKolone();
-            
+
             jbtnDodaj.setEnabled(false);
             border = jtxtBrojRezervacije.getBorder();
-            
+
         } else if (rezim == Util.SK_IZMENA_REZERVACIJE) {
-            
+
             jbtnSacuvajRezervaciju.setText("Izmeni rezervaciju");
             jbtnPogledajRezervacije.setVisible(false);
             jbtnDodaj.setVisible(false);
             jbtnObrisi.setVisible(false);
             jtxtBrojRezervacije.setEnabled(false);
-            
+
             System.out.println("Ovdje je okej");
             Rezervacija r = (Rezervacija) Kontroler.vratiInstancuKontrolera().getSesija().get("izabrana_rezervacija");
-            
-            jtxtBrojRezervacije.setText(r.getRezervacijaID()+"");
-            
+
+            jtxtBrojRezervacije.setText(r.getRezervacijaID() + "");
+
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
             jtxtDatumRezervacije.setText(sdf.format(r.getDatumRezervacije()));
-            
+
             try {
                 for (Korisnik korisnik : Kontroler.vratiInstancuKontrolera().vratiListuKorisnika()) {
                     jcbKorisnici.addItem(korisnik);
@@ -371,19 +394,19 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
                 Logger.getLogger(FmUnosRezervacije.class.getName()).log(Level.SEVERE, null, ex);
             }
             jcbKorisnici.setSelectedItem(r.getKorisnik());
-            
+
             TblModelStavkaRezervacije tmsr = new TblModelStavkaRezervacije(r);
             jtblStavkaRezervacije.setModel(tmsr);
-            
+
             try {
                 JComboBox jcb = new JComboBox(Kontroler.vratiInstancuKontrolera().vratiListuProstorija().toArray());
                 jtblStavkaRezervacije.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(jcb));
             } catch (Exception ex) {
                 Logger.getLogger(FmUnosRezervacije.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             centrirajKolone();
-            
+
         }
     }
 
@@ -435,7 +458,7 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
         if (r.getListaStavki().isEmpty()) {
             throw new Exception("Unesite bar jednu stavku rezervacije!");
         }
-        
+
         return r;
 
     }
@@ -447,10 +470,10 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
 
     private void centrirajKolone() {
         DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
-            dtcr.setHorizontalAlignment(SwingConstants.CENTER);
-            for (int i = 0; i < 5; i++) {
-                jtblStavkaRezervacije.getColumnModel().getColumn(i).setCellRenderer(dtcr);
-            }
+        dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < 5; i++) {
+            jtblStavkaRezervacije.getColumnModel().getColumn(i).setCellRenderer(dtcr);
+        }
     }
 
 }

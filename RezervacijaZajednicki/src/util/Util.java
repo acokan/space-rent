@@ -37,6 +37,7 @@ public class Util {
     public static final int OPERACIJA_VRATI_SVE_PROSTORIJE = 300;
     public static final int OPERACIJA_VRATI_SVE_REZERVACIJE = 400;
     public static final int OPERACIJA_SACUVAJ_REZERVACIJU = 401;
+    public static final int OPERACIJA_AZURIRAJ_REZERVACIJU = 402;
     public static final int OPERACIJA_ULOGUJ_ADMINISTRATORA = 600;
     public static final int OPERACIJA_IZLOGUJ_ADMINISTRATORA = 601;
     public static final int OPERACIJA_VRATI_SVE_ADMINISTRATORE = 602;

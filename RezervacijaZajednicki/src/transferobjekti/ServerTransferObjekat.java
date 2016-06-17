@@ -16,15 +16,18 @@ public class ServerTransferObjekat implements Serializable {
     private int status;
     private Object rezultat;
     private String greska;
+    private boolean sacuvan;
 
-    public ServerTransferObjekat() {
-    }
-
-    public ServerTransferObjekat(int status, Object rezultat, String greska) {
+    public ServerTransferObjekat(int status, Object rezultat, String greska, boolean sacuvan) {
         this.status = status;
         this.rezultat = rezultat;
         this.greska = greska;
+        this.sacuvan = sacuvan;
     }
+    
+    public ServerTransferObjekat() {
+    }
+
 
     public String getGreska() {
         return greska;
@@ -48,6 +51,14 @@ public class ServerTransferObjekat implements Serializable {
 
     public void setRezultat(Object rezultat) {
         this.rezultat = rezultat;
+    }
+
+    public boolean isSacuvan() {
+        return sacuvan;
+    }
+
+    public void setSacuvan(boolean sacuvan) {
+        this.sacuvan = sacuvan;
     }
     
 }
