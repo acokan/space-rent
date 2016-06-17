@@ -68,7 +68,18 @@ public class TblModelRezervacija extends AbstractTableModel {
         }
         
     }
-    
-    
+
+    public Rezervacija vratiRezervaciju(int redRezervacije) {
+        
+        Rezervacija r = new Rezervacija();
+        for (int i = 0; i < listaRezervacija.size(); i++) {
+            if (i == redRezervacije) {
+                r = listaRezervacija.get(i);
+            }
+        }
+        return r;
+        
+    }
+  
     
 }

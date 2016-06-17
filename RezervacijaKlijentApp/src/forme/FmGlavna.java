@@ -30,7 +30,7 @@ public class FmGlavna extends javax.swing.JFrame {
     public FmGlavna() {
         initComponents();
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-        
+
         new Start().start();
 
         Administrator admin = (Administrator) Kontroler.vratiInstancuKontrolera().getSesija().get("ulogovani_admin");
@@ -222,6 +222,7 @@ public class FmGlavna extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiUnosKorisnikaActionPerformed
 
     private void jmiPretragaKorisnikaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPretragaKorisnikaActionPerformed
+        Kontroler.vratiInstancuKontrolera().setAktivanSK(Util.SK_IZMENA_KORISNIKA);
         FmPretragaKorisnika korisnici = new FmPretragaKorisnika(this, true);
         korisnici.setVisible(true);
     }//GEN-LAST:event_jmiPretragaKorisnikaActionPerformed
@@ -275,7 +276,8 @@ public class FmGlavna extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtSifraActionPerformed
 
     private void jmiUnosRezervacijeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiUnosRezervacijeActionPerformed
-        FmUnosRezervacije fur = new FmUnosRezervacije();
+        Kontroler.vratiInstancuKontrolera().setAktivanSK(Util.SK_UNOS_REZERVACIJE);
+        FmUnosRezervacije fur = new FmUnosRezervacije(this, true);
         fur.setVisible(true);
     }//GEN-LAST:event_jmiUnosRezervacijeActionPerformed
 

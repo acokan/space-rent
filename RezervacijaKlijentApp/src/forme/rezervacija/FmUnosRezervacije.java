@@ -31,19 +31,21 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import korisnici.kontroler.Kontroler;
+import util.Util;
 
 /**
  *
  * @author Aco Kandic
  */
-public class FmUnosRezervacije extends javax.swing.JFrame {
+public class FmUnosRezervacije extends javax.swing.JDialog {
 
     /**
      * Creates new form FmUnosRezervacije
      */
     Border border;
     
-    public FmUnosRezervacije() {
+    public FmUnosRezervacije(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
         srediFormu();
     }
@@ -185,11 +187,11 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
                             .addComponent(jbtnDodaj, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
                             .addComponent(jbtnObrisi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jbtnOdustani, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jbtnSacuvajRezervaciju)
                         .addGap(18, 18, 18)
                         .addComponent(jbtnPogledajRezervacije)
-                        .addGap(18, 18, 18)
-                        .addComponent(jbtnOdustani, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -279,7 +281,7 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnSacuvajRezervacijuActionPerformed
 
     private void jbtnPogledajRezervacijeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPogledajRezervacijeActionPerformed
-        FmPretragaRezervacija fpr = new FmPretragaRezervacija(this, true);
+        FmPretragaRezervacija fpr = new FmPretragaRezervacija(null, true);
         fpr.setVisible(true);
     }//GEN-LAST:event_jbtnPogledajRezervacijeActionPerformed
 
@@ -287,40 +289,6 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
         jbtnDodaj.setEnabled(true);
     }//GEN-LAST:event_jtxtDatumRezervacijeKeyPressed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FmUnosRezervacije.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FmUnosRezervacije.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FmUnosRezervacije.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FmUnosRezervacije.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FmUnosRezervacije().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -352,28 +320,71 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
     }
 
     private void srediFormu() {
-        jtxtBrojRezervacije.setText("");
-        jtxtDatumRezervacije.setText("");
-        popuniComboKorisnici();
-        jtblStavkaRezervacije.setModel(new TblModelStavkaRezervacije(new Rezervacija()));
+        
+        int rezim = Kontroler.vratiInstancuKontrolera().getAktivanSK();
+        
+        if (rezim == Util.SK_UNOS_REZERVACIJE) {
+            
+            jtxtBrojRezervacije.setText("");
+            jtxtDatumRezervacije.setText("");
+            popuniComboKorisnici();
+            jtblStavkaRezervacije.setModel(new TblModelStavkaRezervacije(new Rezervacija()));
 
-        List<Prostorija> listaProstorija = new ArrayList<>();
-        try {
-            listaProstorija = Kontroler.vratiInstancuKontrolera().vratiListuProstorija();
-        } catch (Exception ex) {
-            System.out.println("Prostorije nisu pronadjene!");
-        }
-        JComboBox jcb = new JComboBox(listaProstorija.toArray());
-        TableColumn tc = jtblStavkaRezervacije.getColumnModel().getColumn(3);
-        tc.setCellEditor(new DefaultCellEditor(jcb));
+            List<Prostorija> listaProstorija = new ArrayList<>();
+            try {
+                listaProstorija = Kontroler.vratiInstancuKontrolera().vratiListuProstorija();
+            } catch (Exception ex) {
+                System.out.println("Prostorije nisu pronadjene!");
+            }
+            JComboBox jcb = new JComboBox(listaProstorija.toArray());
+            TableColumn tc = jtblStavkaRezervacije.getColumnModel().getColumn(3);
+            tc.setCellEditor(new DefaultCellEditor(jcb));
 
-        DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
-        dtcr.setHorizontalAlignment(SwingConstants.CENTER);
-        for (int i = 0; i < 5; i++) {
-            jtblStavkaRezervacije.getColumnModel().getColumn(i).setCellRenderer(dtcr);
+            centrirajKolone();
+            
+            jbtnDodaj.setEnabled(false);
+            border = jtxtBrojRezervacije.getBorder();
+            
+        } else if (rezim == Util.SK_IZMENA_REZERVACIJE) {
+            
+            jbtnSacuvajRezervaciju.setText("Izmeni rezervaciju");
+            jbtnPogledajRezervacije.setVisible(false);
+            jbtnDodaj.setVisible(false);
+            jbtnObrisi.setVisible(false);
+            jtxtBrojRezervacije.setEnabled(false);
+            
+            System.out.println("Ovdje je okej");
+            Rezervacija r = (Rezervacija) Kontroler.vratiInstancuKontrolera().getSesija().get("izabrana_rezervacija");
+            
+            jtxtBrojRezervacije.setText(r.getRezervacijaID()+"");
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+            jtxtDatumRezervacije.setText(sdf.format(r.getDatumRezervacije()));
+            
+            try {
+                for (Korisnik korisnik : Kontroler.vratiInstancuKontrolera().vratiListuKorisnika()) {
+                    jcbKorisnici.addItem(korisnik);
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(FmUnosRezervacije.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(FmUnosRezervacije.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            jcbKorisnici.setSelectedItem(r.getKorisnik());
+            
+            TblModelStavkaRezervacije tmsr = new TblModelStavkaRezervacije(r);
+            jtblStavkaRezervacije.setModel(tmsr);
+            
+            try {
+                JComboBox jcb = new JComboBox(Kontroler.vratiInstancuKontrolera().vratiListuProstorija().toArray());
+                jtblStavkaRezervacije.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(jcb));
+            } catch (Exception ex) {
+                Logger.getLogger(FmUnosRezervacije.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            centrirajKolone();
+            
         }
-        jbtnDodaj.setEnabled(false);
-        border = jtxtBrojRezervacije.getBorder();
     }
 
     private Rezervacija kreirajRezervacijuSaForme() throws Exception {
@@ -432,6 +443,14 @@ public class FmUnosRezervacije extends javax.swing.JFrame {
     private void vratiDefaultBorder() {
         jtxtBrojRezervacije.setBorder(border);
         jtxtDatumRezervacije.setBorder(border);
+    }
+
+    private void centrirajKolone() {
+        DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+            dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+            for (int i = 0; i < 5; i++) {
+                jtblStavkaRezervacije.getColumnModel().getColumn(i).setCellRenderer(dtcr);
+            }
     }
 
 }

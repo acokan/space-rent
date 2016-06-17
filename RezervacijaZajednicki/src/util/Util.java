@@ -21,6 +21,8 @@ public class Util {
     public static final String password = "";
     public static final int SK_UNOS_KORISNIKA = 1;
     public static final int SK_IZMENA_KORISNIKA = 2;
+    public static final int SK_UNOS_REZERVACIJE = 3;
+    public static final int SK_IZMENA_REZERVACIJE = 4;
 
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 

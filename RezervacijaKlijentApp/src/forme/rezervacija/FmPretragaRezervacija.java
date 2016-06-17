@@ -11,6 +11,7 @@ import domen.Mesto;
 import domen.Rezervacija;
 import gui.komponente.TblModelKorisnik;
 import gui.komponente.TblModelRezervacija;
+import gui.komponente.TblModelStavkaRezervacije;
 import java.awt.Point;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+import jdk.internal.org.objectweb.asm.Opcodes;
 import korisnici.kontroler.Kontroler;
 import util.Util;
 
@@ -284,12 +286,21 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
     }//GEN-LAST:event_jbtnResetujRezultateActionPerformed
 
     private void jbtn_detaljiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_detaljiActionPerformed
-//        Kontroler.vratiInstancuKontrolera().setAktivanSK(Util.SK_IZMENA_KORISNIKA);
-//        Korisnik k = (Korisnik) jComboKorisnici.getSelectedItem();
-//        Kontroler.vratiInstancuKontrolera().getSesija().put("izabrani_korisnik", k);
-//        FmKorisnik fmk = new FmKorisnik(null, true);
-//        fmk.setVisible(true);
-//        Kontroler.vratiInstancuKontrolera().getSesija().remove("izabrani_korisnik", k);
+        Kontroler.vratiInstancuKontrolera().setAktivanSK(Util.SK_IZMENA_REZERVACIJE);
+        int redRezervacije = jtblRezervacije.getSelectedRow();
+        if (redRezervacije == -1) {
+            JOptionPane.showMessageDialog(this, "Selektujte rezervaciju koju zelite izmeniti");
+        } else {
+            TblModelRezervacija tmr = (TblModelRezervacija) jtblRezervacije.getModel();
+            Rezervacija r = tmr.vratiRezervaciju(redRezervacije);
+
+            Kontroler.vratiInstancuKontrolera().getSesija().put("izabrana_rezervacija", r);
+
+            FmUnosRezervacije fur = new FmUnosRezervacije(null, true);
+            fur.setVisible(true);
+
+            Kontroler.vratiInstancuKontrolera().getSesija().remove("izabrana_rezervacija", r);
+        }
     }//GEN-LAST:event_jbtn_detaljiActionPerformed
 
     private void jradioBrojRezervacijeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradioBrojRezervacijeActionPerformed
@@ -441,7 +452,6 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
     }
 
     private void srediTabelu() {
-
         List<Rezervacija> lr = new ArrayList<>();
         try {
             lr = Kontroler.vratiInstancuKontrolera().vratiListuRezervacija();
