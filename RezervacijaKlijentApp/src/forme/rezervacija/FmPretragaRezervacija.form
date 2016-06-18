@@ -29,9 +29,10 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jScrollPane1" pref="710" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="jbtn_detalji" min="-2" pref="100" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnObrisiRezervaciju" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jbtnResetujRezultate" min="-2" pref="150" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnOdustani" min="-2" max="-2" attributes="0"/>
@@ -54,6 +55,7 @@
                   <Component id="jbtn_detalji" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jbtnResetujRezultate" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnOdustani" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnObrisiRezervaciju" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -254,6 +256,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOdustaniActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnObrisiRezervaciju">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Obrisi rezervaciju"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnObrisiRezervacijuActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

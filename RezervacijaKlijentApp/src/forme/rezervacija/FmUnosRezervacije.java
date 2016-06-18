@@ -303,8 +303,10 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
     }//GEN-LAST:event_jbtnSacuvajRezervacijuActionPerformed
 
     private void jbtnPogledajRezervacijeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPogledajRezervacijeActionPerformed
+
         FmPretragaRezervacija fpr = new FmPretragaRezervacija(null, true);
         fpr.setVisible(true);
+
     }//GEN-LAST:event_jbtnPogledajRezervacijeActionPerformed
 
     private void jtxtDatumRezervacijeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtDatumRezervacijeKeyPressed

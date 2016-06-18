@@ -80,6 +80,7 @@ public class NitKlijent extends Thread {
                 int operacija = kto.getOperacija();
 
                 switch (operacija) {
+                    
                     case util.Util.OPERACIJA_SACUVAJ_KORISNIKA: {
                         try {
                             OpstiDomenskiObjekat k = (OpstiDomenskiObjekat) kto.getParametar();
@@ -125,10 +126,11 @@ public class NitKlijent extends Thread {
                     break;
                     
                     case util.Util.OPERACIJA_SACUVAJ_SVE_KORISNIKE: {
-                        List<Korisnik> lk = (List<Korisnik>) kto.getParametar();
+//                        List<Korisnik> lk = (List<Korisnik>) kto.getParametar();
+                        List<OpstiDomenskiObjekat> lk = (List<OpstiDomenskiObjekat>) kto.getParametar();
                         try {
-                            for (Korisnik kor : lk) {
-                                dbKonekcija.sacuvajKorisnika(kor);
+                            for (OpstiDomenskiObjekat kor : lk) {
+                                Kontroler.vratiInstancuKontrolera().zapamtiKorisnika(kor);
                             }
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
                         } catch (Exception ex) {
@@ -239,6 +241,22 @@ public class NitKlijent extends Thread {
                         } catch (Exception ex) {
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
                             sto.setGreska(ex.getMessage());
+                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        out.writeObject(sto);
+                    }
+                    break;
+                    
+                    case util.Util.OPERACIJA_OBRISI_REZERVACIJU: {
+                        try {
+                            OpstiDomenskiObjekat rezervacija = (OpstiDomenskiObjekat) kto.getParametar();
+                            Kontroler.vratiInstancuKontrolera().obrisiRezervaciju(rezervacija);
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
+                            sto.setSacuvan(true);
+                        } catch (Exception ex) {
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
+                            sto.setGreska(ex.getMessage());
+                            sto.setSacuvan(false);
                             Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         out.writeObject(sto);

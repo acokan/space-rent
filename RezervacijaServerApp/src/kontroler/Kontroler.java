@@ -23,6 +23,7 @@ import so.OpstaSO;
 import so.SOAzurirajRezervaciju;
 import so.SOIzlogujAdministratora;
 import so.SOObrisiKorisnika;
+import so.SOObrisiRezervaciju;
 import so.SOUcitajAdministratore;
 import so.SOUlogujAdministratora;
 import so.SOZapamtiKorisnika;
@@ -132,6 +133,11 @@ public class Kontroler {
     public void obrisiKorisnika(OpstiDomenskiObjekat korisnik) throws Exception {
         SOObrisiKorisnika sook = new SOObrisiKorisnika(korisnik);
         sook.izvrsiOpstuSO();
+    }
+
+    public void obrisiRezervaciju(OpstiDomenskiObjekat rezervacija) throws Exception {
+        SOObrisiRezervaciju soor = new SOObrisiRezervaciju(rezervacija);
+        soor.izvrsiOpstuSO();
     }
 
 }

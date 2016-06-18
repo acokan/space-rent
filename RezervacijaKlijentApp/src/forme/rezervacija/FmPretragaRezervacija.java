@@ -81,6 +81,7 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
         jtxtPretraga = new javax.swing.JTextField();
         jradioDatumRezervacije = new javax.swing.JRadioButton();
         btnOdustani = new javax.swing.JButton();
+        btnObrisiRezervaciju = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -224,6 +225,13 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
             }
         });
 
+        btnObrisiRezervaciju.setText("Obrisi rezervaciju");
+        btnObrisiRezervaciju.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObrisiRezervacijuActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -233,9 +241,10 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jbtn_detalji, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnObrisiRezervaciju)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbtnResetujRezultate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnOdustani))
@@ -253,7 +262,8 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtn_detalji)
                     .addComponent(jbtnResetujRezultate)
-                    .addComponent(btnOdustani))
+                    .addComponent(btnOdustani)
+                    .addComponent(btnObrisiRezervaciju))
                 .addContainerGap())
         );
 
@@ -396,8 +406,40 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
         setVisible(false);
     }//GEN-LAST:event_btnOdustaniActionPerformed
 
+    private void btnObrisiRezervacijuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiRezervacijuActionPerformed
+        
+        int izabranaRez = jtblRezervacije.getSelectedRow();
+        if (izabranaRez == -1) {
+            JOptionPane.showMessageDialog(this, "Izaberite rezervaciju koju zelite izbrisati!");
+        } else {
+            TblModelRezervacija tmr = (TblModelRezervacija) jtblRezervacije.getModel();
+            Rezervacija r = tmr.vratiRezervaciju(izabranaRez);
+
+            Object[] opcije = {"Da", "Ne"};
+            int izbor = JOptionPane.showOptionDialog(this, "Da li zelite da izbrisete rezervaciju?", "Brisanje rezervacije", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcije, "Da");
+
+            if (izbor == 0) {
+                try {
+                    boolean izbrisan = Kontroler.vratiInstancuKontrolera().izbrisiRezervaciju(r);
+                    if (izbrisan) {
+                        JOptionPane.showMessageDialog(this, "Rezervacije je izbrisana!");
+                        srediTabelu();
+                        return;
+                    }
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Rezervacija nije izbrisana!"
+                            + " Nije moguce izbrisati rezervaciju ukoliko postoje rezervacije na njegovo ime!");
+                    return;
+                }
+            }
+        }
+        
+    }//GEN-LAST:event_btnObrisiRezervacijuActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnObrisiRezervaciju;
     private javax.swing.JButton btnOdustani;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
