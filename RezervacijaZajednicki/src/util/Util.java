@@ -34,9 +34,7 @@ public class Util {
     public static final int OPERACIJA_AZURIRAJ_KORISNIKA = 201;
     public static final int OPERACIJA_OBRISI_KORISNIKA = 202;
     public static final int OPERACIJA_VRATI_SVE_KORISNIKE = 203;
-
-    public static final int OPERACIJA_VRATI_SVE_KORISNIKE_PO_MESTU = 204;
-    public static final int OPERACIJA_SACUVAJ_SVE_KORISNIKE = 205;
+    public static final int OPERACIJA_SACUVAJ_SVE_KORISNIKE = 204;
 
     public static final int OPERACIJA_VRATI_SVE_PROSTORIJE = 300;
 

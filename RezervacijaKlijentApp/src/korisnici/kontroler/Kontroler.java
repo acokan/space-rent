@@ -119,21 +119,6 @@ public class Kontroler {
         
     }
 
-    
-    public List<Korisnik> vratiListuKorisnikaPoMestu(Mesto mesto) throws IOException, ClassNotFoundException, Exception {
-        
-        KlijentTransferObjekat kto = new KlijentTransferObjekat();
-        kto.setOperacija(util.Util.OPERACIJA_VRATI_SVE_KORISNIKE_PO_MESTU);
-        Komunikacija.vratiInstancu().posaljiZahtev(kto);
-        
-        ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
-        if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
-            return (List<Korisnik>) sto.getRezultat();
-        } else {
-            throw new Exception(sto.getGreska());
-        }
-        
-    }
 
     public List<Mesto> vratiListuMesta() throws IOException, ClassNotFoundException, Exception {
         

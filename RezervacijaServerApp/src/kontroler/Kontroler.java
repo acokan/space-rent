@@ -24,6 +24,7 @@ import so.SOAzurirajRezervaciju;
 import so.SOIzlogujAdministratora;
 import so.SOObrisiKorisnika;
 import so.SOObrisiRezervaciju;
+import so.SOSacuvajMesto;
 import so.SOUcitajAdministratore;
 import so.SOUlogujAdministratora;
 import so.SOZapamtiKorisnika;
@@ -31,6 +32,8 @@ import so.SOVratiSvaMesta;
 import so.SOZapamtiRezervaciju;
 import so.SOUcitajRezervacije;
 import so.SOVratiSveKorisnike;
+import so.SOVratiSveProstorije;
+import so.SOZapamtiSveKorisnike;
 import transferobjekti.KlijentTransferObjekat;
 import transferobjekti.ServerTransferObjekat;
 
@@ -138,6 +141,22 @@ public class Kontroler {
     public void obrisiRezervaciju(OpstiDomenskiObjekat rezervacija) throws Exception {
         SOObrisiRezervaciju soor = new SOObrisiRezervaciju(rezervacija);
         soor.izvrsiOpstuSO();
+    }
+
+    public void zapamtiSveKorisnike(List<OpstiDomenskiObjekat> lk) throws Exception {
+        SOZapamtiSveKorisnike sozvk = new SOZapamtiSveKorisnike(lk);
+        sozvk.izvrsiOpstuSO();
+    }
+
+    public void sacuvajMesto(OpstiDomenskiObjekat m) throws Exception {
+        SOSacuvajMesto sosm = new SOSacuvajMesto(m);
+        sosm.izvrsiOpstuSO();
+    }
+
+    public List<OpstiDomenskiObjekat> vratiListuProstorija() throws Exception {
+        SOVratiSveProstorije sovsp = new SOVratiSveProstorije();
+        sovsp.izvrsiOpstuSO();
+        return sovsp.getLista();
     }
 
 }

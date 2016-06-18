@@ -158,8 +158,10 @@ public class DBBroker {
         
     }
 
-    public void vratiPoUslovu(OpstiDomenskiObjekat odo) throws SQLException {
-
+    public void sacuvajObjekte(List<OpstiDomenskiObjekat> lista) throws SQLException {
+        for (OpstiDomenskiObjekat odo : lista) {
+            sacuvajIliAzurirajObjekat(odo);
+        }
     }
 
 }

@@ -5,7 +5,6 @@
  */
 package niti;
 
-import db.DBKonekcija;
 import domen.Administrator;
 import domen.Korisnik;
 import domen.Mesto;
@@ -24,9 +23,8 @@ import java.util.logging.Logger;
 import javax.swing.JTable;
 import kontroler.Kontroler;
 import model.TblAdministratori;
-import serverapp.RezervacijaServerApp;
 import so.SOAzurirajKorisnika;
-import so.KreirajNovogKorisnika;
+import so.SOZapamtiSveKorisnike;
 import so.OpstaSO;
 import so.SOUlogujAdministratora;
 import so.SOVratiSvaMesta;
@@ -68,8 +66,6 @@ public class NitKlijent extends Thread {
 
         try {
 
-            db.DBKonekcija dbKonekcija = new DBKonekcija();
-
             in = new ObjectInputStream(soket.getInputStream());
             out = new ObjectOutputStream(soket.getOutputStream());
 
@@ -80,7 +76,7 @@ public class NitKlijent extends Thread {
                 int operacija = kto.getOperacija();
 
                 switch (operacija) {
-                    
+
                     case util.Util.OPERACIJA_SACUVAJ_KORISNIKA: {
                         try {
                             OpstiDomenskiObjekat k = (OpstiDomenskiObjekat) kto.getParametar();
@@ -89,7 +85,6 @@ public class NitKlijent extends Thread {
                         } catch (Exception ex) {
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
                             sto.setGreska(ex.getMessage());
-                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         out.writeObject(sto);
                     }
@@ -103,7 +98,6 @@ public class NitKlijent extends Thread {
                         } catch (Exception ex) {
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
                             sto.setGreska(ex.getMessage());
-                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         out.writeObject(sto);
                     }
@@ -119,24 +113,21 @@ public class NitKlijent extends Thread {
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
                             sto.setGreska(ex.getMessage());
                             sto.setSacuvan(false);
-                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         out.writeObject(sto);
                     }
                     break;
-                    
+
                     case util.Util.OPERACIJA_SACUVAJ_SVE_KORISNIKE: {
-//                        List<Korisnik> lk = (List<Korisnik>) kto.getParametar();
                         List<OpstiDomenskiObjekat> lk = (List<OpstiDomenskiObjekat>) kto.getParametar();
                         try {
-                            for (OpstiDomenskiObjekat kor : lk) {
-                                Kontroler.vratiInstancuKontrolera().zapamtiKorisnika(kor);
-                            }
+                            Kontroler.vratiInstancuKontrolera().zapamtiSveKorisnike(lk);
+                            sto.setSacuvan(true);
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
                         } catch (Exception ex) {
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
                             sto.setGreska(ex.getMessage());
-                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
+                            sto.setSacuvan(false);
                         }
                         out.writeObject(sto);
                     }
@@ -150,29 +141,27 @@ public class NitKlijent extends Thread {
                         } catch (Exception ex) {
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
                             sto.setGreska(ex.getMessage());
-                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         out.writeObject(sto);
                     }
                     break;
-
-                    case util.Util.OPERACIJA_VRATI_SVE_KORISNIKE_PO_MESTU: {
-
+                    
+                    case util.Util.OPERACIJA_SACUVAJ_MESTO: {
                         try {
-                            List<Korisnik> listaKorisnika = dbKonekcija.vratiListuKorisnikaPoMestu((Mesto) kto.getParametar());
+                            OpstiDomenskiObjekat m = (Mesto) kto.getParametar();
+                            Kontroler.vratiInstancuKontrolera().sacuvajMesto(m);
+                            sto.setSacuvan(true);
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
-                            sto.setRezultat(listaKorisnika);
                         } catch (Exception ex) {
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
+                            sto.setSacuvan(false);
                             sto.setGreska(ex.getMessage());
-                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         out.writeObject(sto);
                     }
                     break;
-
+                    
                     case util.Util.OPERACIJA_VRATI_SVA_MESTA: {
-
                         try {
                             List<OpstiDomenskiObjekat> listaMesta = Kontroler.vratiInstancuKontrolera().vratiSvaMesta();
                             sto.setRezultat(listaMesta);
@@ -180,53 +169,19 @@ public class NitKlijent extends Thread {
                         } catch (Exception ex) {
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
                             sto.setGreska(ex.getMessage());
-                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         out.writeObject(sto);
                     }
                     break;
 
-                    case util.Util.OPERACIJA_SACUVAJ_MESTO:
-                        Mesto m = (Mesto) kto.getParametar();
-                         {
-
-                            try {
-                                dbKonekcija.dodajMesto(m);
-                                sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
-                            } catch (Exception ex) {
-                                sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
-                                sto.setGreska(ex.getMessage());
-                                Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            out.writeObject(sto);
-                        }
-                        break;
-
                     case util.Util.OPERACIJA_VRATI_SVE_PROSTORIJE: {
-
                         try {
-                            List<Prostorija> listaProstorija = dbKonekcija.vratiListuProstorija();
+                            List<OpstiDomenskiObjekat> listaProstorija = Kontroler.vratiInstancuKontrolera().vratiListuProstorija();
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
                             sto.setRezultat(listaProstorija);
                         } catch (Exception ex) {
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
                             sto.setGreska(ex.getMessage());
-                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        out.writeObject(sto);
-                    }
-                    break;
-
-                    case util.Util.OPERACIJA_VRATI_SVE_REZERVACIJE: {
-
-                        try {
-                            List<OpstiDomenskiObjekat> listaRezervacija = Kontroler.vratiInstancuKontrolera().vratiSveRezervacije();
-                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
-                            sto.setRezultat(listaRezervacija);
-                        } catch (Exception ex) {
-                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
-                            sto.setGreska(ex.getMessage());
-                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         out.writeObject(sto);
                     }
@@ -241,12 +196,11 @@ public class NitKlijent extends Thread {
                         } catch (Exception ex) {
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
                             sto.setGreska(ex.getMessage());
-                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         out.writeObject(sto);
                     }
                     break;
-                    
+
                     case util.Util.OPERACIJA_OBRISI_REZERVACIJU: {
                         try {
                             OpstiDomenskiObjekat rezervacija = (OpstiDomenskiObjekat) kto.getParametar();
@@ -257,7 +211,6 @@ public class NitKlijent extends Thread {
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
                             sto.setGreska(ex.getMessage());
                             sto.setSacuvan(false);
-                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         out.writeObject(sto);
                     }
@@ -274,7 +227,20 @@ public class NitKlijent extends Thread {
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
                             sto.setGreska(ex.getMessage());
                             sto.setSacuvan(false);
-                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        out.writeObject(sto);
+                    }
+                    break;
+                    
+                    case util.Util.OPERACIJA_VRATI_SVE_REZERVACIJE: {
+
+                        try {
+                            List<OpstiDomenskiObjekat> listaRezervacija = Kontroler.vratiInstancuKontrolera().vratiSveRezervacije();
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
+                            sto.setRezultat(listaRezervacija);
+                        } catch (Exception ex) {
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
+                            sto.setGreska(ex.getMessage());
                         }
                         out.writeObject(sto);
                     }
@@ -293,7 +259,6 @@ public class NitKlijent extends Thread {
                         } catch (Exception ex) {
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
                             sto.setGreska(ex.getMessage());
-                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         System.out.println(sto.getRezultat());
                         out.writeObject(sto);
@@ -320,7 +285,6 @@ public class NitKlijent extends Thread {
 //                            } catch (Exception ex) {
 //                                sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
 //                                sto.setGreska(ex.getMessage());
-//                                Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
 //                            }
 //                            out.writeObject(sto);
 //                        }
