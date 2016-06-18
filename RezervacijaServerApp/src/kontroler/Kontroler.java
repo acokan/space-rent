@@ -6,6 +6,7 @@
 package kontroler;
 
 import domen.Administrator;
+import domen.Korisnik;
 import domen.Mesto;
 import domen.OpstiDomenskiObjekat;
 import java.io.ObjectInputStream;
@@ -21,12 +22,14 @@ import so.SOAzurirajKorisnika;
 import so.OpstaSO;
 import so.SOAzurirajRezervaciju;
 import so.SOIzlogujAdministratora;
+import so.SOObrisiKorisnika;
 import so.SOUcitajAdministratore;
 import so.SOUlogujAdministratora;
 import so.SOZapamtiKorisnika;
 import so.SOVratiSvaMesta;
 import so.SOZapamtiRezervaciju;
 import so.SOUcitajRezervacije;
+import so.SOVratiSveKorisnike;
 import transferobjekti.KlijentTransferObjekat;
 import transferobjekti.ServerTransferObjekat;
 
@@ -118,6 +121,17 @@ public class Kontroler {
     public void azurirajRezervaciju(OpstiDomenskiObjekat rezervacija) throws Exception {
         SOAzurirajRezervaciju soar = new SOAzurirajRezervaciju(rezervacija);
         soar.izvrsiOpstuSO();
+    }
+
+    public List<OpstiDomenskiObjekat> vratiListuKorisnika() throws Exception {
+        SOVratiSveKorisnike sovsk = new SOVratiSveKorisnike();
+        sovsk.izvrsiOpstuSO();
+        return sovsk.getListaKorisnika();
+    }
+
+    public void obrisiKorisnika(OpstiDomenskiObjekat korisnik) throws Exception {
+        SOObrisiKorisnika sook = new SOObrisiKorisnika(korisnik);
+        sook.izvrsiOpstuSO();
     }
 
 }

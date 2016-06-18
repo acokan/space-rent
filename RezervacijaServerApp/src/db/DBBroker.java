@@ -143,6 +143,19 @@ public class DBBroker {
 
     public void obrisi(OpstiDomenskiObjekat odo) throws SQLException {
 
+        String upit = "";
+
+        if (odo.vratiPK() != null) {
+            upit = "DELETE FROM " + odo.vratiNazivTabele()+ " WHERE " + odo.vratiPK()+ "=" + odo.vratiVrednostPK();
+        } else {
+            upit = "DELETE FROM " + odo.vratiNazivTabele() + odo.vratiSlozenPK();
+        }
+
+        Statement s = (Statement) connection.createStatement();
+        s.executeUpdate(upit);
+        potvrdiTransakciju();
+        s.close();
+        
     }
 
     public void vratiPoUslovu(OpstiDomenskiObjekat odo) throws SQLException {

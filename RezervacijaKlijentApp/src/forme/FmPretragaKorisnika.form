@@ -33,9 +33,10 @@
                       <Component id="jComboKorisnici" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="jbtn_detalji" min="-2" pref="100" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnObrisiKorisnika" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jbtnNaprednaPretraga" min="-2" pref="150" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jbtnResetujRezultate" min="-2" pref="150" max="-2" attributes="0"/>
@@ -58,6 +59,7 @@
                   <Component id="jbtn_detalji" alignment="3" max="32767" attributes="0"/>
                   <Component id="jbtnNaprednaPretraga" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jbtnResetujRezultate" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnObrisiKorisnika" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="269" max="-2" attributes="0"/>
@@ -165,6 +167,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnResetujRezultateActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnObrisiKorisnika">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Obrisi korisnika"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnObrisiKorisnikaActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

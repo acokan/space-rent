@@ -257,6 +257,20 @@ public class Kontroler {
             throw new Exception(sto.getGreska());
         }
     }
+
+    public boolean izbrisiKorisnika(Korisnik k) throws Exception {
+        KlijentTransferObjekat kto = new KlijentTransferObjekat();
+        kto.setOperacija(util.Util.OPERACIJA_OBRISI_KORISNIKA);
+        kto.setParametar(k);
+        Komunikacija.vratiInstancu().posaljiZahtev(kto);
+        
+        ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
+        if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
+            return sto.isSacuvan();
+        } else {
+            throw new Exception(sto.getGreska());
+        }
+    }
     
 
 }

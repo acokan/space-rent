@@ -108,26 +108,41 @@ public class NitKlijent extends Thread {
                     }
                     break;
 
-                    case util.Util.OPERACIJA_SACUVAJ_SVE_KORISNIKE:
-                        List<Korisnik> lk = (List<Korisnik>) kto.getParametar();
-                         {
-                            try {
-                                for (Korisnik kor : lk) {
-                                    dbKonekcija.sacuvajKorisnika(kor);
-                                }
-                                sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
-                            } catch (Exception ex) {
-                                sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
-                                sto.setGreska(ex.getMessage());
-                                Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            out.writeObject(sto);
+                    case util.Util.OPERACIJA_OBRISI_KORISNIKA: {
+                        try {
+                            OpstiDomenskiObjekat korisnik = (OpstiDomenskiObjekat) kto.getParametar();
+                            Kontroler.vratiInstancuKontrolera().obrisiKorisnika(korisnik);
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
+                            sto.setSacuvan(true);
+                        } catch (Exception ex) {
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
+                            sto.setGreska(ex.getMessage());
+                            sto.setSacuvan(false);
+                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        break;
+                        out.writeObject(sto);
+                    }
+                    break;
+                    
+                    case util.Util.OPERACIJA_SACUVAJ_SVE_KORISNIKE: {
+                        List<Korisnik> lk = (List<Korisnik>) kto.getParametar();
+                        try {
+                            for (Korisnik kor : lk) {
+                                dbKonekcija.sacuvajKorisnika(kor);
+                            }
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
+                        } catch (Exception ex) {
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
+                            sto.setGreska(ex.getMessage());
+                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        out.writeObject(sto);
+                    }
+                    break;
 
                     case util.Util.OPERACIJA_VRATI_SVE_KORISNIKE: {
                         try {
-                            List<Korisnik> listaKorisnika = dbKonekcija.vratiListuKorisnika();
+                            List<OpstiDomenskiObjekat> listaKorisnika = Kontroler.vratiInstancuKontrolera().vratiListuKorisnika();
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
                             sto.setRezultat(listaKorisnika);
                         } catch (Exception ex) {
@@ -158,24 +173,8 @@ public class NitKlijent extends Thread {
 
                         try {
                             List<OpstiDomenskiObjekat> listaMesta = Kontroler.vratiInstancuKontrolera().vratiSvaMesta();
-                            System.out.println("Lista " + listaMesta);
                             sto.setRezultat(listaMesta);
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
-                        } catch (Exception ex) {
-                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
-                            sto.setGreska(ex.getMessage());
-                            Logger.getLogger(RezervacijaServerApp.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        out.writeObject(sto);
-                    }
-                    break;
-
-                    case util.Util.OPERACIJA_VRATI_MESTO_PO_PTT: {
-
-                        try {
-                            Mesto mesto = dbKonekcija.vratiMesto((int) kto.getParametar());
-                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
-                            sto.setRezultat(mesto);
                         } catch (Exception ex) {
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
                             sto.setGreska(ex.getMessage());
@@ -245,7 +244,7 @@ public class NitKlijent extends Thread {
                         out.writeObject(sto);
                     }
                     break;
-                    
+
                     case util.Util.OPERACIJA_AZURIRAJ_REZERVACIJU: {
 
                         try {

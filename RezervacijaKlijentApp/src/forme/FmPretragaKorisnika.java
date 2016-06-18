@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -32,9 +33,8 @@ public class FmPretragaKorisnika extends javax.swing.JDialog {
     /**
      * Creates new form FmPretragaKorisnika
      */
-    
     public static List<Korisnik> listaKorisnikaFilter = new ArrayList<>();
-    
+
     public FmPretragaKorisnika(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -60,6 +60,7 @@ public class FmPretragaKorisnika extends javax.swing.JDialog {
         jtblKorisnici = new javax.swing.JTable();
         jbtnNaprednaPretraga = new javax.swing.JButton();
         jbtnResetujRezultate = new javax.swing.JButton();
+        btnObrisiKorisnika = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -125,6 +126,13 @@ public class FmPretragaKorisnika extends javax.swing.JDialog {
             }
         });
 
+        btnObrisiKorisnika.setText("Obrisi korisnika");
+        btnObrisiKorisnika.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObrisiKorisnikaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,9 +146,10 @@ public class FmPretragaKorisnika extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jComboKorisnici, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jbtn_detalji, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnObrisiKorisnika)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbtnNaprednaPretraga, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbtnResetujRezultate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -157,7 +166,8 @@ public class FmPretragaKorisnika extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtn_detalji, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbtnNaprednaPretraga)
-                    .addComponent(jbtnResetujRezultate))
+                    .addComponent(jbtnResetujRezultate)
+                    .addComponent(btnObrisiKorisnika))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -206,7 +216,7 @@ public class FmPretragaKorisnika extends javax.swing.JDialog {
     }//GEN-LAST:event_jtblKorisniciFocusGained
 
     private void jtblKorisniciFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtblKorisniciFocusLost
- 
+
     }//GEN-LAST:event_jtblKorisniciFocusLost
 
     private void jbtnResetujRezultateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnResetujRezultateActionPerformed
@@ -215,8 +225,40 @@ public class FmPretragaKorisnika extends javax.swing.JDialog {
         dodajComboMestaUTabelu();
     }//GEN-LAST:event_jbtnResetujRezultateActionPerformed
 
+    private void btnObrisiKorisnikaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiKorisnikaActionPerformed
+        int izKorisnik = jtblKorisnici.getSelectedRow();
+        if (izKorisnik == -1) {
+            JOptionPane.showMessageDialog(this, "Izaberite korisnika kojeg zelite izbrisati!");
+        } else {
+            TblModelKorisnik tmk = (TblModelKorisnik) jtblKorisnici.getModel();
+            Korisnik k = tmk.vratiKorisnika(izKorisnik);
+
+            Object[] opcije = {"Da", "Ne"};
+            int izbor = JOptionPane.showOptionDialog(this, "Da li zelite izbrisati korisnika " + k.getIme() + " " + k.getPrezime() + "?", "Brisanje korisnika", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcije, "Da");
+
+            if (izbor == 0) {
+                try {
+                    boolean izbrisan = Kontroler.vratiInstancuKontrolera().izbrisiKorisnika(k);
+                    if (izbrisan) {
+                        JOptionPane.showMessageDialog(this, "Korisnik " + k.getIme() + " " + k.getPrezime() + " je izbrisan!");
+                        popuniTabeluKorisnici();
+                        popuniComboKorisnici();
+                        dodajComboMestaUTabelu();
+                        return;
+                    }
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Korisnik " + k.getIme() + " " + k.getPrezime() + " nije izbrisan!"
+                            + " Nije moguce izbrisati korisnika ukoliko postoje rezervacije na njegovo ime!");
+                    return;
+                }
+            }
+        }
+    }//GEN-LAST:event_btnObrisiKorisnikaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnObrisiKorisnika;
     private javax.swing.JComboBox jComboKorisnici;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;

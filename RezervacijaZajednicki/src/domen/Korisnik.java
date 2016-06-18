@@ -185,9 +185,9 @@ public class Korisnik extends OpstiDomenskiObjekat implements Serializable {
 
     @Override
     public String vratiSlozenPK() {
-        return "Nema slozen PK";
+        return null;
     }
-
+    
     @Override
     public List<OpstiDomenskiObjekat> vratiListu(ResultSet rs) {
 

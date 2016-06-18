@@ -170,9 +170,17 @@ public class FmNaprednaPretraga extends javax.swing.JDialog {
     }
 
     private void pretraziPoMestu() {
-        Mesto mesto = (Mesto) jComboMesto.getSelectedItem();
         try {
-            FmPretragaKorisnika.listaKorisnikaFilter = Kontroler.vratiInstancuKontrolera().vratiListuKorisnikaPoMestu(mesto);
+            Mesto mesto = (Mesto) jComboMesto.getSelectedItem();
+            List<Korisnik> listaK = Kontroler.vratiInstancuKontrolera().vratiListuKorisnika();
+            List<Korisnik> lista = new ArrayList<>();
+            
+            for (Korisnik k : listaK) {
+                if (mesto.equals(k.getMesto())) {
+                    lista.add(k);
+                }
+            }
+            FmPretragaKorisnika.listaKorisnikaFilter = lista;
         } catch (Exception ex) {
             System.out.println("Greska: " + ex.getMessage());
         }

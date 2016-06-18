@@ -29,15 +29,21 @@ public class Util {
     public static final int OPERACIJA_SACUVAJ_MESTO = 100;
     public static final int OPERACIJA_VRATI_SVA_MESTA = 101;
     public static final int OPERACIJA_VRATI_MESTO_PO_PTT = 102;
+
     public static final int OPERACIJA_SACUVAJ_KORISNIKA = 200;
-    public static final int OPERACIJA_SACUVAJ_SVE_KORISNIKE = 201;
-    public static final int OPERACIJA_VRATI_SVE_KORISNIKE = 202;
-    public static final int OPERACIJA_VRATI_SVE_KORISNIKE_PO_MESTU = 203;
-    public static final int OPERACIJA_AZURIRAJ_KORISNIKA = 204;
+    public static final int OPERACIJA_AZURIRAJ_KORISNIKA = 201;
+    public static final int OPERACIJA_OBRISI_KORISNIKA = 202;
+    public static final int OPERACIJA_VRATI_SVE_KORISNIKE = 203;
+
+    public static final int OPERACIJA_VRATI_SVE_KORISNIKE_PO_MESTU = 204;
+    public static final int OPERACIJA_SACUVAJ_SVE_KORISNIKE = 205;
+
     public static final int OPERACIJA_VRATI_SVE_PROSTORIJE = 300;
+
     public static final int OPERACIJA_VRATI_SVE_REZERVACIJE = 400;
     public static final int OPERACIJA_SACUVAJ_REZERVACIJU = 401;
     public static final int OPERACIJA_AZURIRAJ_REZERVACIJU = 402;
+
     public static final int OPERACIJA_ULOGUJ_ADMINISTRATORA = 600;
     public static final int OPERACIJA_IZLOGUJ_ADMINISTRATORA = 601;
     public static final int OPERACIJA_VRATI_SVE_ADMINISTRATORE = 602;

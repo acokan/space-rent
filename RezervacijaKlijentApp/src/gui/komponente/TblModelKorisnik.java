@@ -135,5 +135,15 @@ public class TblModelKorisnik extends AbstractTableModel {
     public List<Korisnik> vratiListuKorisnika() {
         return lk;
     }
+
+    public Korisnik vratiKorisnika(int izKorisnik) {
+        Korisnik k = null;
+        for (int i = 0; i < lk.size(); i++) {
+            if (i == izKorisnik) {
+                k = lk.get(i);
+            }
+        }
+        return k;
+    }
   
 }

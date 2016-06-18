@@ -8,6 +8,7 @@ package forme;
 import domen.Korisnik;
 import domen.Mesto;
 import domen.Rezervacija;
+import forme.rezervacija.FmUnosRezervacije;
 import gui.komponente.TblModelKorisnik;
 import gui.komponente.TblModelRezervacija;
 import java.awt.Color;
@@ -87,6 +88,7 @@ public class FmKorisnik extends javax.swing.JDialog {
         jtxt_mail = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jbtnObrisi = new javax.swing.JButton();
+        btnDetalji = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Unos korisnika");
@@ -240,7 +242,7 @@ public class FmKorisnik extends javax.swing.JDialog {
                     .addComponent(jLabel4)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jtxt_kontakt, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jtxt_prezime, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -287,26 +289,34 @@ public class FmKorisnik extends javax.swing.JDialog {
             }
         });
 
+        btnDetalji.setText("Detalji");
+        btnDetalji.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetaljiActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnDetalji)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbtn_sacuvajSve))
-                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpnl_mesto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jbtn_dodajKorisnika)
                         .addGap(18, 18, 18)
                         .addComponent(jbtnObrisi)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbtn_sacuvajKorisnika, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(jbtn_sacuvajKorisnika, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -323,7 +333,9 @@ public class FmKorisnik extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jbtn_sacuvajSve)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtn_sacuvajSve)
+                    .addComponent(btnDetalji))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -426,6 +438,7 @@ public class FmKorisnik extends javax.swing.JDialog {
                 boolean sacuvani = Kontroler.vratiInstancuKontrolera().sacuvajListuKorisnika(listaKorisnika);
                 if (sacuvani) {
                     JOptionPane.showMessageDialog(this, "Lista korisnika je sacuvana!");
+                    srediFormu();
                     return;
                 }
                 JOptionPane.showMessageDialog(this, "Lista korisnika nije sacuvana!");
@@ -453,8 +466,31 @@ public class FmKorisnik extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jbtnObrisiActionPerformed
 
+    private void btnDetaljiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetaljiActionPerformed
+
+        Kontroler.vratiInstancuKontrolera().setAktivanSK(Util.SK_IZMENA_REZERVACIJE);
+        int redRezervacije = jtblKorisnici.getSelectedRow();
+        if (redRezervacije == -1) {
+            JOptionPane.showMessageDialog(this, "Selektujte rezervaciju koju zelite izmeniti");
+        } else {
+            TblModelRezervacija tmr = (TblModelRezervacija) jtblKorisnici.getModel();
+            Rezervacija r = tmr.vratiRezervaciju(redRezervacije);
+
+            Kontroler.vratiInstancuKontrolera().getSesija().put("izabrana_rezervacija", r);
+
+            FmUnosRezervacije fur = new FmUnosRezervacije(null, true);
+            fur.setVisible(true);
+
+            srediTabelu();
+            
+            Kontroler.vratiInstancuKontrolera().getSesija().remove("izabrana_rezervacija", r);
+        }
+
+    }//GEN-LAST:event_btnDetaljiActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDetalji;
     private javax.swing.JComboBox jComboMesto;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -503,8 +539,13 @@ public class FmKorisnik extends javax.swing.JDialog {
         Mesto mesto = new Mesto();
         List<Mesto> listaMesta = new ArrayList<>();
         try {
-            mesto = Kontroler.vratiInstancuKontrolera().vratiMesto(k.getMesto().getPtt());
+//            mesto = Kontroler.vratiInstancuKontrolera().vratiMesto(k.getMesto().getPtt());
             listaMesta = Kontroler.vratiInstancuKontrolera().vratiListuMesta();
+            for (Mesto mes : listaMesta) {
+                if (mes.getPtt() == k.getMesto().getPtt()) {
+                    mesto = mes;
+                }
+            }
         } catch (Exception ex) {
             System.out.println("Mesta nisu pronadjena!");
         }
@@ -536,6 +577,7 @@ public class FmKorisnik extends javax.swing.JDialog {
             postaviModelTabele();
             ocistiFormu();
             jbtn_sacuvajSve.setEnabled(false);
+            btnDetalji.setVisible(false);
         }
         if (rezim == Util.SK_IZMENA_KORISNIKA) {
             srediFormuURezimuIzmena();
@@ -556,7 +598,7 @@ public class FmKorisnik extends javax.swing.JDialog {
 //        setPreferredSize(new Dimension(783, 400));
 //        pack();
     }
-    
+
     private void prikaziRezervacijeKorisnika(Korisnik k) {
         try {
             List<Rezervacija> listaRezervacije = Kontroler.vratiInstancuKontrolera().vratiListuRezervacija();
@@ -702,6 +744,24 @@ public class FmKorisnik extends javax.swing.JDialog {
         return matcher.find();
     }
 
-    
+    private void srediTabelu() {
+        List<Rezervacija> lr = new ArrayList<>();
+        try {
+            lr = Kontroler.vratiInstancuKontrolera().vratiListuRezervacija();
+        } catch (Exception ex) {
+            System.out.println("Korisnici nisu pronadjeni!");
+        }
+        jtblKorisnici.setModel(new TblModelRezervacija(lr));
+
+        centrirajSadrzajTabele();
+    }
+
+    private void centrirajSadrzajTabele() {
+        DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+        dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < 5; i++) {
+            jtblKorisnici.getColumnModel().getColumn(i).setCellRenderer(dtcr);
+        }
+    }
 
 }
