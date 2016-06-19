@@ -76,7 +76,16 @@ public class TblAdministratori extends AbstractTableModel {
         return listaAdministratora;
     }
     
-    
+    public OpstiDomenskiObjekat vratiAdmina(int selektovani) {
+        OpstiDomenskiObjekat odo = null;
+        for (int i = 0; i < listaAdministratora.size(); i++) {
+            if (i == selektovani) {
+                odo = listaAdministratora.get(i);
+            }
+        }
+        return odo;
+    }
+
 
     
 }

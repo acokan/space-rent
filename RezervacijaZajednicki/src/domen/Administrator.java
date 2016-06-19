@@ -125,7 +125,7 @@ public class Administrator extends OpstiDomenskiObjekat implements Serializable 
 
     @Override
     public String vratiVrednostiZaInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "(" + "" +administratorID+ ", '" + ime + "', '" + prezime + "', '" + korisnickoIme + "', '" + sifra + "', '" +ulogovan+"'" + ")";
     }
 
     @Override

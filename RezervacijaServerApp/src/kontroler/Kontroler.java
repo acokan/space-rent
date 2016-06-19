@@ -60,7 +60,6 @@ public class Kontroler {
     }
 
     public List<OpstiDomenskiObjekat> vratiListuAdministratora() throws Exception {
-        List<OpstiDomenskiObjekat> lista = new ArrayList<>();
         SOUcitajAdministratore soua = new SOUcitajAdministratore();
         soua.izvrsiOpstuSO();
         return soua.vratiSveAdmine();

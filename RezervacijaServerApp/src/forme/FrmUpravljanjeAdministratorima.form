@@ -30,6 +30,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="btnDodaj" pref="100" max="32767" attributes="0"/>
                   <Component id="btnIzbrisi" alignment="0" max="32767" attributes="0"/>
+                  <Component id="btnOdustani" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -44,6 +45,8 @@
                       <Component id="btnDodaj" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnIzbrisi" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnOdustani" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" min="-2" pref="342" max="-2" attributes="0"/>
               </Group>
@@ -78,11 +81,25 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Dodaj"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDodajActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnIzbrisi">
       <Properties>
         <Property name="text" type="java.lang.String" value="Izbrisi"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIzbrisiActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnOdustani">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Odustani"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOdustaniActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

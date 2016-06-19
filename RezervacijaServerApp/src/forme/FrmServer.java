@@ -271,7 +271,7 @@ public class FrmServer extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnPokreniServerActionPerformed
 
     private void jmiUpravljanjeKorisnicimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiUpravljanjeKorisnicimaActionPerformed
-        FrmUpravljanjeAdministratorima fua = new FrmUpravljanjeAdministratorima(this, true);
+        FrmUpravljanjeAdministratorima fua = new FrmUpravljanjeAdministratorima();
         fua.setVisible(true);
     }//GEN-LAST:event_jmiUpravljanjeKorisnicimaActionPerformed
 
