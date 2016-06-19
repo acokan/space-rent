@@ -16,9 +16,9 @@ import java.util.regex.Pattern;
  */
 public class Util {
 
-    public static final String url = "jdbc:mysql://localhost:3306/rezervacijaprostora";
-    public static final String username = "root";
-    public static final String password = "";
+//    public static final String url = "jdbc:mysql://localhost:3306/rezervacijaprostora";
+//    public static final String username = "root";
+//    public static final String password = "";
     public static final int SK_UNOS_KORISNIKA = 1;
     public static final int SK_IZMENA_KORISNIKA = 2;
     public static final int SK_UNOS_REZERVACIJE = 3;

@@ -145,7 +145,7 @@ public class NitKlijent extends Thread {
                         out.writeObject(sto);
                     }
                     break;
-                    
+
                     case util.Util.OPERACIJA_SACUVAJ_MESTO: {
                         try {
                             OpstiDomenskiObjekat m = (Mesto) kto.getParametar();
@@ -160,7 +160,7 @@ public class NitKlijent extends Thread {
                         out.writeObject(sto);
                     }
                     break;
-                    
+
                     case util.Util.OPERACIJA_VRATI_SVA_MESTA: {
                         try {
                             List<OpstiDomenskiObjekat> listaMesta = Kontroler.vratiInstancuKontrolera().vratiSvaMesta();
@@ -231,7 +231,7 @@ public class NitKlijent extends Thread {
                         out.writeObject(sto);
                     }
                     break;
-                    
+
                     case util.Util.OPERACIJA_VRATI_SVE_REZERVACIJE: {
 
                         try {
@@ -265,30 +265,23 @@ public class NitKlijent extends Thread {
                     }
                     break;
 
-//                    case util.Util.OPERACIJA_IZLOGUJ_ADMINISTRATORA:
-//                        
-//                        Administrator a = (Administrator) kto.getParametar();
-//                         {
-//                            ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-//                            ServerTransferObjekat sto = new ServerTransferObjekat();
-//                            try {
-//                                OpstiDomenskiObjekat admin = Kontroler.vratiInstancuKontrolera().ulogujAdministratora(a);
-//
-//                                System.out.println(admin);
-//
-//                                listaAktivnihAdministratora.add(admin);
-//
-//                                jtblAdministratori.setModel(new TblAdministratori(listaAktivnihAdministratora));
-//
-//                                sto.setRezultat((Administrator) admin);
-//                                sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
-//                            } catch (Exception ex) {
-//                                sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
-//                                sto.setGreska(ex.getMessage());
-//                            }
-//                            out.writeObject(sto);
-//                        }
-//                        break;
+                    case util.Util.OPERACIJA_IZLOGUJ_ADMINISTRATORA: {
+
+                        try {
+                            OpstiDomenskiObjekat a = Kontroler.vratiInstancuKontrolera().izlogujAdministratora((OpstiDomenskiObjekat) kto.getParametar());
+                            System.out.println("Nit klijent izloguj: "+a);
+                            listaAktivnihAdministratora.remove(a);
+                            jtblAdministratori.setModel(new TblAdministratori(listaAktivnihAdministratora));
+                            sto.setSacuvan(true);
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
+                        } catch (Exception ex) {
+                            sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_NOT_OK);
+                            sto.setGreska(ex.getMessage());
+                            sto.setSacuvan(false);
+                        }
+                        out.writeObject(sto);
+                    }
+                    break;
                 }
 
             }

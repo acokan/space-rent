@@ -5,7 +5,7 @@
  */
 package start;
 
-import forme.FmGlavna;
+import forme.korisnik.FmGlavna;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Level;

@@ -71,10 +71,12 @@ public class Kontroler {
         return soul.vratiAdmina();
     }
 
-    public void izlogujAdministratora(Administrator admin) throws Exception {
-        SOIzlogujAdministratora soia = new SOIzlogujAdministratora(admin);
+    public OpstiDomenskiObjekat izlogujAdministratora(OpstiDomenskiObjekat a) throws Exception {
+        SOIzlogujAdministratora soia = new SOIzlogujAdministratora(a);
         soia.izvrsiOpstuSO();
+        return soia.getAdmin();
     }
+
 
     public void ugasiKorisnike() {
 
@@ -116,9 +118,9 @@ public class Kontroler {
     }
 
     public List<OpstiDomenskiObjekat> vratiSveRezervacije() throws Exception {
-      SOUcitajRezervacije soua = new SOUcitajRezervacije();
-      soua.izvrsiOpstuSO();
-      return soua.vratiSveRezervacije();
+        SOUcitajRezervacije soua = new SOUcitajRezervacije();
+        soua.izvrsiOpstuSO();
+        return soua.vratiSveRezervacije();
     }
 
     public void azurirajRezervaciju(OpstiDomenskiObjekat rezervacija) throws Exception {

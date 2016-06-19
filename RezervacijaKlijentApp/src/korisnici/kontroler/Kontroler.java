@@ -272,6 +272,20 @@ public class Kontroler {
         }
         
     }
+
+    public boolean izlogujAdministratora(Administrator admin) throws Exception {
+        KlijentTransferObjekat kto = new KlijentTransferObjekat();
+        kto.setOperacija(util.Util.OPERACIJA_IZLOGUJ_ADMINISTRATORA);
+        kto.setParametar(admin);
+        Komunikacija.vratiInstancu().posaljiZahtev(kto);
+        
+        ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
+        if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
+            return sto.isSacuvan();
+        } else {
+            throw new Exception(sto.getGreska());
+        }
+    }
     
 
 }

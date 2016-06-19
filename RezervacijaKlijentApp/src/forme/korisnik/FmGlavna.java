@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package forme;
+package forme.korisnik;
 
 import domen.Administrator;
 import forme.rezervacija.FmPretragaRezervacija;
@@ -46,6 +46,7 @@ public class FmGlavna extends javax.swing.JFrame {
                 Object[] opcije = {"Da", "Ne"};
                 int izbor = JOptionPane.showOptionDialog(null, "Da li ste sigurni zelite zatvoriti aplikaciju?", "Kraj", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, opcije, "Da");
                 if (izbor == 0) {
+                    izlogujAdmina();
                     System.exit(0);
                 }
             }
@@ -86,7 +87,6 @@ public class FmGlavna extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Rezervacija coworking prostora");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(new java.awt.Dimension(500, 400));
         setResizable(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -257,18 +257,7 @@ public class FmGlavna extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnPrijaviSeActionPerformed
 
     private void jmiLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiLogoutActionPerformed
-        Kontroler.vratiInstancuKontrolera().getSesija().put("ulogovani_admin", null);
-        Administrator a = (Administrator) Kontroler.vratiInstancuKontrolera().getSesija().get("ulogovani_admin");
-        if (a == null) {
-            jtxtKorisnickoIme.setVisible(true);
-            jtxtSifra.setVisible(true);
-            jbtnPrijaviSe.setVisible(true);
-            jLabel2.setVisible(true);
-            jLabel3.setVisible(true);
-            jbtnPrijaviSe.setVisible(true);
-            jMenuBar1.setVisible(false);
-            jlblStatus.setText("Prijavite se na sistem");
-        }
+        izlogujAdmina();
     }//GEN-LAST:event_jmiLogoutActionPerformed
 
     private void jtxtSifraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtSifraActionPerformed
@@ -339,4 +328,32 @@ public class FmGlavna extends javax.swing.JFrame {
     private javax.swing.JTextField jtxtKorisnickoIme;
     private javax.swing.JPasswordField jtxtSifra;
     // End of variables declaration//GEN-END:variables
+
+    private void izlogujAdmina() {
+        try {
+            Administrator admin = (Administrator) Kontroler.vratiInstancuKontrolera().getSesija().get("ulogovani_admin");
+            admin.setUlogovan("Offline");
+            boolean izlogovan = Kontroler.vratiInstancuKontrolera().izlogujAdministratora(admin);
+
+            if (izlogovan) {
+                Kontroler.vratiInstancuKontrolera().getSesija().put("ulogovani_admin", null);
+                Administrator a = (Administrator) Kontroler.vratiInstancuKontrolera().getSesija().get("ulogovani_admin");
+                if (a == null) {
+                    jtxtKorisnickoIme.setVisible(true);
+                    jtxtSifra.setVisible(true);
+                    jbtnPrijaviSe.setVisible(true);
+                    jLabel2.setVisible(true);
+                    jLabel3.setVisible(true);
+                    jbtnPrijaviSe.setVisible(true);
+                    jMenuBar1.setVisible(false);
+                    jlblStatus.setText("Prijavite se na sistem");
+                }
+            } else {
+                jlblStatus.setText("Korisnik nije uspesno izlogovan sa sistema. Jos uvek ste prijavljeni!");
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

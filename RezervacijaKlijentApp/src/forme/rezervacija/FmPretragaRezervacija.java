@@ -5,7 +5,6 @@
  */
 package forme.rezervacija;
 
-import forme.*;
 import domen.Korisnik;
 import domen.Mesto;
 import domen.Rezervacija;
@@ -93,12 +92,6 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
             }
         });
 
-        jScrollPane1.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jScrollPane1FocusGained(evt);
-            }
-        });
-
         jtblRezervacije.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -110,19 +103,6 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
                 "Broj rezervacije", "Datum rezervacije", "Ime i prezime", "Kontakt", "Mail"
             }
         ));
-        jtblRezervacije.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jtblRezervacijeFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jtblRezervacijeFocusLost(evt);
-            }
-        });
-        jtblRezervacije.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtblRezervacijeMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(jtblRezervacije);
 
         jbtnResetujRezultate.setText("Resetuj rezultate");
@@ -135,32 +115,12 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Pretraga rezervacija"));
 
         jradioBrojRezervacije.setText("Broj rezervacije");
-        jradioBrojRezervacije.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jradioBrojRezervacijeActionPerformed(evt);
-            }
-        });
 
         jradioTelefon.setText("Kontakt telefon");
-        jradioTelefon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jradioTelefonActionPerformed(evt);
-            }
-        });
 
         jradioImePrezime.setText("Ime i prezime");
-        jradioImePrezime.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jradioImePrezimeActionPerformed(evt);
-            }
-        });
 
         jradioMail.setText("Mail");
-        jradioMail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jradioMailActionPerformed(evt);
-            }
-        });
 
         jbtnTrazi.setText("Trazi");
         jbtnTrazi.addActionListener(new java.awt.event.ActionListener() {
@@ -170,11 +130,6 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
         });
 
         jradioDatumRezervacije.setText("Datum rezervacije");
-        jradioDatumRezervacije.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jradioDatumRezervacijeActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -271,27 +226,8 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtblRezervacijeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblRezervacijeMouseClicked
-//        int selectedUser = jtblRezervacije.getSelectedRow();
-//        jComboKorisnici.setSelectedIndex(selectedUser);
-    }//GEN-LAST:event_jtblRezervacijeMouseClicked
-
-    private void jScrollPane1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jScrollPane1FocusGained
-    }//GEN-LAST:event_jScrollPane1FocusGained
-
-    private void jtblRezervacijeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtblRezervacijeFocusGained
-
-    }//GEN-LAST:event_jtblRezervacijeFocusGained
-
-    private void jtblRezervacijeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtblRezervacijeFocusLost
-
-    }//GEN-LAST:event_jtblRezervacijeFocusLost
-
     private void jbtnResetujRezultateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnResetujRezultateActionPerformed
         srediTabelu();
-//        popuniTabeluKorisnici();
-//        popuniComboKorisnici();
-//        dodajComboMestaUTabelu();
     }//GEN-LAST:event_jbtnResetujRezultateActionPerformed
 
     private void jbtn_detaljiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_detaljiActionPerformed
@@ -313,21 +249,6 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
             Kontroler.vratiInstancuKontrolera().getSesija().remove("izabrana_rezervacija", r);
         }
     }//GEN-LAST:event_jbtn_detaljiActionPerformed
-
-    private void jradioBrojRezervacijeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradioBrojRezervacijeActionPerformed
-    }//GEN-LAST:event_jradioBrojRezervacijeActionPerformed
-
-    private void jradioTelefonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradioTelefonActionPerformed
-    }//GEN-LAST:event_jradioTelefonActionPerformed
-
-    private void jradioImePrezimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradioImePrezimeActionPerformed
-    }//GEN-LAST:event_jradioImePrezimeActionPerformed
-
-    private void jradioDatumRezervacijeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradioDatumRezervacijeActionPerformed
-    }//GEN-LAST:event_jradioDatumRezervacijeActionPerformed
-
-    private void jradioMailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradioMailActionPerformed
-    }//GEN-LAST:event_jradioMailActionPerformed
 
     private void jbtnTraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnTraziActionPerformed
 
