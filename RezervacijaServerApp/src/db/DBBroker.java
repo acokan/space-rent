@@ -6,6 +6,8 @@
 package db;
 
 import domen.OpstiDomenskiObjekat;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,6 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.Util;
@@ -27,20 +30,29 @@ public class DBBroker {
     private static DBBroker instanca;
 
     public DBBroker() {
+        Properties props = new Properties();
+        InputStream input = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            System.out.println("Driver je ucitan!");
-            String url = Util.url;
-            String username = Util.username;
-            String password = Util.password;
-            connection = DriverManager.getConnection(url, username, password);
+            System.out.println(System.getProperty("user.home"));
+            String prop = System.getProperty("user.home") + "\\props.properties";
+            
+            input = new FileInputStream(prop);
+            props.load(input);
+            
+            String prefix = props.getProperty("prefix");
+            System.out.println("Prefiks: "+prefix);
+            Class.forName(props.getProperty(prefix+"_driver"));
+            System.out.println("Driver je ucitan");
+            String url = props.getProperty(prefix+"_url");
+            String korisnickoIme = props.getProperty(prefix+"_korisnickoIme");
+            String sifra = props.getProperty(prefix+"_sifra");
+            connection = DriverManager.getConnection(url, korisnickoIme, sifra);
             connection.setAutoCommit(false);
-            System.out.println("Konekcija je uspostavljena!");
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Driver ne postoji: " + ex.getMessage());
-        } catch (SQLException ex) {
-            System.out.println("Konekcija nije uspostavljena!" + ex.getMessage());
-        }
+            System.out.println("Konekcija je uspostavljena");
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } 
     }
 
     public static DBBroker vratiInstancu() {

@@ -14,15 +14,13 @@
             <Property name="text" type="java.lang.String" value="Podesavanja"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiPodesavanjePorta">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Podesavanje porta"/>
-              </Properties>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiParametriBaze">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Parametri baze"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiParametriBazeActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

@@ -53,6 +53,7 @@ public class FrmUpravljanjeAdministratorima extends javax.swing.JFrame {
         btnOdustani = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Upravljanje administratorima");
 
         jtblSviAdmini.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

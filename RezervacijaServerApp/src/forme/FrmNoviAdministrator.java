@@ -52,6 +52,7 @@ public class FrmNoviAdministrator extends javax.swing.JDialog {
         txtSifra = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Dodavanje administratora");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dodaj administratora"));
 

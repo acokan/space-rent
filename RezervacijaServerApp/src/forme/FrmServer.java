@@ -82,7 +82,6 @@ public class FrmServer extends javax.swing.JFrame {
         btnOtkaciAdministratora = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmPodesavanja = new javax.swing.JMenu();
-        jmiPodesavanjePorta = new javax.swing.JMenuItem();
         jmiParametriBaze = new javax.swing.JMenuItem();
         jmAdministracija = new javax.swing.JMenu();
         jmiUpravljanjeKorisnicima = new javax.swing.JMenuItem();
@@ -191,10 +190,12 @@ public class FrmServer extends javax.swing.JFrame {
 
         jmPodesavanja.setText("Podesavanja");
 
-        jmiPodesavanjePorta.setText("Podesavanje porta");
-        jmPodesavanja.add(jmiPodesavanjePorta);
-
         jmiParametriBaze.setText("Parametri baze");
+        jmiParametriBaze.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiParametriBazeActionPerformed(evt);
+            }
+        });
         jmPodesavanja.add(jmiParametriBaze);
 
         jMenuBar1.add(jmPodesavanja);
@@ -315,6 +316,11 @@ public class FrmServer extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnOtkaciAdministratoraActionPerformed
 
+    private void jmiParametriBazeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiParametriBazeActionPerformed
+        FrmPodesavanja fp = new FrmPodesavanja();
+        fp.setVisible(true);
+    }//GEN-LAST:event_jmiParametriBazeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -362,7 +368,6 @@ public class FrmServer extends javax.swing.JFrame {
     private javax.swing.JMenu jmAdministracija;
     private javax.swing.JMenu jmPodesavanja;
     private javax.swing.JMenuItem jmiParametriBaze;
-    private javax.swing.JMenuItem jmiPodesavanjePorta;
     private javax.swing.JMenuItem jmiUpravljanjeKorisnicima;
     private javax.swing.JPanel jpnlStatusnaBoja;
     private javax.swing.JTable jtblAdministratori;
