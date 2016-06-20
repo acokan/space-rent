@@ -58,43 +58,43 @@ public class Kontroler {
     }
 
     public boolean dodajKorisnika(Korisnik k) throws Exception {
-        
+
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_SACUVAJ_KORISNIKA);
         kto.setParametar(k);
         Komunikacija.vratiInstancu().posaljiZahtev(kto);
-        
+
         ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return true;
         } else {
             throw new Exception(sto.getGreska());
         }
-   
+
     }
 
     public void updateKorisnika(Korisnik k) throws Exception {
-        
+
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_AZURIRAJ_KORISNIKA);
         kto.setParametar(k);
         Komunikacija.vratiInstancu().posaljiZahtev(kto);
-        
+
         ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
         } else {
             throw new Exception(sto.getGreska());
         }
-        
+
     }
-    
+
     public boolean sacuvajListuKorisnika(List<Korisnik> lk) throws Exception {
-        
+
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_SACUVAJ_SVE_KORISNIKE);
         kto.setParametar(lk);
         Komunikacija.vratiInstancu().posaljiZahtev(kto);
-        
+
         ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return true;
@@ -109,23 +109,22 @@ public class Kontroler {
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_VRATI_SVE_KORISNIKE);
         Komunikacija.vratiInstancu().posaljiZahtev(kto);
-        
+
         ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return (List<Korisnik>) sto.getRezultat();
         } else {
             throw new Exception(sto.getGreska());
         }
-        
+
     }
 
-
     public List<Mesto> vratiListuMesta() throws IOException, ClassNotFoundException, Exception {
-        
+
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_VRATI_SVA_MESTA);
         Komunikacija.vratiInstancu().posaljiZahtev(kto);
-        
+
         ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return (List<Mesto>) sto.getRezultat();
@@ -136,22 +135,20 @@ public class Kontroler {
     }
 
     public Mesto vratiMesto(int ptt) throws IOException, ClassNotFoundException, Exception {
-        
+
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_VRATI_MESTO_PO_PTT);
         kto.setParametar(ptt);
         Komunikacija.vratiInstancu().posaljiZahtev(kto);
-        
+
         ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return (Mesto) sto.getRezultat();
         } else {
             throw new Exception(sto.getGreska());
         }
-        
-    }
 
-    
+    }
 
     public boolean dodajMesto(Mesto m) throws Exception {
 
@@ -159,7 +156,7 @@ public class Kontroler {
         kto.setOperacija(util.Util.OPERACIJA_SACUVAJ_MESTO);
         kto.setParametar(m);
         Komunikacija.vratiInstancu().posaljiZahtev(kto);
-        
+
         ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return true;
@@ -170,18 +167,18 @@ public class Kontroler {
     }
 
     public List<Prostorija> vratiListuProstorija() throws Exception {
-        
+
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_VRATI_SVE_PROSTORIJE);
         Komunikacija.vratiInstancu().posaljiZahtev(kto);
-        
+
         ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return (List<Prostorija>) sto.getRezultat();
         } else {
             throw new Exception(sto.getGreska());
         }
-       
+
     }
 
     public boolean sacuvajRezervaciju(Rezervacija r) throws Exception {
@@ -190,7 +187,7 @@ public class Kontroler {
         kto.setOperacija(util.Util.OPERACIJA_SACUVAJ_REZERVACIJU);
         kto.setParametar(r);
         Komunikacija.vratiInstancu().posaljiZahtev(kto);
-        
+
         ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return true;
@@ -205,7 +202,7 @@ public class Kontroler {
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_VRATI_SVE_REZERVACIJE);
         Komunikacija.vratiInstancu().posaljiZahtev(kto);
-        
+
         ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return (List<Rezervacija>) sto.getRezultat();
@@ -215,12 +212,12 @@ public class Kontroler {
     }
 
     public Administrator ulogujAdministratora(Administrator a) throws Exception {
-        
+
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_ULOGUJ_ADMINISTRATORA);
         kto.setParametar(a);
         Komunikacija.vratiInstancu().posaljiZahtev(kto);
-        
+
         ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return (Administrator) sto.getRezultat();
@@ -234,7 +231,7 @@ public class Kontroler {
         kto.setOperacija(util.Util.OPERACIJA_AZURIRAJ_REZERVACIJU);
         kto.setParametar(r);
         Komunikacija.vratiInstancu().posaljiZahtev(kto);
-        
+
         ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return sto.isSacuvan();
@@ -248,7 +245,7 @@ public class Kontroler {
         kto.setOperacija(util.Util.OPERACIJA_OBRISI_KORISNIKA);
         kto.setParametar(k);
         Komunikacija.vratiInstancu().posaljiZahtev(kto);
-        
+
         ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return sto.isSacuvan();
@@ -258,19 +255,19 @@ public class Kontroler {
     }
 
     public boolean izbrisiRezervaciju(Rezervacija r) throws Exception {
-        
+
         KlijentTransferObjekat kto = new KlijentTransferObjekat();
         kto.setOperacija(util.Util.OPERACIJA_OBRISI_REZERVACIJU);
         kto.setParametar(r);
         Komunikacija.vratiInstancu().posaljiZahtev(kto);
-        
+
         ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return sto.isSacuvan();
         } else {
             throw new Exception(sto.getGreska());
         }
-        
+
     }
 
     public boolean izlogujAdministratora(Administrator admin) throws Exception {
@@ -278,7 +275,7 @@ public class Kontroler {
         kto.setOperacija(util.Util.OPERACIJA_IZLOGUJ_ADMINISTRATORA);
         kto.setParametar(admin);
         Komunikacija.vratiInstancu().posaljiZahtev(kto);
-        
+
         ServerTransferObjekat sto = Komunikacija.vratiInstancu().procitajOdgovor();
         if (sto.getStatus() == util.Util.SERVER_STATUS_OPERACIJA_OK) {
             return sto.isSacuvan();
@@ -286,6 +283,6 @@ public class Kontroler {
             throw new Exception(sto.getGreska());
         }
     }
-    
 
 }
+

@@ -77,25 +77,6 @@ public class Kontroler {
         return soia.getAdmin();
     }
 
-
-    public void ugasiKorisnike() {
-
-//        try {
-//            
-//            Socket soket = (Socket) getSesija().get("soket");
-//
-//            ObjectOutputStream out = new ObjectOutputStream(soket.getOutputStream());
-//            
-//            ServerTransferObjekat sto = new ServerTransferObjekat();
-//            sto.setRezultat("Otkacen");
-//            out.writeObject(sto);
-//            System.out.println("Objekat je poslat: "+sto.getRezultat());
-//                
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-    }
-
     public void zapamtiKorisnika(OpstiDomenskiObjekat k) throws Exception {
         SOZapamtiKorisnika oso = new SOZapamtiKorisnika(k);
         oso.izvrsiOpstuSO();

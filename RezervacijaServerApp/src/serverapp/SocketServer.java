@@ -96,7 +96,7 @@ public class SocketServer extends Thread {
 
             for (NitKlijent nitKlijent : listaKlijentNiti) {
                 nitKlijent.getSoket().close();
-                Kontroler.vratiInstancuKontrolera().ugasiKorisnike();
+//                Kontroler.vratiInstancuKontrolera().ugasiKorisnike();
             }
             
             

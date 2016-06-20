@@ -250,10 +250,12 @@ public class NitKlijent extends Thread {
 
                         try {
                             OpstiDomenskiObjekat admin = Kontroler.vratiInstancuKontrolera().ulogujAdministratora((OpstiDomenskiObjekat) kto.getParametar());
-
-                            listaAktivnihAdministratora.add(admin);
-                            jtblAdministratori.setModel(new TblAdministratori(listaAktivnihAdministratora));
-
+                            
+                            if (admin != null) {
+                                listaAktivnihAdministratora.add(admin);
+                                jtblAdministratori.setModel(new TblAdministratori(listaAktivnihAdministratora));                                
+                            }
+                            
                             sto.setRezultat((Administrator) admin);
                             sto.setStatus(util.Util.SERVER_STATUS_OPERACIJA_OK);
                         } catch (Exception ex) {

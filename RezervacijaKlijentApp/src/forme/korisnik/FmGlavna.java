@@ -10,6 +10,7 @@ import forme.rezervacija.FmPretragaRezervacija;
 import forme.rezervacija.FmUnosRezervacije;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
