@@ -37,22 +37,24 @@ public class TblAdministratori extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        
-        Administrator a = (Administrator) listaAdministratora.get(rowIndex);
-        
-        switch (columnIndex) {
-            case 0:
-                return a.getIme();
-            case 1:
-                return a.getPrezime();
-            case 2:
-                return a.getKorisnickoIme();
-            case 3:
-                return a.getUlogovan();
 
-            default:
-                return "n/a";
+        Administrator a = (Administrator) listaAdministratora.get(rowIndex);
+
+        if (a != null) {
+            switch (columnIndex) {
+                case 0:
+                    return a.getIme();
+                case 1:
+                    return a.getPrezime();
+                case 2:
+                    return a.getKorisnickoIme();
+                case 3:
+                    return a.getUlogovan();
+                default:
+                    return "n/a";
+            }
         }
+        return "n/a";
     }
 
     @Override
@@ -75,7 +77,7 @@ public class TblAdministratori extends AbstractTableModel {
     public List<OpstiDomenskiObjekat> getListaAdministratora() {
         return listaAdministratora;
     }
-    
+
     public OpstiDomenskiObjekat vratiAdmina(int selektovani) {
         OpstiDomenskiObjekat odo = null;
         for (int i = 0; i < listaAdministratora.size(); i++) {
@@ -86,6 +88,4 @@ public class TblAdministratori extends AbstractTableModel {
         return odo;
     }
 
-
-    
 }

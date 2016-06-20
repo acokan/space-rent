@@ -249,9 +249,12 @@ public class FmGlavna extends javax.swing.JFrame {
                 jMenuBar1.setVisible(true);
             } else {
                 jlblStatus.setText("Sistem ne moze da pronadje administratora!");
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da pronadje administratora! Pokusajte opet.");
+                return;
             }
         } catch (Exception ex) {
-            Logger.getLogger(FmGlavna.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da pronadje administratora! Pokusajte opet.");
+            return;
         }
 
     }//GEN-LAST:event_jbtnPrijaviSeActionPerformed
@@ -351,7 +354,7 @@ public class FmGlavna extends javax.swing.JFrame {
             } else {
                 jlblStatus.setText("Korisnik nije uspesno izlogovan sa sistema. Jos uvek ste prijavljeni!");
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }

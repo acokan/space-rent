@@ -120,9 +120,7 @@ public class FmNaprednaPretraga extends javax.swing.JDialog {
     }//GEN-LAST:event_jtxtPretragaPrezimeActionPerformed
 
     private void jbtnPretragaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPretragaActionPerformed
-//        System.out.println("Sadrzaj polja:"+jtxtPretragaPrezime.getText().trim()+".");
         if (jtxtPretragaPrezime.getText().trim().isEmpty()) {
-            System.out.println("Prazno je");
             pretraziPoMestu();
         } else {
             pretraziPoPrezimenu();
@@ -174,7 +172,7 @@ public class FmNaprednaPretraga extends javax.swing.JDialog {
             Mesto mesto = (Mesto) jComboMesto.getSelectedItem();
             List<Korisnik> listaK = Kontroler.vratiInstancuKontrolera().vratiListuKorisnika();
             List<Korisnik> lista = new ArrayList<>();
-            
+
             for (Korisnik k : listaK) {
                 if (mesto.equals(k.getMesto())) {
                     lista.add(k);

@@ -244,7 +244,7 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
             FmUnosRezervacije fur = new FmUnosRezervacije(null, true);
             fur.setVisible(true);
 
-            srediTabelu();
+//            srediTabelu();
             
             Kontroler.vratiInstancuKontrolera().getSesija().remove("izabrana_rezervacija", r);
         }
@@ -376,7 +376,7 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
     private javax.swing.JTextField jtxtPretraga;
     // End of variables declaration//GEN-END:variables
 
-    private void popuniComboKorisnici() {
+//    private void popuniComboKorisnici() {
 //        jComboKorisnici.removeAllItems();
 //        List<Korisnik> listaKorisnika = new ArrayList<>();
 //        try {
@@ -387,33 +387,33 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
 //        for (Korisnik korisnik : listaKorisnika) {
 //            jComboKorisnici.addItem(korisnik);
 //        }
-    }
+//    }
 
-    private void popuniTabeluKorisnici() {
-        List<Korisnik> lk = new ArrayList<>();
-        try {
-            lk = Kontroler.vratiInstancuKontrolera().vratiListuKorisnika();
-        } catch (Exception ex) {
-            System.out.println("Korisnici nisu pronadjeni!");
-        }
-        jtblRezervacije.setModel(new TblModelKorisnik(lk));
-
-        ListSelectionModel lsm = jtblRezervacije.getSelectionModel();
-        lsm.setSelectionInterval(0, 0);
-    }
-
-    private void dodajComboMestaUTabelu() {
-        JComboBox jck = new JComboBox<Mesto>();
-        try {
-            jck.setModel(new DefaultComboBoxModel(Kontroler.vratiInstancuKontrolera().vratiListuMesta().toArray()));
-        } catch (Exception ex) {
-            System.out.println("Mesta nisu pronadjena!");
-        }
-
-        TableColumnModel tcm = jtblRezervacije.getColumnModel();
-        TableColumn tm = tcm.getColumn(5);
-        tm.setCellEditor(new DefaultCellEditor(jck));
-    }
+//    private void popuniTabeluKorisnici() {
+//        List<Korisnik> lk = new ArrayList<>();
+//        try {
+//            lk = Kontroler.vratiInstancuKontrolera().vratiListuKorisnika();
+//        } catch (Exception ex) {
+//            System.out.println("Korisnici nisu pronadjeni!");
+//        }
+//        jtblRezervacije.setModel(new TblModelKorisnik(lk));
+//
+//        ListSelectionModel lsm = jtblRezervacije.getSelectionModel();
+//        lsm.setSelectionInterval(0, 0);
+//    }
+//
+//    private void dodajComboMestaUTabelu() {
+//        JComboBox jck = new JComboBox<Mesto>();
+//        try {
+//            jck.setModel(new DefaultComboBoxModel(Kontroler.vratiInstancuKontrolera().vratiListuMesta().toArray()));
+//        } catch (Exception ex) {
+//            System.out.println("Mesta nisu pronadjena!");
+//        }
+//
+//        TableColumnModel tcm = jtblRezervacije.getColumnModel();
+//        TableColumn tm = tcm.getColumn(5);
+//        tm.setCellEditor(new DefaultCellEditor(jck));
+//    }
 
     private void srediTabelu() {
         List<Rezervacija> lr = new ArrayList<>();

@@ -62,10 +62,8 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jtxtBrojRezervacije = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jtxtDatumRezervacije = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jcbKorisnici = new javax.swing.JComboBox();
-        jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblStavkaRezervacije = new javax.swing.JTable();
@@ -74,6 +72,7 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
         jbtnSacuvajRezervaciju = new javax.swing.JButton();
         jbtnOdustani = new javax.swing.JButton();
         jbtnPogledajRezervacije = new javax.swing.JButton();
+        datePicker = new org.jdesktop.swingx.JXDatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -81,15 +80,7 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
 
         jLabel2.setText("Datum rezervacije:");
 
-        jtxtDatumRezervacije.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jtxtDatumRezervacijeKeyPressed(evt);
-            }
-        });
-
         jLabel3.setText("Korisnik: ");
-
-        jLabel4.setText("dd.MM.yyyy");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Stavka rezervacije"));
 
@@ -171,19 +162,9 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jcbKorisnici, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jtxtDatumRezervacije))))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jbtnDodaj, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
                             .addComponent(jbtnObrisi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
@@ -195,7 +176,15 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jtxtBrojRezervacije)))
+                        .addComponent(jtxtBrojRezervacije))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jcbKorisnici, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(datePicker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -208,8 +197,7 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jtxtDatumRezervacije, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(datePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -229,7 +217,7 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jbtnSacuvajRezervaciju)
                         .addComponent(jbtnPogledajRezervacije)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
@@ -278,6 +266,7 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
                 }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
+                vratiDefaultBorder();
             }
         }
         if (rezim == Util.SK_IZMENA_REZERVACIJE) {
@@ -309,16 +298,12 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jbtnPogledajRezervacijeActionPerformed
 
-    private void jtxtDatumRezervacijeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtDatumRezervacijeKeyPressed
-        jbtnDodaj.setEnabled(true);
-    }//GEN-LAST:event_jtxtDatumRezervacijeKeyPressed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXDatePicker datePicker;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbtnDodaj;
@@ -329,7 +314,6 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
     private javax.swing.JComboBox jcbKorisnici;
     private javax.swing.JTable jtblStavkaRezervacije;
     private javax.swing.JTextField jtxtBrojRezervacije;
-    private javax.swing.JTextField jtxtDatumRezervacije;
     // End of variables declaration//GEN-END:variables
 
     private void popuniComboKorisnici() {
@@ -350,7 +334,8 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
         if (rezim == Util.SK_UNOS_REZERVACIJE) {
 
             jtxtBrojRezervacije.setText("");
-            jtxtDatumRezervacije.setText("");
+//            jtxtDatumRezervacije.setText("");
+            datePicker.setDate(null);
             popuniComboKorisnici();
             jtblStavkaRezervacije.setModel(new TblModelStavkaRezervacije(new Rezervacija()));
 
@@ -366,7 +351,7 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
 
             centrirajKolone();
 
-            jbtnDodaj.setEnabled(false);
+//            jbtnDodaj.setEnabled(false);
             border = jtxtBrojRezervacije.getBorder();
 
         } else if (rezim == Util.SK_IZMENA_REZERVACIJE) {
@@ -377,13 +362,13 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
             jbtnObrisi.setVisible(false);
             jtxtBrojRezervacije.setEnabled(false);
 
-            System.out.println("Ovdje je okej");
             Rezervacija r = (Rezervacija) Kontroler.vratiInstancuKontrolera().getSesija().get("izabrana_rezervacija");
 
             jtxtBrojRezervacije.setText(r.getRezervacijaID() + "");
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-            jtxtDatumRezervacije.setText(sdf.format(r.getDatumRezervacije()));
+//            jtxtDatumRezervacije.setText(sdf.format(r.getDatumRezervacije()));
+            datePicker.setDate(r.getDatumRezervacije());
 
             try {
                 for (Korisnik korisnik : Kontroler.vratiInstancuKontrolera().vratiListuKorisnika()) {
@@ -416,10 +401,10 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
         Rezervacija rezervacija = null;
         try {
             String rezervacijaID = jtxtBrojRezervacije.getText().trim();
-            String datumRezervacije = jtxtDatumRezervacije.getText().trim();
+//            String datumRezervacije = jtxtDatumRezervacije.getText().trim();
             Korisnik korisnik = (Korisnik) jcbKorisnici.getSelectedItem();
 
-            rezervacija = kreirajObjekatRezervacija(rezervacijaID, datumRezervacije, korisnik);
+            rezervacija = kreirajObjekatRezervacija(rezervacijaID, korisnik);
 
         } catch (Exception ex) {
             throw new Exception(ex.getMessage());
@@ -428,7 +413,7 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
 
     }
 
-    private Rezervacija kreirajObjekatRezervacija(String rezervacijaID, String datumRezervacije, Korisnik korisnik) throws Exception {
+    private Rezervacija kreirajObjekatRezervacija(String rezervacijaID, Korisnik korisnik) throws Exception {
 
         TblModelStavkaRezervacije tmsr = (TblModelStavkaRezervacije) jtblStavkaRezervacije.getModel();
         Rezervacija r = tmsr.vratiRezervaciju();
@@ -445,15 +430,22 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
         }
         r.setRezervacijaID(Integer.parseInt(rezervacijaID));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        try {
-            Date datumRez = sdf.parse(datumRezervacije);
-            r.setDatumRezervacije(datumRez);
-        } catch (ParseException parseException) {
-            jtxtDatumRezervacije.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
-            throw new Exception("Unesite datum u formatu: 'dd.MM.yyyy'");
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+//        try {
+//            Date datumRez = sdf.parse(datumRezervacije);
+//            r.setDatumRezervacije(datumRez);
+//        } catch (ParseException parseException) {
+//            jtxtDatumRezervacije.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+//            throw new Exception("Unesite datum u formatu: 'dd.MM.yyyy'");
+//        }
+        
+        if (datePicker.getDate() == null) {
+            datePicker.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+            throw new Exception("Izaberite datum!");
+        } else {
+            r.setDatumRezervacije(datePicker.getDate());
         }
-
+         
         r.setKorisnik(korisnik);
 
         if (r.getListaStavki().isEmpty()) {
@@ -466,7 +458,8 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
 
     private void vratiDefaultBorder() {
         jtxtBrojRezervacije.setBorder(border);
-        jtxtDatumRezervacije.setBorder(border);
+        datePicker.setBorder(border);
+//        jtxtDatumRezervacije.setBorder(border);
     }
 
     private void centrirajKolone() {
