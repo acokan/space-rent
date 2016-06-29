@@ -8,9 +8,9 @@ package forme.rezervacija;
 import domen.Korisnik;
 import domen.Mesto;
 import domen.Rezervacija;
-import gui.komponente.TblModelKorisnik;
-import gui.komponente.TblModelRezervacija;
-import gui.komponente.TblModelStavkaRezervacije;
+import model.TblModelKorisnik;
+import model.TblModelRezervacija;
+import model.TblModelStavkaRezervacije;
 import java.awt.Point;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
-import korisnici.kontroler.Kontroler;
+import kontroler.Kontroler;
 import util.Util;
 
 /**
@@ -83,6 +83,7 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
         btnObrisiRezervaciju = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Pretraga rezervacija");
         setResizable(false);
 
         jbtn_detalji.setText("Detalji");
@@ -234,7 +235,7 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
         Kontroler.vratiInstancuKontrolera().setAktivanSK(Util.SK_IZMENA_REZERVACIJE);
         int redRezervacije = jtblRezervacije.getSelectedRow();
         if (redRezervacije == -1) {
-            JOptionPane.showMessageDialog(this, "Selektujte rezervaciju koju zelite izmeniti");
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje rezervaciju", "Greska", JOptionPane.ERROR_MESSAGE);
         } else {
             TblModelRezervacija tmr = (TblModelRezervacija) jtblRezervacije.getModel();
             Rezervacija r = tmr.vratiRezervaciju(redRezervacije);
@@ -244,8 +245,6 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
             FmUnosRezervacije fur = new FmUnosRezervacije(null, true);
             fur.setVisible(true);
 
-//            srediTabelu();
-            
             Kontroler.vratiInstancuKontrolera().getSesija().remove("izabrana_rezervacija", r);
         }
     }//GEN-LAST:event_jbtn_detaljiActionPerformed
@@ -253,30 +252,36 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
     private void jbtnTraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnTraziActionPerformed
 
         try {
-            
+
             List<Rezervacija> listaRezervacija = Kontroler.vratiInstancuKontrolera().vratiListuRezervacija();
             List<Rezervacija> listaRezultata = new ArrayList<>();
-            
+
             if (jradioBrojRezervacije.isSelected()) {
                 int trazenaRijec = Integer.parseInt(jtxtPretraga.getText().trim());
                 for (Rezervacija rezervacija : listaRezervacija) {
                     if (rezervacija.getRezervacijaID() == trazenaRijec) {
-                       listaRezultata.add(rezervacija);
+                        listaRezultata.add(rezervacija);
                     }
                 }
                 jtblRezervacije.setModel(new TblModelRezervacija(listaRezultata));
                 centrirajSadrzajTabele();
+                if (listaRezultata.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje rezervacije po zadatoj vrednosti!", "Greska", JOptionPane.ERROR_MESSAGE);
+                }
                 return;
             }
             if (jradioTelefon.isSelected()) {
                 String trazenaRijec = jtxtPretraga.getText().trim();
                 for (Rezervacija rezervacija : listaRezervacija) {
                     if (rezervacija.getKorisnik().getKontakt().startsWith(trazenaRijec)) {
-                       listaRezultata.add(rezervacija);
+                        listaRezultata.add(rezervacija);
                     }
                 }
                 jtblRezervacije.setModel(new TblModelRezervacija(listaRezultata));
                 centrirajSadrzajTabele();
+                if (listaRezultata.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje rezervacije po zadatoj vrednosti!", "Greska", JOptionPane.ERROR_MESSAGE);
+                }
                 return;
             }
             if (jradioImePrezime.isSelected()) {
@@ -284,22 +289,28 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
                 for (Rezervacija rezervacija : listaRezervacija) {
                     String imePrezime = rezervacija.getKorisnik().getIme() + " " + rezervacija.getKorisnik().getPrezime();
                     if (imePrezime.startsWith(trazenaRijec)) {
-                       listaRezultata.add(rezervacija);
+                        listaRezultata.add(rezervacija);
                     }
                 }
                 jtblRezervacije.setModel(new TblModelRezervacija(listaRezultata));
                 centrirajSadrzajTabele();
+                if (listaRezultata.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje rezervacije po zadatoj vrednosti!", "Greska", JOptionPane.ERROR_MESSAGE);
+                }
                 return;
             }
             if (jradioMail.isSelected()) {
                 String trazenaRijec = jtxtPretraga.getText().trim();
                 for (Rezervacija rezervacija : listaRezervacija) {
                     if (rezervacija.getKorisnik().getMail().startsWith(trazenaRijec)) {
-                       listaRezultata.add(rezervacija);
+                        listaRezultata.add(rezervacija);
                     }
                 }
                 jtblRezervacije.setModel(new TblModelRezervacija(listaRezultata));
                 centrirajSadrzajTabele();
+                if (listaRezultata.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje rezervacije po zadatoj vrednosti!", "Greska", JOptionPane.ERROR_MESSAGE);
+                }
                 return;
             }
             if (jradioDatumRezervacije.isSelected()) {
@@ -308,14 +319,17 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
                     String[] listaDatum = rezervacija.getDatumRezervacije().toString().split(" ");
                     String datum = listaDatum[2] + " " + listaDatum[1] + " " + listaDatum[5];
                     if (datum.startsWith(trazenaRijec)) {
-                       listaRezultata.add(rezervacija);
+                        listaRezultata.add(rezervacija);
                     }
                 }
                 jtblRezervacije.setModel(new TblModelRezervacija(listaRezultata));
                 centrirajSadrzajTabele();
-                return;
+                if (listaRezultata.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje rezervacije po zadatoj vrednosti!", "Greska", JOptionPane.ERROR_MESSAGE);
+                }
+                
             }
-            
+
         } catch (Exception ex) {
             Logger.getLogger(FmPretragaRezervacija.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -328,7 +342,7 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
     }//GEN-LAST:event_btnOdustaniActionPerformed
 
     private void btnObrisiRezervacijuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiRezervacijuActionPerformed
-        
+
         int izabranaRez = jtblRezervacije.getSelectedRow();
         if (izabranaRez == -1) {
             JOptionPane.showMessageDialog(this, "Izaberite rezervaciju koju zelite izbrisati!");
@@ -343,19 +357,16 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
                 try {
                     boolean izbrisan = Kontroler.vratiInstancuKontrolera().izbrisiRezervaciju(r);
                     if (izbrisan) {
-                        JOptionPane.showMessageDialog(this, "Rezervacije je izbrisana!");
+                        JOptionPane.showMessageDialog(this, "Sistem je obrisao rezervaciju!", "Brisanje rezervacije", JOptionPane.INFORMATION_MESSAGE);
                         srediTabelu();
-                        return;
                     }
 
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "Rezervacija nije izbrisana!"
-                            + " Nije moguce izbrisati rezervaciju ukoliko postoje rezervacije na njegovo ime!");
-                    return;
+                    JOptionPane.showMessageDialog(this, "Sistem ne moze da obrise rezervaciju!", "Greska", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
-        
+
     }//GEN-LAST:event_btnObrisiRezervacijuActionPerformed
 
 
@@ -388,7 +399,6 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
 //            jComboKorisnici.addItem(korisnik);
 //        }
 //    }
-
 //    private void popuniTabeluKorisnici() {
 //        List<Korisnik> lk = new ArrayList<>();
 //        try {
@@ -414,7 +424,6 @@ public class FmPretragaRezervacija extends javax.swing.JDialog {
 //        TableColumn tm = tcm.getColumn(5);
 //        tm.setCellEditor(new DefaultCellEditor(jck));
 //    }
-
     private void srediTabelu() {
         List<Rezervacija> lr = new ArrayList<>();
         try {

@@ -17,17 +17,9 @@ public class ServerTransferObjekat implements Serializable {
     private Object rezultat;
     private String greska;
     private boolean sacuvan;
-
-    public ServerTransferObjekat(int status, Object rezultat, String greska, boolean sacuvan) {
-        this.status = status;
-        this.rezultat = rezultat;
-        this.greska = greska;
-        this.sacuvan = sacuvan;
-    }
     
     public ServerTransferObjekat() {
     }
-
 
     public String getGreska() {
         return greska;

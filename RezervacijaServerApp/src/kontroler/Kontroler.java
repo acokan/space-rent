@@ -24,13 +24,13 @@ import so.SOAzurirajRezervaciju;
 import so.SOIzlogujAdministratora;
 import so.SOObrisiKorisnika;
 import so.SOObrisiRezervaciju;
-import so.SOSacuvajMesto;
-import so.SOUcitajAdministratore;
+import so.SOZapamtiMesto;
+import so.SOVratiSveAdministratore;
 import so.SOUlogujAdministratora;
 import so.SOZapamtiKorisnika;
 import so.SOVratiSvaMesta;
 import so.SOZapamtiRezervaciju;
-import so.SOUcitajRezervacije;
+import so.SOVratiSveRezervacije;
 import so.SOVratiSveKorisnike;
 import so.SOVratiSveProstorije;
 import so.SOZapamtiSveKorisnike;
@@ -60,7 +60,7 @@ public class Kontroler {
     }
 
     public List<OpstiDomenskiObjekat> vratiListuAdministratora() throws Exception {
-        SOUcitajAdministratore soua = new SOUcitajAdministratore();
+        SOVratiSveAdministratore soua = new SOVratiSveAdministratore();
         soua.izvrsiOpstuSO();
         return soua.vratiSveAdmine();
     }
@@ -99,7 +99,7 @@ public class Kontroler {
     }
 
     public List<OpstiDomenskiObjekat> vratiSveRezervacije() throws Exception {
-        SOUcitajRezervacije soua = new SOUcitajRezervacije();
+        SOVratiSveRezervacije soua = new SOVratiSveRezervacije();
         soua.izvrsiOpstuSO();
         return soua.vratiSveRezervacije();
     }
@@ -131,7 +131,7 @@ public class Kontroler {
     }
 
     public void sacuvajMesto(OpstiDomenskiObjekat m) throws Exception {
-        SOSacuvajMesto sosm = new SOSacuvajMesto(m);
+        SOZapamtiMesto sosm = new SOZapamtiMesto(m);
         sosm.izvrsiOpstuSO();
     }
 

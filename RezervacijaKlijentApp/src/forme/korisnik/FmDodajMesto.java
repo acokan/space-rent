@@ -13,7 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
-import korisnici.kontroler.Kontroler;
+import kontroler.Kontroler;
 
 /**
  *

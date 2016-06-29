@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
-import korisnici.kontroler.Kontroler;
+import kontroler.Kontroler;
 import start.Start;
 import util.Util;
 

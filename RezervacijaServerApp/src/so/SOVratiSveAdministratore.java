@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Aco Kandic
  */
-public class SOUcitajAdministratore extends OpstaSO {
+public class SOVratiSveAdministratore extends OpstaSO {
 
     List<OpstiDomenskiObjekat> listaAdmina;
 

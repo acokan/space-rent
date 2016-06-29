@@ -9,9 +9,9 @@ import domen.Korisnik;
 import domen.Prostorija;
 import domen.Rezervacija;
 import domen.StavkaRezervacije;
-import gui.komponente.TblModelKorisnik;
-import gui.komponente.TblModelRezervacija;
-import gui.komponente.TblModelStavkaRezervacije;
+import model.TblModelKorisnik;
+import model.TblModelRezervacija;
+import model.TblModelStavkaRezervacije;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -30,7 +30,7 @@ import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
-import korisnici.kontroler.Kontroler;
+import kontroler.Kontroler;
 import util.Util;
 
 /**
@@ -75,6 +75,7 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
         datePicker = new org.jdesktop.swingx.JXDatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Rad sa rezervacijama");
 
         jLabel1.setText("Broj rezervacije: ");
 
@@ -256,16 +257,16 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
                     Rezervacija rezervacija = kreirajRezervacijuSaForme();
                     boolean sacuvana = Kontroler.vratiInstancuKontrolera().sacuvajRezervaciju(rezervacija);
                     if (sacuvana == true) {
-                        JOptionPane.showMessageDialog(this, "Rezervacija je uspesno sacuvana!", "Cuvanje rezervacije", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Sistem je zapamtio rezervaciju!", "Cuvanje rezervacije", JOptionPane.INFORMATION_MESSAGE);
                         vratiDefaultBorder();
                         srediFormu();
                     } else {
-                        JOptionPane.showMessageDialog(this, "Rezervacija nije sacuvana!", "Cuvanje rezervacije", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti rezervaciju!", "Greska", JOptionPane.ERROR_MESSAGE);
                         vratiDefaultBorder();
                     }
                 }
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage());
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti rezervaciju!", "Greska", JOptionPane.ERROR_MESSAGE);
                 vratiDefaultBorder();
             }
         }
@@ -278,13 +279,13 @@ public class FmUnosRezervacije extends javax.swing.JDialog {
 
                     boolean azuriran = Kontroler.vratiInstancuKontrolera().updateRezervacije(r);
                     if (azuriran) {
-                        JOptionPane.showMessageDialog(this, "Rezervacija je azurirana!");
+                        JOptionPane.showMessageDialog(this, "Sistem je izmenio rezervaciju!", "Izmena rezervacije", JOptionPane.INFORMATION_MESSAGE);
                     } else {
-                        JOptionPane.showMessageDialog(this, "Rezervacija nije azurirana!");
+                        JOptionPane.showMessageDialog(this, "Sistem ne moze da izmeni rezervaciju!", "Greska", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage());
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da izmeni rezervaciju!", "Greska", JOptionPane.ERROR_MESSAGE);
             }
         }
 

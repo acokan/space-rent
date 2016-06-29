@@ -6,7 +6,7 @@
 package forme.korisnik;
 
 import domen.Mesto;
-import gui.komponente.TblModelMesta;
+import model.TblModelMesta;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
-import korisnici.kontroler.Kontroler;
+import kontroler.Kontroler;
 
 /**
  *

@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Aco Kandic
  */
-public class SOUcitajRezervacije extends OpstaSO {
+public class SOVratiSveRezervacije extends OpstaSO {
 
     List<OpstiDomenskiObjekat> listaRezervacija;
 

@@ -9,8 +9,8 @@ import domen.Korisnik;
 import domen.Mesto;
 import domen.Rezervacija;
 import forme.rezervacija.FmUnosRezervacije;
-import gui.komponente.TblModelKorisnik;
-import gui.komponente.TblModelRezervacija;
+import model.TblModelKorisnik;
+import model.TblModelRezervacija;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.security.interfaces.ECKey;
@@ -33,7 +33,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
-import korisnici.kontroler.Kontroler;
+import kontroler.Kontroler;
 import util.Util;
 import static util.Util.VALID_EMAIL_ADDRESS_REGEX;
 
@@ -91,7 +91,7 @@ public class FmKorisnik extends javax.swing.JDialog {
         btnDetalji = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Unos korisnika");
+        setTitle("Rad sa korisnikom");
         setResizable(false);
 
         jpnl_mesto.setBorder(javax.swing.BorderFactory.createTitledBorder("Mesto"));
@@ -380,12 +380,21 @@ public class FmKorisnik extends javax.swing.JDialog {
                 int izbor = JOptionPane.showOptionDialog(this, "Da li zelite sacuvati korisnika?", "Cuvanje korisnika", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcije, "Da");
                 if (izbor == 0) {
                     Korisnik korisnik = kreirajKorisnikaSaForme();
+
+                    List<Korisnik> listaK = Kontroler.vratiInstancuKontrolera().vratiListuKorisnika();
+                    for (Korisnik kor : listaK) {
+                        if (kor.getIme().equals(korisnik.getIme()) && kor.getPrezime().equals(korisnik.getPrezime())) {
+                            JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti korisnika!", "Greska", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                    }
+
                     boolean sacuvan = Kontroler.vratiInstancuKontrolera().dodajKorisnika(korisnik);
                     if (sacuvan == true) {
-                        JOptionPane.showMessageDialog(this, "Korisnik je sacuvan!");
+                        JOptionPane.showMessageDialog(this, "Sistem je zapamtio korisnika!", "Cuvanje korisnika", JOptionPane.INFORMATION_MESSAGE);
                         return;
                     }
-                    JOptionPane.showMessageDialog(this, "Korisnik nije sacuvan!");
+                    JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti korisnika!", "Greska", JOptionPane.ERROR_MESSAGE);
                     vratiDefaultBorder();
                 }
             } catch (Exception ex) {
@@ -399,10 +408,11 @@ public class FmKorisnik extends javax.swing.JDialog {
                 if (izbor == 0) {
                     Korisnik korisnik = kreirajKorisnikaSaForme();
                     Kontroler.vratiInstancuKontrolera().updateKorisnika(korisnik);
-                    JOptionPane.showMessageDialog(this, "Korisnik je azuriran!");
+                    JOptionPane.showMessageDialog(this, "Sistem je izmenio korisnika!", "Izmena korisnika", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage());
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da izmeni korisnika!", "Greska", JOptionPane.ERROR_MESSAGE);
+
             }
         }
 
@@ -482,7 +492,7 @@ public class FmKorisnik extends javax.swing.JDialog {
             fur.setVisible(true);
 
             srediTabelu();
-            
+
             Kontroler.vratiInstancuKontrolera().getSesija().remove("izabrana_rezervacija", r);
         }
 

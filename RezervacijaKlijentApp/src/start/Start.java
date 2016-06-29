@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import komunikacija.Komunikacija;
-import korisnici.kontroler.Kontroler;
+import kontroler.Kontroler;
 
 /**
  *

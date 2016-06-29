@@ -21,22 +21,13 @@ public abstract class OpstiDomenskiObjekat {
     public abstract int vratiVrednostPK();
     public abstract String vratiSlozenPK();
     
-    private int status;
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public List<OpstiDomenskiObjekat> vratiListu(ResultSet rs) {
         return null;
     }
-
     
-
-    
+    private int status;
+    public int getStatus() {
+        return status;
+    }
     
 }

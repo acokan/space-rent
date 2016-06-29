@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui.komponente;
+package model;
 
 //import com.mysql.jdbc.jmx.LoadBalanceConnectionGroupManager;
 import domen.Korisnik;
@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
-import korisnici.kontroler.Kontroler;
+import kontroler.Kontroler;
 
 /**
  *

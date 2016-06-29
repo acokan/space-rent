@@ -52,7 +52,7 @@ public class Util {
 
     public static final String MAP_KEY_SOKET = "soket";
 
-    public static final String ADMIN1_UN = "admin";
-    public static final String ADMIN1_PASS = "admin";
+//    public static final String ADMIN1_UN = "admin";
+//    public static final String ADMIN1_PASS = "admin";
 
 }

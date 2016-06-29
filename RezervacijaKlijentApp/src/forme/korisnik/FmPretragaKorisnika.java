@@ -7,7 +7,7 @@ package forme.korisnik;
 
 import domen.Korisnik;
 import domen.Mesto;
-import gui.komponente.TblModelKorisnik;
+import model.TblModelKorisnik;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
-import korisnici.kontroler.Kontroler;
+import kontroler.Kontroler;
 import util.Util;
 
 /**
@@ -63,6 +63,7 @@ public class FmPretragaKorisnika extends javax.swing.JDialog {
         btnObrisiKorisnika = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Pretraga korisnika");
 
         jLabel1.setText("Korisnici:");
 
@@ -186,6 +187,10 @@ public class FmPretragaKorisnika extends javax.swing.JDialog {
     private void jbtn_detaljiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_detaljiActionPerformed
         Kontroler.vratiInstancuKontrolera().setAktivanSK(Util.SK_IZMENA_KORISNIKA);
         Korisnik k = (Korisnik) jComboKorisnici.getSelectedItem();
+//        if(k != null) {
+//            JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje izabranog korisnika!", "Greska", JOptionPane.ERROR_MESSAGE);
+//            return;
+//        }
         Kontroler.vratiInstancuKontrolera().getSesija().put("izabrani_korisnik", k);
         FmKorisnik fmk = new FmKorisnik(null, true);
         fmk.setVisible(true);
@@ -205,6 +210,9 @@ public class FmPretragaKorisnika extends javax.swing.JDialog {
         jComboKorisnici.removeAllItems();
         for (Korisnik korisnik : listaKorisnikaFilter) {
             jComboKorisnici.addItem(korisnik);
+        }
+        if (listaKorisnikaFilter.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje korisnike po zadatim vrednostima!", "Greska", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbtnNaprednaPretragaActionPerformed
 
@@ -240,7 +248,7 @@ public class FmPretragaKorisnika extends javax.swing.JDialog {
                 try {
                     boolean izbrisan = Kontroler.vratiInstancuKontrolera().izbrisiKorisnika(k);
                     if (izbrisan) {
-                        JOptionPane.showMessageDialog(this, "Korisnik " + k.getIme() + " " + k.getPrezime() + " je izbrisan!");
+                        JOptionPane.showMessageDialog(this, "Sistem je obrisao korisnika!", "Brisanje korisnika", JOptionPane.INFORMATION_MESSAGE);
                         popuniTabeluKorisnici();
                         popuniComboKorisnici();
                         dodajComboMestaUTabelu();
@@ -248,8 +256,7 @@ public class FmPretragaKorisnika extends javax.swing.JDialog {
                     }
 
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "Korisnik " + k.getIme() + " " + k.getPrezime() + " nije izbrisan!"
-                            + " Nije moguce izbrisati korisnika ukoliko postoje rezervacije na njegovo ime!");
+                    JOptionPane.showMessageDialog(this, "Sistem ne moze da obrise korisnika!", "Greska", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }

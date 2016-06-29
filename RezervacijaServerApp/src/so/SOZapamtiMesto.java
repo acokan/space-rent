@@ -12,11 +12,11 @@ import domen.OpstiDomenskiObjekat;
  *
  * @author Aco Kandic
  */
-public class SOSacuvajMesto extends OpstaSO {
+public class SOZapamtiMesto extends OpstaSO {
     
     OpstiDomenskiObjekat mesto;
 
-    public SOSacuvajMesto(OpstiDomenskiObjekat mesto) {
+    public SOZapamtiMesto(OpstiDomenskiObjekat mesto) {
         this.mesto = mesto;
     }
 
